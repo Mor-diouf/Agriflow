@@ -93,6 +93,28 @@ Elle sera présentée sous forme de maquette avant toute construction d'écran.
 
 ---
 
+## D6 — Une API unique entre les modèles et les interfaces
+
+**Date :** 2026-10-20
+
+**Décision :** `services/api` (FastAPI) est le seul point d'accès des
+interfaces aux résultats. Toute la logique métier reste dans `core/`
+(`m1_routing/reference.py`, `m2_producers/catalog.py`, `m3_forecast/outputs.py`,
+`m4_scenarios/capacity.py`). L'API ne fait que valider, filtrer et sérialiser.
+Le contrat (`app/schemas.py`) est publié en OpenAPI, ce qui permettra de
+générer automatiquement les types TypeScript des interfaces.
+
+**Pourquoi :** les chiffres affichés ne peuvent plus diverger des modèles. Les
+scénarios M4 sont désormais **calculés** à partir des prévisions M3 et de la
+capacité, et non plus écrits à la main.
+
+**Premier enseignement :** avec 28,3 t/j, l'usine dépasse sa capacité
+39 semaines sur 109 semaines actives (2022-2025), avec un pic à 166 % en
+semaine 29 de 2025. La capacité de l'usine (D1) devient la question
+métier n° 1 à valider.
+
+---
+
 ## Points ouverts
 
 - **Tournées M1+M2 non résolues :** dans `rapport_robuste.md`, la passe 2 du
@@ -100,5 +122,10 @@ Elle sera présentée sous forme de maquette avant toute construction d'écran.
   temps sans prouver l'optimalité. Les écarts M1 / M1+M2 de ce rapport ne sont
   donc pas fiables : il faut augmenter la limite de temps, ou rapporter l'écart
   d'optimalité.
+- **Pertes post-récolte du M1 mal présentées dans l'ancienne interface :**
+  `sm10-connect` affichait « 2,166 t de pertes **évitées** ». Or 2,166 t est la
+  perte de référence du plan L4 (valeur recalculée : 2,31 t), pas une perte
+  évitée. Pour parler de pertes évitées, il faut comparer à un plan de base,
+  ce qui n'est pas encore calculé.
 - **Doublon dans `services/hawa-tts/generate_hawa_voice.py` :** deux phrases
   portent le nom `hawa_kolda`, si bien que la seconde écrase la première.

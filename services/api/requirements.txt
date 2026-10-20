@@ -1,0 +1,5 @@
+# API SM10 — à installer après `pip install -e core` (depuis la racine du dépôt)
+fastapi>=0.135
+uvicorn>=0.41
+pydantic>=2.12
+httpx>=0.28   # tests (TestClient)

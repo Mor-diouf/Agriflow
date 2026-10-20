@@ -1017,6 +1017,53 @@ def solve_and_extract(
 
 
 
+def compute_post_harvest_losses(
+    results: Dict,
+    producers: List[int],
+    quantity: Dict[int, float],
+    time_windows: Dict[int, Tuple[float, float]],
+    dist: Dict[Tuple[int, int], float],
+    lambda_loss: float = LAMBDA_LOSS,
+    speed_kmh: float = SPEED_KMH,
+    service_time_h: float = SERVICE_TIME_H,
+) -> Dict[int, Dict[str, float]]:
+    """
+    Pertes post-récolte exactes (post-traitement d'une solution L4) :
+      L_i = q_i * (1 - exp(-lambda * Delta_t_i)),  Delta_t_i = u_ret[k,t] - a_i
+    Hypothèse : le vieillissement commence à a_i (ouverture de la fenêtre),
+    pas au moment du ramassage (cahier étape 19).
+    Retourne {i: {"q", "u_ret", "a", "delta_t", "loss"}} pour chaque producteur collecté.
+    """
+    return_time = results.get("return_time", {})
+    losses = {}
+    for i in producers:
+        if i not in results["assignment"]:
+            continue
+        k, t = results["assignment"][i]
+        a_i = time_windows[i][0]
+        # u_ret[k,t] : heure de retour à l'usine du véhicule k
+        u_ret_kt = return_time.get((k, t), None)
+        u_collect = results["timing"].get((i, k, t), a_i)
+        if u_ret_kt is None:
+            # Fallback : estimer via l'arc de retour dans la tournée
+            tour = results["tours"].get(k, [])
+            if len(tour) >= 2:
+                last_prod = tour[-2]   # dernier producteur avant l'usine
+                u_last = results["timing"].get((last_prod, k, t), u_collect)
+                u_ret_kt = u_last + service_time_h + dist[(last_prod, 0)] / speed_kmh
+            else:
+                u_ret_kt = u_collect
+        delta_t = max(u_ret_kt - a_i, 0.0)
+        losses[i] = {
+            "q": quantity[i],
+            "u_ret": u_ret_kt,
+            "a": a_i,
+            "delta_t": delta_t,
+            "loss": quantity[i] * (1 - math.exp(-lambda_loss * delta_t)),
+        }
+    return losses
+
+
 # =============================================================================
 # 7.  AFFICHAGE & VALIDATION
 # =============================================================================
@@ -1215,32 +1262,15 @@ def main():
     #   Hypothese : le vieillissement commence a a_i (ouverture fenetre),
     #   pas au moment du ramassage par le vehicule.
     if results_l4:
-        return_time = results_l4.get("return_time", {})
         print("\n  L_evaluation (formule exacte : q_i*(1-exp(-lambda*Delta_t_i))) :")
         print("  [Delta_t_i = u_ret(V_k) - a_i  — vieillissement des la recolte a a_i]")
         print(f"  {'Prod':>4}  {'q_i':>5}  {'u_ret(h)':>8}  {'a_i(h)':>6}  {'Δt(h)':>7}  {'L_i(t)':>8}")
         print("  " + "-" * 50)
+        losses = compute_post_harvest_losses(results_l4, PRODUCERS, QUANTITY, TIME_WINDOWS, dist)
         total_loss = 0.0
-        for i in PRODUCERS:
-            if i in results_l4["assignment"]:
-                k, t = results_l4["assignment"][i]
-                a_i = TIME_WINDOWS[i][0]
-                # u_ret[k,t] : heure de retour à l'usine du véhicule k
-                u_ret_kt = return_time.get((k, t), None)
-                u_collect = results_l4["timing"].get((i, k, t), a_i)
-                if u_ret_kt is None:
-                    # Fallback : estimer via l'arc de retour dans la tournée
-                    tour = results_l4["tours"].get(k, [])
-                    if len(tour) >= 2:
-                        last_prod = tour[-2]   # dernier producteur avant l'usine
-                        u_last = results_l4["timing"].get((last_prod, k, t), u_collect)
-                        u_ret_kt = u_last + SERVICE_TIME_H + dist[(last_prod, 0)] / SPEED_KMH
-                    else:
-                        u_ret_kt = u_collect
-                delta_t = max(u_ret_kt - a_i, 0.0)
-                loss_i = QUANTITY[i] * (1 - math.exp(-LAMBDA_LOSS * delta_t))
-                total_loss += loss_i
-                print(f"  P{i:>3}  {QUANTITY[i]:>5.1f}  {u_ret_kt:>8.3f}  {a_i:>6.1f}  {delta_t:>7.3f}  {loss_i:>8.4f}")
+        for i, l in losses.items():
+            total_loss += l["loss"]
+            print(f"  P{i:>3}  {l['q']:>5.1f}  {l['u_ret']:>8.3f}  {l['a']:>6.1f}  {l['delta_t']:>7.3f}  {l['loss']:>8.4f}")
         print("  " + "-" * 50)
         print(f"  {'TOTAL':>4}  {sum(QUANTITY.values()):>5.1f}  {'':>8}  {'':>6}  {'':>7}  {total_loss:>8.4f} t")
         print(f"\n  Reference : L ≈ 2.166 t")
