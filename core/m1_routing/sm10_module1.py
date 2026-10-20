@@ -24,6 +24,8 @@ from typing import Dict, List, Optional, Tuple
 
 import pulp
 
+from common.config import FACTORY_CAPACITY_DAILY_T
+
 # ---------------------------------------------------------------------------
 # Configuration du logger
 # ---------------------------------------------------------------------------
@@ -107,7 +109,7 @@ SERVICE_TIME_H: float = 0.5
 #   Justification : capacité annuelle déclarée de l'usine (8 500 t/an),
 #   répartie sur 300 jours ouvrés. Alternative saisonnière possible :
 #   8 500 t / 90 jours de saison de mangue ≈ 94 t/jour.
-FACTORY_CAPACITY_PER_DAY: float = 28.3  # t/jour — hypothèse 300 j/an
+FACTORY_CAPACITY_PER_DAY: float = FACTORY_CAPACITY_DAILY_T  # t/jour — common/config.py
 
 # HYPOTHÈSE SIMULÉE — Fenêtres temporelles [a_i, b_i]
 #   Justification : en l'absence de données GPS/agenda des producteurs,

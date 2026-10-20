@@ -1,10 +1,2 @@
-# Dépendances des modèles SM10 (M1 à M4)
-pulp>=3.3
-numpy>=2.3
-pandas>=2.3
-scipy>=1.16
-scikit-learn>=1.7
-statsmodels>=0.15
-patsy>=1.0
-matplotlib>=3.10
-seaborn>=0.13
+# Dépendances des modèles SM10 (M1 à M4) — définies dans pyproject.toml
+-e .

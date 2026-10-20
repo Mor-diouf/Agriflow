@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sm10-core"
+version = "0.1.0"
+description = "Modèles SM10 / AGRIFLOW : tournées (M1), producteurs (M2), prévision (M3), scénarios (M4)"
+requires-python = ">=3.11"
+dependencies = [
+    "pulp>=3.3",
+    "numpy>=2.3",
+    "pandas>=2.3",
+    "scipy>=1.16",
+    "scikit-learn>=1.7",
+    "statsmodels>=0.15",
+    "patsy>=1.0",
+    "matplotlib>=3.10",
+    "seaborn>=0.13",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["common*", "m1_routing*", "m2_producers*", "m3_forecast*", "m4_export*"]
+namespaces = true

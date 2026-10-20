@@ -40,3 +40,4 @@ venv/
 
 # Caches générés
 audio_cache/
+*.egg-info/

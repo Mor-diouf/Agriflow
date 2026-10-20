@@ -6,6 +6,7 @@ import numpy as np
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from config import GLOBAL_SEED, BASE_DIR, RAW_DIR, TABLES_DIR
+from common.config import SCORE_WEIGHTS
 from data.generator import generate_producers
 from clustering.kmeans_analysis import run_kmeans_analysis
 from clustering.stability import run_stability_analysis
@@ -49,7 +50,7 @@ def main():
     # ---------------------------------------------------------
     # B. SCORING & SENSIBILITÉ
     # ---------------------------------------------------------
-    df['Score_Logistique'] = compute_logistic_score(df, w_TR=1/3, w_d=1/3, w_P=1/3)
+    df['Score_Logistique'] = compute_logistic_score(df, w_TR=SCORE_WEIGHTS["TR"], w_d=SCORE_WEIGHTS["d"], w_P=SCORE_WEIGHTS["P"])
     kendall_results, df_topk = run_sensitivity_analysis(df)
     
     report_lines.append("## B. Scoring et Sensibilité (Kendall Tau-b)")

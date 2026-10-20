@@ -7,10 +7,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from m2_producers.data.generator import generate_producers
 from m2_producers.config import GLOBAL_SEED
+from common.config import SCORE_WEIGHTS
 from m2_producers.availability.temporal_model import generate_temporal_availability
 from m2_producers.routing.distances import generate_distance_matrix, extract_daily_distances
 from m2_producers.scoring.scores import compute_logistic_score
-from m2_producers.routing.comparison import run_routing_comparison, print_routing_conclusion
+from m2_producers.routing.comparison import run_routing_comparison
 
 def run_tests():
     print("Exécution des tests de la Phase 4 (Disponibilité & Routage)...")
@@ -23,7 +24,7 @@ def run_tests():
         df['d_i0'] = D_global[1:, 0]
         
         # 3. Scores
-        df['Score_Logistique'] = compute_logistic_score(df, w_TR=1/3, w_d=1/3, w_P=1/3)
+        df['Score_Logistique'] = compute_logistic_score(df, w_TR=SCORE_WEIGHTS["TR"], w_d=SCORE_WEIGHTS["d"], w_P=SCORE_WEIGHTS["P"])
         
         # 4. Disponibilité
         Q_it = generate_temporal_availability(df, n_days=10, seed=GLOBAL_SEED)
@@ -38,10 +39,13 @@ def run_tests():
         D_t = extract_daily_distances(D_global, active_indices)
         
         # 5. Comparaison End-to-End
-        res_A, res_B, deltas = run_routing_comparison(df_active, Q_it_active, D_t, t=t_test)
-        
+        res_A, res_B, V_cible = run_routing_comparison(df_active, Q_it_active, D_t, t=t_test)
+
         if res_A and res_B:
-            print_routing_conclusion(res_A, res_B, deltas)
+            print(f"   Volume cible : {V_cible:.2f} t")
+            for metric in ['D_total', 'T_total', 'S_moyen', 'R_agg']:
+                print(f"   {metric} : M1 = {res_A[metric]:.2f} | M1+M2 = {res_B[metric]:.2f}")
+            print(f"   Statut solveur (M1+M2) : {res_B['Status']}")
             print("\nTous les tests de la Phase 4 sont passés avec succès !")
             return True
         else:

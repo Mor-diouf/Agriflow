@@ -11,6 +11,8 @@ les différents sous-modules.
 
 import os
 
+from common.config import ZONES, GLOBAL_SEED, FACTORY_CAPACITY_DAILY_T
+
 # ─────────────────────────────────────────────────────────────────────────────
 # CHEMINS
 # ─────────────────────────────────────────────────────────────────────────────
@@ -30,8 +32,8 @@ for _d in [DATA_RAW_DIR, DATA_PROCESSED_DIR, RESULTS_DIR]:
 # ─────────────────────────────────────────────────────────────────────────────
 # [DONNÉE SIMULÉE] — Noms réels des départements de Casamance.
 # Les paramètres numériques associés sont entièrement simulés.
-ZONE_NAMES = ['Bignona', 'Oussouye', 'Ziguinchor', 'Sédhiou', 'Kolda']
-N_ZONES = 5
+ZONE_NAMES = ZONES
+N_ZONES = len(ZONES)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -59,14 +61,14 @@ START_YEAR = 2021
 # [HYPOTHÈSE SIMULÉE] — Capacité annuelle déclarée : 8 500 t/an,
 # répartie sur 300 jours ouvrés → 28.3 t/jour.
 # Source : sm10_module1.py, ligne 110.
-FACTORY_CAPACITY_DAILY = 28.3                           # t/jour
+FACTORY_CAPACITY_DAILY = FACTORY_CAPACITY_DAILY_T        # t/jour — common/config.py
 FACTORY_CAPACITY_WEEKLY = FACTORY_CAPACITY_DAILY * 7    # ≈ 198 t/semaine
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SIMULATION
 # ─────────────────────────────────────────────────────────────────────────────
-DEFAULT_SEED = 42
+DEFAULT_SEED = GLOBAL_SEED
 
 
 # ─────────────────────────────────────────────────────────────────────────────

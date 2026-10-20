@@ -1,13 +1,15 @@
 import os
 import numpy as np
 
+from common.config import GLOBAL_SEED, SCORE_WEIGHTS
+
 # =============================================================================
 # CONFIGURATION CENTRALE DU MODULE 2
 # =============================================================================
 
 # --- Paramètres Globaux ---
 N_PRODUCERS = 100
-GLOBAL_SEED = 42
+# GLOBAL_SEED : importé de common/config.py
 M_REPLICATIONS = 20
 
 # --- Paramètres de Clustering ---
@@ -20,7 +22,7 @@ TOP_K_VALUES = [5, 10, 20]
 
 # Scénarios de poids fixes (w_TR, w_d, w_P)
 SCENARIOS_FIXES = {
-    "Base": (1/3, 1/3, 1/3),
+    "Base": (SCORE_WEIGHTS["TR"], SCORE_WEIGHTS["d"], SCORE_WEIGHTS["P"]),
     "Fiabilite": (0.60, 0.20, 0.20),
     "Proximite": (0.20, 0.60, 0.20),
     "Volume": (0.20, 0.20, 0.60)

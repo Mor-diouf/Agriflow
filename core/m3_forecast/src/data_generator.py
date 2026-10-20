@@ -43,7 +43,7 @@ from typing import List, Tuple, Dict
 
 # [DONNÉE SIMULÉE] — Noms réels des départements de Casamance ;
 # les paramètres numériques associés sont entièrement simulés.
-ZONE_NAMES = ['Bignona', 'Oussouye', 'Ziguinchor', 'Sédhiou', 'Kolda']
+from src.config import ZONE_NAMES
 
 
 @dataclass
