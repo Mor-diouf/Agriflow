@@ -5,12 +5,12 @@ import numpy as np
 # Ajout du dossier parent au path pour les imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from project.data.generator import generate_producers
-from project.config import GLOBAL_SEED
-from project.availability.temporal_model import generate_temporal_availability
-from project.routing.distances import generate_distance_matrix, extract_daily_distances
-from project.scoring.scores import compute_logistic_score
-from project.routing.comparison import run_routing_comparison, print_routing_conclusion
+from m2_producers.data.generator import generate_producers
+from m2_producers.config import GLOBAL_SEED
+from m2_producers.availability.temporal_model import generate_temporal_availability
+from m2_producers.routing.distances import generate_distance_matrix, extract_daily_distances
+from m2_producers.scoring.scores import compute_logistic_score
+from m2_producers.routing.comparison import run_routing_comparison, print_routing_conclusion
 
 def run_tests():
     print("Exécution des tests de la Phase 4 (Disponibilité & Routage)...")

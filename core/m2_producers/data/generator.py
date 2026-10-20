@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from scipy.stats import norm, lognorm, gamma, beta
-from project.config import N_PRODUCERS, SIGMA, MARGINALS
+from m2_producers.config import N_PRODUCERS, SIGMA, MARGINALS
 
 def generate_producers(seed: int, n: int = N_PRODUCERS) -> pd.DataFrame:
     """

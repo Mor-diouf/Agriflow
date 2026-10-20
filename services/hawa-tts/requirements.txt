@@ -1,0 +1,10 @@
+# Serveur de synthèse vocale Wolof "Hawa" (Module 5)
+fastapi>=0.135
+uvicorn>=0.41
+pydantic>=2.12
+numpy>=2.3
+soundfile>=0.14
+torch>=2.9
+transformers>=4.57
+huggingface_hub>=0.36
+sentencepiece>=0.2

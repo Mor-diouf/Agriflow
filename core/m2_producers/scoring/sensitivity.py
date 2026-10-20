@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 import scipy.stats as stats
-from project.config import N_SIMPLEX_SCENARIOS, TOP_K_VALUES, SCENARIOS_FIXES
-from project.scoring.scores import compute_logistic_score
+from m2_producers.config import N_SIMPLEX_SCENARIOS, TOP_K_VALUES, SCENARIOS_FIXES
+from m2_producers.scoring.scores import compute_logistic_score
 
 def run_sensitivity_analysis(df: pd.DataFrame):
     """

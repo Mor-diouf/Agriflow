@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import adjusted_rand_score
 from itertools import combinations
-from project.config import M_REPLICATIONS, K_VALUES, GLOBAL_SEED
-from project.data.generator import generate_producers
-from project.clustering.kmeans_analysis import run_kmeans_analysis
+from m2_producers.config import M_REPLICATIONS, K_VALUES, GLOBAL_SEED
+from m2_producers.data.generator import generate_producers
+from m2_producers.clustering.kmeans_analysis import run_kmeans_analysis
 
 def run_stability_analysis():
     """

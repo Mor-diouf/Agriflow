@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
-from project.config import K_VALUES, N_INIT
+from m2_producers.config import K_VALUES, N_INIT
 
 def run_kmeans_analysis(df: pd.DataFrame, seed: int = 100):
     """

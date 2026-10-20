@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from sm10_module1 import build_level4_model
+from m1_routing.sm10_module1 import build_level4_model
 
 def run_routing_comparison(df_active: pd.DataFrame, Q_it_active: np.ndarray, D_t: np.ndarray, t: int = 0):
     """

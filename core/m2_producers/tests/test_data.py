@@ -4,9 +4,9 @@ import os
 # Ajout du dossier parent au path pour les imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from project.data.generator import generate_producers
-from project.data.validation import audit_dataset
-from project.config import GLOBAL_SEED
+from m2_producers.data.generator import generate_producers
+from m2_producers.data.validation import audit_dataset
+from m2_producers.config import GLOBAL_SEED
 
 def run_tests():
     print("Exécution des tests de la Phase 1 (Génération & Validation)...")

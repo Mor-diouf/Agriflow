@@ -1,7 +1,7 @@
 """
 =============================================================================
 SM10 Agro — Module 4 : Passerelle d'intégration Python -> React
-Fichier : export_module4_data.py
+Fichier : core/m4_export/export_to_web.py
 
 Orchestre les 3 modules précédents et produit les structures de données réelles
 au format JSON pour l'interface React sm10-connect :
@@ -20,8 +20,11 @@ import pandas as pd
 
 # Répertoires de travail
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-M3_DIR = os.path.join(BASE_DIR, "sm10_module3")
-REACT_DATA_DIR = os.path.join(BASE_DIR, "sm10-connect", "src", "lib", "data")
+CORE_DIR = os.path.dirname(BASE_DIR)
+REPO_DIR = os.path.dirname(CORE_DIR)
+M2_V1_DIR = os.path.join(CORE_DIR, "m2_producers", "v1")
+M3_DIR = os.path.join(CORE_DIR, "m3_forecast")
+REACT_DATA_DIR = os.path.join(REPO_DIR, "sm10-connect", "src", "lib", "data")
 
 os.makedirs(REACT_DATA_DIR, exist_ok=True)
 print(f"[Module 4] Dossier d'export React : {REACT_DATA_DIR}")
@@ -122,7 +125,7 @@ if os.path.exists(preds_csv):
 # 2. MODULE 2 : LES 100 PRODUCTEURS SCORÉS ET SEGMENTÉS
 # -----------------------------------------------------------------------------
 print("\n--- 2. Extraction des données réelles du Module 2 ---")
-scored_csv = os.path.join(BASE_DIR, "scored_producers.csv")
+scored_csv = os.path.join(M2_V1_DIR, "scored_producers.csv")
 if os.path.exists(scored_csv):
     df_p = pd.read_csv(scored_csv)
     print(f"Producteurs chargés : {len(df_p)} producteurs réels.")

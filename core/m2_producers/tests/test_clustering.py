@@ -4,7 +4,7 @@ import os
 # Ajout du dossier parent au path pour les imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from project.clustering.stability import run_stability_analysis, print_clustering_conclusion
+from m2_producers.clustering.stability import run_stability_analysis, print_clustering_conclusion
 
 def run_tests():
     print("Exécution des tests de la Phase 2 (Clustering & Stabilité)...")

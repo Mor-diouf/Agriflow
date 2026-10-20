@@ -44,8 +44,12 @@ def generate_hawa_speech():
             speaker_embeddings = torch.tensor(np.load(io.BytesIO(f.read())), dtype=torch.float32).unsqueeze(0).to(device)
 
     # Repertoire de destination dans l'application web pour ecoute directe
-    output_dir = os.path.join("sm10-connect", "public", "audio")
+    service_dir = os.path.dirname(os.path.abspath(__file__))
+    repo_dir = os.path.dirname(os.path.dirname(service_dir))
+    output_dir = os.path.join(repo_dir, "sm10-connect", "public", "audio")
+    samples_dir = os.path.join(service_dir, "samples")
     os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(samples_dir, exist_ok=True)
 
     phrases = [
         (
@@ -79,7 +83,7 @@ def generate_hawa_speech():
             )
 
         wav_web = os.path.join(output_dir, f"{name}.wav")
-        wav_local = f"{name}.wav"
+        wav_local = os.path.join(samples_dir, f"{name}.wav")
         
         audio_arr = speech.cpu().numpy()
         sf.write(wav_web, audio_arr, samplerate=16000)

@@ -5,9 +5,9 @@ import numpy as np
 # Ajout du dossier parent au path pour les imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from project.data.generator import generate_producers
-from project.config import GLOBAL_SEED
-from project.scoring.sensitivity import run_sensitivity_analysis, print_sensitivity_conclusion
+from m2_producers.data.generator import generate_producers
+from m2_producers.config import GLOBAL_SEED
+from m2_producers.scoring.sensitivity import run_sensitivity_analysis, print_sensitivity_conclusion
 
 def run_tests():
     print("Exécution des tests de la Phase 3 (Scoring & Sensibilité)...")
