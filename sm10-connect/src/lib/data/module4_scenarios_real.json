@@ -1,0 +1,99 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario_nominal",
+      "title": "1. Exploitation Nominale (Central)",
+      "badge": "OPÉRATIONNEL STANDARD",
+      "badgeColor": "green",
+      "description": "Programmation régulière basée sur la prévision centrale Hurdle-SARIMAX(1,0,0)+Exog (MAE = 2,77 t). Plan de collecte PuLP standard sur 2 camions.",
+      "forecast_mode": "forecast_central",
+      "weekly_inflow_t": 128.4,
+      "factory_capacity_t": 163.5,
+      "factory_saturation_pct": 78.5,
+      "trucks_active": 2,
+      "trucks_reserve": 0,
+      "loss_post_harvest_t": 0.35,
+      "uncollected_volume_t": 0.0,
+      "operational_action": "Déroulement nominal des tournées L3/L4 sans réaffectation.",
+      "alerts": []
+    },
+    {
+      "id": "scenario_peak",
+      "title": "2. Pic de Récolte Sévère (Stress Q0.90)",
+      "badge": "STRESS-TEST CAPACITÉ",
+      "badgeColor": "red",
+      "description": "Survenue soudaine d'un pic de maturité dans les zones de Bignona et Sédhiou. Le flux de récolte bascule sur le plafond quantile Q0.90 (+48% de volume hebdomadaire).",
+      "forecast_mode": "forecast_stress",
+      "weekly_inflow_t": 198.6,
+      "factory_capacity_t": 163.5,
+      "factory_saturation_pct": 121.5,
+      "trucks_active": 3,
+      "trucks_reserve": 1,
+      "loss_post_harvest_t": 1.45,
+      "uncollected_volume_t": 14.2,
+      "operational_action": "Déclenchement immédiat de l'accord d'affrètement d'un 3ème camion (Camion-03, 14 t) et extension de 4h du poste de nuit à l'usine de Bambali.",
+      "alerts": [
+        {
+          "level": "CRITICAL",
+          "message": "Saturation usine de 121,5% : dépassement de +35,1 t de la capacité nominale hebdomadaire."
+        },
+        {
+          "level": "WARNING",
+          "message": "Mobilisation obligatoire du Camion-03 d'urgence pour désengorger la zone Bignona."
+        }
+      ]
+    },
+    {
+      "id": "scenario_truck_failure",
+      "title": "3. Panne de Collecte Véhicule (Camion-01 HS)",
+      "badge": "RUPTURE LOGISTIQUE",
+      "badgeColor": "orange",
+      "description": "Panne mécanique imprévue sur le Camion-01 (10 t) au départ du verger P003. Perte instantanée de 55% de la capacité de transport journalière.",
+      "forecast_mode": "forecast_central",
+      "weekly_inflow_t": 128.4,
+      "factory_capacity_t": 163.5,
+      "factory_saturation_pct": 78.5,
+      "trucks_active": 1,
+      "trucks_reserve": 0,
+      "loss_post_harvest_t": 2.8,
+      "uncollected_volume_t": 9.0,
+      "operational_action": "Plan de secours : réaffectation d'urgence du Camion-02 sur les producteurs de Profil A (Stratégiques) uniquement, report à J+1 des producteurs Profil D.",
+      "alerts": [
+        {
+          "level": "DANGER",
+          "message": "Camion-01 immobilisé : 9 tonnes de mangues en souffrance sur l'axe Bignona."
+        },
+        {
+          "level": "ACTION",
+          "message": "Délestage automatique vers les producteurs prioritaires P003, P005 (Score Logistique > 60)."
+        }
+      ]
+    },
+    {
+      "id": "scenario_factory_downtime",
+      "title": "4. Réduction de Capacité Usine (-30%)",
+      "badge": "MAINTENANCE USINE",
+      "badgeColor": "amber",
+      "description": "Arrêt partiel d'une ligne de lavage et de tri à l'usine de Bambali suite à une avarie d'alimentation en eau. La capacité tombe à 114,5 t/semaine.",
+      "forecast_mode": "forecast_prudent",
+      "weekly_inflow_t": 142.1,
+      "factory_capacity_t": 114.5,
+      "factory_saturation_pct": 124.1,
+      "trucks_active": 2,
+      "trucks_reserve": 0,
+      "loss_post_harvest_t": 1.95,
+      "uncollected_volume_t": 27.6,
+      "operational_action": "Activation du stock tampon réfrigéré déporté à Ziguinchor et étalement des tournées de ramassage sur 6 jours au lieu de 5.",
+      "alerts": [
+        {
+          "level": "WARNING",
+          "message": "Goulot d'étranglement usine : saturation à 124,1% sur capacité réduite."
+        },
+        {
+          "level": "INFO",
+          "message": "Mise en réserve des fruits en chambre froide pour préserver la durée de vie commerciale."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "status": "VALIDATED_PULP_SOLVER",
+  "factory": {
+    "name": "Usine Centrale SM10",
+    "location": "Bambali",
+    "x": 50.0,
+    "y": 50.0,
+    "nominal_daily_capacity_t": 35.0
+  },
+  "fleet": [
+    {
+      "id": "CAMION-01",
+      "type": "Isuzu FTR 10t (Frigorifique)",
+      "driver": "M. Diatta",
+      "capacity_t": 10.0,
+      "load_t": 9.0,
+      "status": "En tournée",
+      "stops_count": 3,
+      "route_sequence": [
+        "Usine (06:00)",
+        "P003 (07:15)",
+        "P005 (08:30)",
+        "P007 (09:45)",
+        "Usine (11:30)"
+      ],
+      "distance_km": 108.0,
+      "duration": "5h30",
+      "loss_rate_pct": 2.1
+    },
+    {
+      "id": "CAMION-02",
+      "type": "Mercedes Atego 8t (Bâché)",
+      "driver": "A. Sambou",
+      "capacity_t": 8.0,
+      "load_t": 7.0,
+      "status": "En tournée",
+      "stops_count": 2,
+      "route_sequence": [
+        "Usine (06:30)",
+        "P012 (08:00)",
+        "P015 (09:15)",
+        "Usine (10:45)"
+      ],
+      "distance_km": 94.0,
+      "duration": "4h15",
+      "loss_rate_pct": 2.4
+    }
+  ],
+  "kpis": {
+    "total_distance_km": 202.0,
+    "distance_baseline_km": 286.0,
+    "distance_saved_km": 84.0,
+    "distance_saved_pct": 29.4,
+    "total_volume_collected_t": 16.0,
+    "post_harvest_loss_t": 0.35,
+    "post_harvest_loss_avoided_t": 2.166,
+    "fuel_cost_cfa": 85850,
+    "co2_emissions_kg": 242.4
+  }
+}

@@ -1,0 +1,5 @@
+import { useEffect } from "react";
+import { createFileRoute,useNavigate } from "@tanstack/react-router";
+import { useAssistantSession } from "@/lib/assistant-session";
+export const Route=createFileRoute("/assistant/")({head:()=>({meta:[{title:"AI Assistant | AgriFlow SM10"},{name:"description",content:"Créer une conversation temporaire avec le copilote opérationnel AGRIFLOW."},{property:"og:title",content:"AI Assistant | AgriFlow SM10"},{property:"og:description",content:"Analyses opérationnelles AGRIFLOW diffusées en direct et sourcées."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:AssistantEntry});
+function AssistantEntry(){const navigate=useNavigate();const{createThread}=useAssistantSession();useEffect(()=>{const threadId=createThread();void navigate({to:"/assistant/$threadId",params:{threadId},replace:true})},[]);return <div className="min-h-screen bg-background" aria-label="Ouverture d’une conversation"/>}

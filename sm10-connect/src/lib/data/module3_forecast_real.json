@@ -1,0 +1,3007 @@
+{
+  "status": "VALIDATED_PHASE_I",
+  "reference_year": 2025,
+  "available_years": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "zones": [
+    "Bignona",
+    "Kolda",
+    "Oussouye",
+    "Sédhiou",
+    "Ziguinchor"
+  ],
+  "factory_weekly_capacity": 163.5,
+  "global_trajectory": [
+    {
+      "week": 1,
+      "weekLabel": "S01",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 2,
+      "weekLabel": "S02",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 3,
+      "weekLabel": "S03",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 4,
+      "weekLabel": "S04",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 5,
+      "weekLabel": "S05",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 6,
+      "weekLabel": "S06",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 7,
+      "weekLabel": "S07",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 8,
+      "weekLabel": "S08",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 9,
+      "weekLabel": "S09",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 10,
+      "weekLabel": "S10",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 11,
+      "weekLabel": "S11",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 12,
+      "weekLabel": "S12",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 13,
+      "weekLabel": "S13",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 14,
+      "weekLabel": "S14",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 15,
+      "weekLabel": "S15",
+      "y_true": 1.1,
+      "forecast_central": 0.3,
+      "forecast_prudent": 2.1,
+      "forecast_stress": 2.8,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 16,
+      "weekLabel": "S16",
+      "y_true": 9.0,
+      "forecast_central": 11.9,
+      "forecast_prudent": 17.9,
+      "forecast_stress": 24.8,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 17,
+      "weekLabel": "S17",
+      "y_true": 23.7,
+      "forecast_central": 26.9,
+      "forecast_prudent": 32.7,
+      "forecast_stress": 42.9,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 18,
+      "weekLabel": "S18",
+      "y_true": 32.6,
+      "forecast_central": 40.4,
+      "forecast_prudent": 51.2,
+      "forecast_stress": 64.2,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 19,
+      "weekLabel": "S19",
+      "y_true": 43.3,
+      "forecast_central": 62.3,
+      "forecast_prudent": 65.8,
+      "forecast_stress": 82.1,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 20,
+      "weekLabel": "S20",
+      "y_true": 60.2,
+      "forecast_central": 75.3,
+      "forecast_prudent": 81.9,
+      "forecast_stress": 100.3,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 21,
+      "weekLabel": "S21",
+      "y_true": 75.2,
+      "forecast_central": 100.2,
+      "forecast_prudent": 102.6,
+      "forecast_stress": 124.9,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 22,
+      "weekLabel": "S22",
+      "y_true": 112.7,
+      "forecast_central": 117.6,
+      "forecast_prudent": 122.1,
+      "forecast_stress": 144.7,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 23,
+      "weekLabel": "S23",
+      "y_true": 175.1,
+      "forecast_central": 159.5,
+      "forecast_prudent": 157.6,
+      "forecast_stress": 185.8,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 24,
+      "weekLabel": "S24",
+      "y_true": 222.5,
+      "forecast_central": 203.4,
+      "forecast_prudent": 213.4,
+      "forecast_stress": 242.1,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 25,
+      "weekLabel": "S25",
+      "y_true": 285.9,
+      "forecast_central": 229.7,
+      "forecast_prudent": 253.8,
+      "forecast_stress": 280.7,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 26,
+      "weekLabel": "S26",
+      "y_true": 254.1,
+      "forecast_central": 280.3,
+      "forecast_prudent": 307.8,
+      "forecast_stress": 338.1,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 27,
+      "weekLabel": "S27",
+      "y_true": 316.9,
+      "forecast_central": 254.3,
+      "forecast_prudent": 284.2,
+      "forecast_stress": 315.2,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 28,
+      "weekLabel": "S28",
+      "y_true": 366.9,
+      "forecast_central": 305.6,
+      "forecast_prudent": 330.7,
+      "forecast_stress": 373.5,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 29,
+      "weekLabel": "S29",
+      "y_true": 327.4,
+      "forecast_central": 329.0,
+      "forecast_prudent": 372.3,
+      "forecast_stress": 411.3,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 30,
+      "weekLabel": "S30",
+      "y_true": 330.8,
+      "forecast_central": 309.8,
+      "forecast_prudent": 336.2,
+      "forecast_stress": 382.3,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 31,
+      "weekLabel": "S31",
+      "y_true": 257.4,
+      "forecast_central": 288.3,
+      "forecast_prudent": 332.4,
+      "forecast_stress": 371.3,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 32,
+      "weekLabel": "S32",
+      "y_true": 285.5,
+      "forecast_central": 249.6,
+      "forecast_prudent": 267.2,
+      "forecast_stress": 313.6,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 33,
+      "weekLabel": "S33",
+      "y_true": 262.6,
+      "forecast_central": 254.7,
+      "forecast_prudent": 282.9,
+      "forecast_stress": 316.9,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 34,
+      "weekLabel": "S34",
+      "y_true": 205.5,
+      "forecast_central": 224.5,
+      "forecast_prudent": 256.7,
+      "forecast_stress": 288.4,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 35,
+      "weekLabel": "S35",
+      "y_true": 156.1,
+      "forecast_central": 179.5,
+      "forecast_prudent": 202.8,
+      "forecast_stress": 236.8,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 36,
+      "weekLabel": "S36",
+      "y_true": 130.1,
+      "forecast_central": 144.8,
+      "forecast_prudent": 156.3,
+      "forecast_stress": 183.9,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 37,
+      "weekLabel": "S37",
+      "y_true": 99.6,
+      "forecast_central": 117.9,
+      "forecast_prudent": 128.4,
+      "forecast_stress": 148.2,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 38,
+      "weekLabel": "S38",
+      "y_true": 67.5,
+      "forecast_central": 82.7,
+      "forecast_prudent": 97.4,
+      "forecast_stress": 114.6,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 39,
+      "weekLabel": "S39",
+      "y_true": 45.5,
+      "forecast_central": 63.0,
+      "forecast_prudent": 66.6,
+      "forecast_stress": 81.5,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 40,
+      "weekLabel": "S40",
+      "y_true": 27.8,
+      "forecast_central": 33.1,
+      "forecast_prudent": 44.4,
+      "forecast_stress": 55.6,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 41,
+      "weekLabel": "S41",
+      "y_true": 13.1,
+      "forecast_central": 20.0,
+      "forecast_prudent": 25.7,
+      "forecast_stress": 33.3,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 42,
+      "weekLabel": "S42",
+      "y_true": 4.5,
+      "forecast_central": 7.8,
+      "forecast_prudent": 8.0,
+      "forecast_stress": 9.7,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 43,
+      "weekLabel": "S43",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 44,
+      "weekLabel": "S44",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 45,
+      "weekLabel": "S45",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 46,
+      "weekLabel": "S46",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 47,
+      "weekLabel": "S47",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 48,
+      "weekLabel": "S48",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 49,
+      "weekLabel": "S49",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 50,
+      "weekLabel": "S50",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 51,
+      "weekLabel": "S51",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    },
+    {
+      "week": 52,
+      "weekLabel": "S52",
+      "y_true": 0.0,
+      "forecast_central": 0.0,
+      "forecast_prudent": 0.0,
+      "forecast_stress": 0.0,
+      "capacity_limit": 163.5
+    }
+  ],
+  "zone_trajectories": {
+    "Bignona": [
+      {
+        "week": 1,
+        "weekLabel": "S01",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 2,
+        "weekLabel": "S02",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 3,
+        "weekLabel": "S03",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 4,
+        "weekLabel": "S04",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 5,
+        "weekLabel": "S05",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 6,
+        "weekLabel": "S06",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 7,
+        "weekLabel": "S07",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 8,
+        "weekLabel": "S08",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 9,
+        "weekLabel": "S09",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 10,
+        "weekLabel": "S10",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 11,
+        "weekLabel": "S11",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 12,
+        "weekLabel": "S12",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 13,
+        "weekLabel": "S13",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 14,
+        "weekLabel": "S14",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 15,
+        "weekLabel": "S15",
+        "y_true": 0.3,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 16,
+        "weekLabel": "S16",
+        "y_true": 1.3,
+        "forecast_central": 0.2,
+        "forecast_prudent": 3.8,
+        "forecast_stress": 6.9,
+        "is_pic": false
+      },
+      {
+        "week": 17,
+        "weekLabel": "S17",
+        "y_true": 3.0,
+        "forecast_central": 4.2,
+        "forecast_prudent": 6.1,
+        "forecast_stress": 10.5,
+        "is_pic": false
+      },
+      {
+        "week": 18,
+        "weekLabel": "S18",
+        "y_true": 4.8,
+        "forecast_central": 6.5,
+        "forecast_prudent": 9.0,
+        "forecast_stress": 15.0,
+        "is_pic": false
+      },
+      {
+        "week": 19,
+        "weekLabel": "S19",
+        "y_true": 8.6,
+        "forecast_central": 10.8,
+        "forecast_prudent": 12.0,
+        "forecast_stress": 19.9,
+        "is_pic": false
+      },
+      {
+        "week": 20,
+        "weekLabel": "S20",
+        "y_true": 9.7,
+        "forecast_central": 15.6,
+        "forecast_prudent": 16.8,
+        "forecast_stress": 26.3,
+        "is_pic": false
+      },
+      {
+        "week": 21,
+        "weekLabel": "S21",
+        "y_true": 19.3,
+        "forecast_central": 20.6,
+        "forecast_prudent": 19.6,
+        "forecast_stress": 31.3,
+        "is_pic": false
+      },
+      {
+        "week": 22,
+        "weekLabel": "S22",
+        "y_true": 21.7,
+        "forecast_central": 28.2,
+        "forecast_prudent": 29.1,
+        "forecast_stress": 41.2,
+        "is_pic": false
+      },
+      {
+        "week": 23,
+        "weekLabel": "S23",
+        "y_true": 47.1,
+        "forecast_central": 40.6,
+        "forecast_prudent": 33.4,
+        "forecast_stress": 46.7,
+        "is_pic": false
+      },
+      {
+        "week": 24,
+        "weekLabel": "S24",
+        "y_true": 61.0,
+        "forecast_central": 54.3,
+        "forecast_prudent": 56.0,
+        "forecast_stress": 65.4,
+        "is_pic": true
+      },
+      {
+        "week": 25,
+        "weekLabel": "S25",
+        "y_true": 70.5,
+        "forecast_central": 59.6,
+        "forecast_prudent": 68.1,
+        "forecast_stress": 76.6,
+        "is_pic": true
+      },
+      {
+        "week": 26,
+        "weekLabel": "S26",
+        "y_true": 51.8,
+        "forecast_central": 64.1,
+        "forecast_prudent": 76.1,
+        "forecast_stress": 84.6,
+        "is_pic": true
+      },
+      {
+        "week": 27,
+        "weekLabel": "S27",
+        "y_true": 47.0,
+        "forecast_central": 53.6,
+        "forecast_prudent": 60.4,
+        "forecast_stress": 75.0,
+        "is_pic": false
+      },
+      {
+        "week": 28,
+        "weekLabel": "S28",
+        "y_true": 79.9,
+        "forecast_central": 60.9,
+        "forecast_prudent": 57.1,
+        "forecast_stress": 73.1,
+        "is_pic": true
+      },
+      {
+        "week": 29,
+        "weekLabel": "S29",
+        "y_true": 67.8,
+        "forecast_central": 75.4,
+        "forecast_prudent": 84.3,
+        "forecast_stress": 92.8,
+        "is_pic": true
+      },
+      {
+        "week": 30,
+        "weekLabel": "S30",
+        "y_true": 78.0,
+        "forecast_central": 68.1,
+        "forecast_prudent": 73.5,
+        "forecast_stress": 84.6,
+        "is_pic": true
+      },
+      {
+        "week": 31,
+        "weekLabel": "S31",
+        "y_true": 38.3,
+        "forecast_central": 64.2,
+        "forecast_prudent": 80.3,
+        "forecast_stress": 88.9,
+        "is_pic": false
+      },
+      {
+        "week": 32,
+        "weekLabel": "S32",
+        "y_true": 74.2,
+        "forecast_central": 50.6,
+        "forecast_prudent": 46.4,
+        "forecast_stress": 62.7,
+        "is_pic": true
+      },
+      {
+        "week": 33,
+        "weekLabel": "S33",
+        "y_true": 68.7,
+        "forecast_central": 67.0,
+        "forecast_prudent": 75.2,
+        "forecast_stress": 81.1,
+        "is_pic": true
+      },
+      {
+        "week": 34,
+        "weekLabel": "S34",
+        "y_true": 39.2,
+        "forecast_central": 55.0,
+        "forecast_prudent": 68.5,
+        "forecast_stress": 74.1,
+        "is_pic": false
+      },
+      {
+        "week": 35,
+        "weekLabel": "S35",
+        "y_true": 32.5,
+        "forecast_central": 38.3,
+        "forecast_prudent": 42.1,
+        "forecast_stress": 52.5,
+        "is_pic": false
+      },
+      {
+        "week": 36,
+        "weekLabel": "S36",
+        "y_true": 34.0,
+        "forecast_central": 34.0,
+        "forecast_prudent": 35.2,
+        "forecast_stress": 44.4,
+        "is_pic": false
+      },
+      {
+        "week": 37,
+        "weekLabel": "S37",
+        "y_true": 27.8,
+        "forecast_central": 30.8,
+        "forecast_prudent": 35.0,
+        "forecast_stress": 41.2,
+        "is_pic": false
+      },
+      {
+        "week": 38,
+        "weekLabel": "S38",
+        "y_true": 17.1,
+        "forecast_central": 22.8,
+        "forecast_prudent": 28.1,
+        "forecast_stress": 33.4,
+        "is_pic": false
+      },
+      {
+        "week": 39,
+        "weekLabel": "S39",
+        "y_true": 11.4,
+        "forecast_central": 14.5,
+        "forecast_prudent": 17.8,
+        "forecast_stress": 23.1,
+        "is_pic": false
+      },
+      {
+        "week": 40,
+        "weekLabel": "S40",
+        "y_true": 9.8,
+        "forecast_central": 7.9,
+        "forecast_prudent": 11.7,
+        "forecast_stress": 16.2,
+        "is_pic": false
+      },
+      {
+        "week": 41,
+        "weekLabel": "S41",
+        "y_true": 6.8,
+        "forecast_central": 6.2,
+        "forecast_prudent": 9.5,
+        "forecast_stress": 12.2,
+        "is_pic": false
+      },
+      {
+        "week": 42,
+        "weekLabel": "S42",
+        "y_true": 3.5,
+        "forecast_central": 7.4,
+        "forecast_prudent": 6.7,
+        "forecast_stress": 8.0,
+        "is_pic": false
+      },
+      {
+        "week": 43,
+        "weekLabel": "S43",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 44,
+        "weekLabel": "S44",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 45,
+        "weekLabel": "S45",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 46,
+        "weekLabel": "S46",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 47,
+        "weekLabel": "S47",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 48,
+        "weekLabel": "S48",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 49,
+        "weekLabel": "S49",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 50,
+        "weekLabel": "S50",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 51,
+        "weekLabel": "S51",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 52,
+        "weekLabel": "S52",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      }
+    ],
+    "Kolda": [
+      {
+        "week": 1,
+        "weekLabel": "S01",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 2,
+        "weekLabel": "S02",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 3,
+        "weekLabel": "S03",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 4,
+        "weekLabel": "S04",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 5,
+        "weekLabel": "S05",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 6,
+        "weekLabel": "S06",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 7,
+        "weekLabel": "S07",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 8,
+        "weekLabel": "S08",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 9,
+        "weekLabel": "S09",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 10,
+        "weekLabel": "S10",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 11,
+        "weekLabel": "S11",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 12,
+        "weekLabel": "S12",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 13,
+        "weekLabel": "S13",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 14,
+        "weekLabel": "S14",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 15,
+        "weekLabel": "S15",
+        "y_true": 0.1,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 16,
+        "weekLabel": "S16",
+        "y_true": 1.2,
+        "forecast_central": 1.5,
+        "forecast_prudent": 3.4,
+        "forecast_stress": 5.0,
+        "is_pic": false
+      },
+      {
+        "week": 17,
+        "weekLabel": "S17",
+        "y_true": 5.5,
+        "forecast_central": 4.6,
+        "forecast_prudent": 5.6,
+        "forecast_stress": 7.5,
+        "is_pic": false
+      },
+      {
+        "week": 18,
+        "weekLabel": "S18",
+        "y_true": 5.1,
+        "forecast_central": 7.0,
+        "forecast_prudent": 10.3,
+        "forecast_stress": 12.2,
+        "is_pic": false
+      },
+      {
+        "week": 19,
+        "weekLabel": "S19",
+        "y_true": 8.6,
+        "forecast_central": 11.7,
+        "forecast_prudent": 11.6,
+        "forecast_stress": 14.1,
+        "is_pic": false
+      },
+      {
+        "week": 20,
+        "weekLabel": "S20",
+        "y_true": 10.8,
+        "forecast_central": 12.5,
+        "forecast_prudent": 15.5,
+        "forecast_stress": 18.4,
+        "is_pic": false
+      },
+      {
+        "week": 21,
+        "weekLabel": "S21",
+        "y_true": 13.1,
+        "forecast_central": 16.0,
+        "forecast_prudent": 18.6,
+        "forecast_stress": 21.9,
+        "is_pic": false
+      },
+      {
+        "week": 22,
+        "weekLabel": "S22",
+        "y_true": 14.5,
+        "forecast_central": 19.1,
+        "forecast_prudent": 21.6,
+        "forecast_stress": 25.4,
+        "is_pic": false
+      },
+      {
+        "week": 23,
+        "weekLabel": "S23",
+        "y_true": 18.0,
+        "forecast_central": 21.5,
+        "forecast_prudent": 23.8,
+        "forecast_stress": 28.1,
+        "is_pic": false
+      },
+      {
+        "week": 24,
+        "weekLabel": "S24",
+        "y_true": 35.3,
+        "forecast_central": 27.8,
+        "forecast_prudent": 27.8,
+        "forecast_stress": 32.1,
+        "is_pic": false
+      },
+      {
+        "week": 25,
+        "weekLabel": "S25",
+        "y_true": 51.0,
+        "forecast_central": 34.4,
+        "forecast_prudent": 42.4,
+        "forecast_stress": 44.5,
+        "is_pic": true
+      },
+      {
+        "week": 26,
+        "weekLabel": "S26",
+        "y_true": 51.7,
+        "forecast_central": 46.6,
+        "forecast_prudent": 55.9,
+        "forecast_stress": 56.3,
+        "is_pic": true
+      },
+      {
+        "week": 27,
+        "weekLabel": "S27",
+        "y_true": 56.5,
+        "forecast_central": 44.9,
+        "forecast_prudent": 56.8,
+        "forecast_stress": 56.8,
+        "is_pic": true
+      },
+      {
+        "week": 28,
+        "weekLabel": "S28",
+        "y_true": 52.9,
+        "forecast_central": 42.3,
+        "forecast_prudent": 59.6,
+        "forecast_stress": 59.8,
+        "is_pic": true
+      },
+      {
+        "week": 29,
+        "weekLabel": "S29",
+        "y_true": 39.9,
+        "forecast_central": 41.0,
+        "forecast_prudent": 56.1,
+        "forecast_stress": 56.8,
+        "is_pic": false
+      },
+      {
+        "week": 30,
+        "weekLabel": "S30",
+        "y_true": 52.1,
+        "forecast_central": 37.5,
+        "forecast_prudent": 44.8,
+        "forecast_stress": 47.5,
+        "is_pic": true
+      },
+      {
+        "week": 31,
+        "weekLabel": "S31",
+        "y_true": 44.3,
+        "forecast_central": 37.8,
+        "forecast_prudent": 53.4,
+        "forecast_stress": 54.1,
+        "is_pic": false
+      },
+      {
+        "week": 32,
+        "weekLabel": "S32",
+        "y_true": 41.3,
+        "forecast_central": 38.7,
+        "forecast_prudent": 46.5,
+        "forecast_stress": 47.7,
+        "is_pic": false
+      },
+      {
+        "week": 33,
+        "weekLabel": "S33",
+        "y_true": 37.9,
+        "forecast_central": 33.3,
+        "forecast_prudent": 42.8,
+        "forecast_stress": 44.0,
+        "is_pic": false
+      },
+      {
+        "week": 34,
+        "weekLabel": "S34",
+        "y_true": 31.5,
+        "forecast_central": 29.7,
+        "forecast_prudent": 38.8,
+        "forecast_stress": 39.9,
+        "is_pic": false
+      },
+      {
+        "week": 35,
+        "weekLabel": "S35",
+        "y_true": 21.5,
+        "forecast_central": 26.2,
+        "forecast_prudent": 32.4,
+        "forecast_stress": 33.7,
+        "is_pic": false
+      },
+      {
+        "week": 36,
+        "weekLabel": "S36",
+        "y_true": 19.5,
+        "forecast_central": 23.0,
+        "forecast_prudent": 23.4,
+        "forecast_stress": 25.3,
+        "is_pic": false
+      },
+      {
+        "week": 37,
+        "weekLabel": "S37",
+        "y_true": 10.6,
+        "forecast_central": 15.6,
+        "forecast_prudent": 20.2,
+        "forecast_stress": 21.8,
+        "is_pic": false
+      },
+      {
+        "week": 38,
+        "weekLabel": "S38",
+        "y_true": 2.5,
+        "forecast_central": 9.7,
+        "forecast_prudent": 11.6,
+        "forecast_stress": 14.0,
+        "is_pic": false
+      },
+      {
+        "week": 39,
+        "weekLabel": "S39",
+        "y_true": 0.7,
+        "forecast_central": 9.1,
+        "forecast_prudent": 4.8,
+        "forecast_stress": 7.2,
+        "is_pic": false
+      },
+      {
+        "week": 40,
+        "weekLabel": "S40",
+        "y_true": 0.1,
+        "forecast_central": 4.8,
+        "forecast_prudent": 2.9,
+        "forecast_stress": 4.5,
+        "is_pic": false
+      },
+      {
+        "week": 41,
+        "weekLabel": "S41",
+        "y_true": 0.0,
+        "forecast_central": 0.4,
+        "forecast_prudent": 1.0,
+        "forecast_stress": 2.6,
+        "is_pic": false
+      },
+      {
+        "week": 42,
+        "weekLabel": "S42",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 43,
+        "weekLabel": "S43",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 44,
+        "weekLabel": "S44",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 45,
+        "weekLabel": "S45",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 46,
+        "weekLabel": "S46",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 47,
+        "weekLabel": "S47",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 48,
+        "weekLabel": "S48",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 49,
+        "weekLabel": "S49",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 50,
+        "weekLabel": "S50",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 51,
+        "weekLabel": "S51",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 52,
+        "weekLabel": "S52",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      }
+    ],
+    "Oussouye": [
+      {
+        "week": 1,
+        "weekLabel": "S01",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 2,
+        "weekLabel": "S02",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 3,
+        "weekLabel": "S03",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 4,
+        "weekLabel": "S04",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 5,
+        "weekLabel": "S05",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 6,
+        "weekLabel": "S06",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 7,
+        "weekLabel": "S07",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 8,
+        "weekLabel": "S08",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 9,
+        "weekLabel": "S09",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 10,
+        "weekLabel": "S10",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 11,
+        "weekLabel": "S11",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 12,
+        "weekLabel": "S12",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 13,
+        "weekLabel": "S13",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 14,
+        "weekLabel": "S14",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 15,
+        "weekLabel": "S15",
+        "y_true": 0.3,
+        "forecast_central": 0.3,
+        "forecast_prudent": 2.1,
+        "forecast_stress": 2.8,
+        "is_pic": false
+      },
+      {
+        "week": 16,
+        "weekLabel": "S16",
+        "y_true": 2.5,
+        "forecast_central": 4.1,
+        "forecast_prudent": 3.6,
+        "forecast_stress": 4.2,
+        "is_pic": false
+      },
+      {
+        "week": 17,
+        "weekLabel": "S17",
+        "y_true": 2.9,
+        "forecast_central": 3.2,
+        "forecast_prudent": 6.3,
+        "forecast_stress": 7.2,
+        "is_pic": false
+      },
+      {
+        "week": 18,
+        "weekLabel": "S18",
+        "y_true": 4.9,
+        "forecast_central": 6.7,
+        "forecast_prudent": 7.8,
+        "forecast_stress": 8.9,
+        "is_pic": false
+      },
+      {
+        "week": 19,
+        "weekLabel": "S19",
+        "y_true": 6.1,
+        "forecast_central": 9.8,
+        "forecast_prudent": 10.7,
+        "forecast_stress": 12.1,
+        "is_pic": false
+      },
+      {
+        "week": 20,
+        "weekLabel": "S20",
+        "y_true": 11.0,
+        "forecast_central": 12.6,
+        "forecast_prudent": 13.0,
+        "forecast_stress": 14.6,
+        "is_pic": false
+      },
+      {
+        "week": 21,
+        "weekLabel": "S21",
+        "y_true": 14.3,
+        "forecast_central": 17.2,
+        "forecast_prudent": 18.2,
+        "forecast_stress": 20.1,
+        "is_pic": false
+      },
+      {
+        "week": 22,
+        "weekLabel": "S22",
+        "y_true": 16.8,
+        "forecast_central": 21.0,
+        "forecast_prudent": 22.1,
+        "forecast_stress": 24.1,
+        "is_pic": false
+      },
+      {
+        "week": 23,
+        "weekLabel": "S23",
+        "y_true": 21.3,
+        "forecast_central": 24.0,
+        "forecast_prudent": 25.1,
+        "forecast_stress": 27.4,
+        "is_pic": false
+      },
+      {
+        "week": 24,
+        "weekLabel": "S24",
+        "y_true": 22.4,
+        "forecast_central": 28.1,
+        "forecast_prudent": 29.7,
+        "forecast_stress": 32.2,
+        "is_pic": false
+      },
+      {
+        "week": 25,
+        "weekLabel": "S25",
+        "y_true": 31.2,
+        "forecast_central": 29.5,
+        "forecast_prudent": 31.0,
+        "forecast_stress": 33.7,
+        "is_pic": false
+      },
+      {
+        "week": 26,
+        "weekLabel": "S26",
+        "y_true": 64.1,
+        "forecast_central": 41.1,
+        "forecast_prudent": 39.2,
+        "forecast_stress": 41.8,
+        "is_pic": true
+      },
+      {
+        "week": 27,
+        "weekLabel": "S27",
+        "y_true": 48.3,
+        "forecast_central": 58.3,
+        "forecast_prudent": 66.8,
+        "forecast_stress": 70.0,
+        "is_pic": false
+      },
+      {
+        "week": 28,
+        "weekLabel": "S28",
+        "y_true": 77.5,
+        "forecast_central": 49.2,
+        "forecast_prudent": 53.3,
+        "forecast_stress": 56.3,
+        "is_pic": true
+      },
+      {
+        "week": 29,
+        "weekLabel": "S29",
+        "y_true": 58.2,
+        "forecast_central": 65.5,
+        "forecast_prudent": 77.2,
+        "forecast_stress": 80.8,
+        "is_pic": true
+      },
+      {
+        "week": 30,
+        "weekLabel": "S30",
+        "y_true": 52.6,
+        "forecast_central": 53.1,
+        "forecast_prudent": 60.3,
+        "forecast_stress": 63.6,
+        "is_pic": true
+      },
+      {
+        "week": 31,
+        "weekLabel": "S31",
+        "y_true": 41.0,
+        "forecast_central": 47.4,
+        "forecast_prudent": 54.6,
+        "forecast_stress": 57.9,
+        "is_pic": false
+      },
+      {
+        "week": 32,
+        "weekLabel": "S32",
+        "y_true": 32.4,
+        "forecast_central": 34.8,
+        "forecast_prudent": 43.5,
+        "forecast_stress": 46.8,
+        "is_pic": false
+      },
+      {
+        "week": 33,
+        "weekLabel": "S33",
+        "y_true": 32.1,
+        "forecast_central": 31.5,
+        "forecast_prudent": 35.2,
+        "forecast_stress": 38.2,
+        "is_pic": false
+      },
+      {
+        "week": 34,
+        "weekLabel": "S34",
+        "y_true": 27.9,
+        "forecast_central": 28.6,
+        "forecast_prudent": 33.8,
+        "forecast_stress": 36.6,
+        "is_pic": false
+      },
+      {
+        "week": 35,
+        "weekLabel": "S35",
+        "y_true": 22.8,
+        "forecast_central": 23.5,
+        "forecast_prudent": 28.9,
+        "forecast_stress": 31.5,
+        "is_pic": false
+      },
+      {
+        "week": 36,
+        "weekLabel": "S36",
+        "y_true": 16.3,
+        "forecast_central": 21.0,
+        "forecast_prudent": 23.7,
+        "forecast_stress": 25.8,
+        "is_pic": false
+      },
+      {
+        "week": 37,
+        "weekLabel": "S37",
+        "y_true": 17.4,
+        "forecast_central": 19.6,
+        "forecast_prudent": 17.7,
+        "forecast_stress": 19.1,
+        "is_pic": false
+      },
+      {
+        "week": 38,
+        "weekLabel": "S38",
+        "y_true": 15.4,
+        "forecast_central": 14.4,
+        "forecast_prudent": 17.6,
+        "forecast_stress": 18.9,
+        "is_pic": false
+      },
+      {
+        "week": 39,
+        "weekLabel": "S39",
+        "y_true": 10.7,
+        "forecast_central": 14.7,
+        "forecast_prudent": 15.2,
+        "forecast_stress": 16.1,
+        "is_pic": false
+      },
+      {
+        "week": 40,
+        "weekLabel": "S40",
+        "y_true": 5.5,
+        "forecast_central": 7.9,
+        "forecast_prudent": 10.4,
+        "forecast_stress": 11.2,
+        "is_pic": false
+      },
+      {
+        "week": 41,
+        "weekLabel": "S41",
+        "y_true": 1.0,
+        "forecast_central": 4.6,
+        "forecast_prudent": 5.5,
+        "forecast_stress": 5.9,
+        "is_pic": false
+      },
+      {
+        "week": 42,
+        "weekLabel": "S42",
+        "y_true": 0.1,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 43,
+        "weekLabel": "S43",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 44,
+        "weekLabel": "S44",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 45,
+        "weekLabel": "S45",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 46,
+        "weekLabel": "S46",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 47,
+        "weekLabel": "S47",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 48,
+        "weekLabel": "S48",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 49,
+        "weekLabel": "S49",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 50,
+        "weekLabel": "S50",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 51,
+        "weekLabel": "S51",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 52,
+        "weekLabel": "S52",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      }
+    ],
+    "Sédhiou": [
+      {
+        "week": 1,
+        "weekLabel": "S01",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 2,
+        "weekLabel": "S02",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 3,
+        "weekLabel": "S03",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 4,
+        "weekLabel": "S04",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 5,
+        "weekLabel": "S05",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 6,
+        "weekLabel": "S06",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 7,
+        "weekLabel": "S07",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 8,
+        "weekLabel": "S08",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 9,
+        "weekLabel": "S09",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 10,
+        "weekLabel": "S10",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 11,
+        "weekLabel": "S11",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 12,
+        "weekLabel": "S12",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 13,
+        "weekLabel": "S13",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 14,
+        "weekLabel": "S14",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 15,
+        "weekLabel": "S15",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 16,
+        "weekLabel": "S16",
+        "y_true": 0.4,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 17,
+        "weekLabel": "S17",
+        "y_true": 1.4,
+        "forecast_central": 5.6,
+        "forecast_prudent": 3.6,
+        "forecast_stress": 4.2,
+        "is_pic": false
+      },
+      {
+        "week": 18,
+        "weekLabel": "S18",
+        "y_true": 2.3,
+        "forecast_central": 2.9,
+        "forecast_prudent": 5.6,
+        "forecast_stress": 6.4,
+        "is_pic": false
+      },
+      {
+        "week": 19,
+        "weekLabel": "S19",
+        "y_true": 4.4,
+        "forecast_central": 8.8,
+        "forecast_prudent": 7.4,
+        "forecast_stress": 8.2,
+        "is_pic": false
+      },
+      {
+        "week": 20,
+        "weekLabel": "S20",
+        "y_true": 6.0,
+        "forecast_central": 10.8,
+        "forecast_prudent": 10.8,
+        "forecast_stress": 11.3,
+        "is_pic": false
+      },
+      {
+        "week": 21,
+        "weekLabel": "S21",
+        "y_true": 9.0,
+        "forecast_central": 12.5,
+        "forecast_prudent": 13.4,
+        "forecast_stress": 13.9,
+        "is_pic": false
+      },
+      {
+        "week": 22,
+        "weekLabel": "S22",
+        "y_true": 15.8,
+        "forecast_central": 18.3,
+        "forecast_prudent": 17.5,
+        "forecast_stress": 17.6,
+        "is_pic": false
+      },
+      {
+        "week": 23,
+        "weekLabel": "S23",
+        "y_true": 27.1,
+        "forecast_central": 26.0,
+        "forecast_prudent": 24.1,
+        "forecast_stress": 25.7,
+        "is_pic": false
+      },
+      {
+        "week": 24,
+        "weekLabel": "S24",
+        "y_true": 26.3,
+        "forecast_central": 33.0,
+        "forecast_prudent": 34.6,
+        "forecast_stress": 38.8,
+        "is_pic": false
+      },
+      {
+        "week": 25,
+        "weekLabel": "S25",
+        "y_true": 43.5,
+        "forecast_central": 35.2,
+        "forecast_prudent": 34.4,
+        "forecast_stress": 38.4,
+        "is_pic": false
+      },
+      {
+        "week": 26,
+        "weekLabel": "S26",
+        "y_true": 34.2,
+        "forecast_central": 47.1,
+        "forecast_prudent": 49.4,
+        "forecast_stress": 57.7,
+        "is_pic": false
+      },
+      {
+        "week": 27,
+        "weekLabel": "S27",
+        "y_true": 56.8,
+        "forecast_central": 40.7,
+        "forecast_prudent": 41.7,
+        "forecast_stress": 47.6,
+        "is_pic": true
+      },
+      {
+        "week": 28,
+        "weekLabel": "S28",
+        "y_true": 76.4,
+        "forecast_central": 61.7,
+        "forecast_prudent": 60.5,
+        "forecast_stress": 72.3,
+        "is_pic": true
+      },
+      {
+        "week": 29,
+        "weekLabel": "S29",
+        "y_true": 89.5,
+        "forecast_central": 74.1,
+        "forecast_prudent": 76.8,
+        "forecast_stress": 93.7,
+        "is_pic": true
+      },
+      {
+        "week": 30,
+        "weekLabel": "S30",
+        "y_true": 80.9,
+        "forecast_central": 83.6,
+        "forecast_prudent": 87.2,
+        "forecast_stress": 107.7,
+        "is_pic": true
+      },
+      {
+        "week": 31,
+        "weekLabel": "S31",
+        "y_true": 83.7,
+        "forecast_central": 78.0,
+        "forecast_prudent": 79.0,
+        "forecast_stress": 97.6,
+        "is_pic": true
+      },
+      {
+        "week": 32,
+        "weekLabel": "S32",
+        "y_true": 72.0,
+        "forecast_central": 77.3,
+        "forecast_prudent": 80.3,
+        "forecast_stress": 100.0,
+        "is_pic": true
+      },
+      {
+        "week": 33,
+        "weekLabel": "S33",
+        "y_true": 67.5,
+        "forecast_central": 65.9,
+        "forecast_prudent": 69.2,
+        "forecast_stress": 86.1,
+        "is_pic": true
+      },
+      {
+        "week": 34,
+        "weekLabel": "S34",
+        "y_true": 61.2,
+        "forecast_central": 62.5,
+        "forecast_prudent": 64.1,
+        "forecast_stress": 80.2,
+        "is_pic": true
+      },
+      {
+        "week": 35,
+        "weekLabel": "S35",
+        "y_true": 44.1,
+        "forecast_central": 52.4,
+        "forecast_prudent": 57.6,
+        "forecast_stress": 72.4,
+        "is_pic": false
+      },
+      {
+        "week": 36,
+        "weekLabel": "S36",
+        "y_true": 30.3,
+        "forecast_central": 38.0,
+        "forecast_prudent": 41.9,
+        "forecast_stress": 52.6,
+        "is_pic": false
+      },
+      {
+        "week": 37,
+        "weekLabel": "S37",
+        "y_true": 25.1,
+        "forecast_central": 26.7,
+        "forecast_prudent": 29.0,
+        "forecast_stress": 36.5,
+        "is_pic": false
+      },
+      {
+        "week": 38,
+        "weekLabel": "S38",
+        "y_true": 18.4,
+        "forecast_central": 21.6,
+        "forecast_prudent": 23.5,
+        "forecast_stress": 29.9,
+        "is_pic": false
+      },
+      {
+        "week": 39,
+        "weekLabel": "S39",
+        "y_true": 12.0,
+        "forecast_central": 14.7,
+        "forecast_prudent": 16.9,
+        "forecast_stress": 21.8,
+        "is_pic": false
+      },
+      {
+        "week": 40,
+        "weekLabel": "S40",
+        "y_true": 5.7,
+        "forecast_central": 6.3,
+        "forecast_prudent": 10.8,
+        "forecast_stress": 14.3,
+        "is_pic": false
+      },
+      {
+        "week": 41,
+        "weekLabel": "S41",
+        "y_true": 3.1,
+        "forecast_central": 3.8,
+        "forecast_prudent": 4.7,
+        "forecast_stress": 6.8,
+        "is_pic": false
+      },
+      {
+        "week": 42,
+        "weekLabel": "S42",
+        "y_true": 0.6,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 43,
+        "weekLabel": "S43",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 44,
+        "weekLabel": "S44",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 45,
+        "weekLabel": "S45",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 46,
+        "weekLabel": "S46",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 47,
+        "weekLabel": "S47",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 48,
+        "weekLabel": "S48",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 49,
+        "weekLabel": "S49",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 50,
+        "weekLabel": "S50",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 51,
+        "weekLabel": "S51",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 52,
+        "weekLabel": "S52",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      }
+    ],
+    "Ziguinchor": [
+      {
+        "week": 1,
+        "weekLabel": "S01",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 2,
+        "weekLabel": "S02",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 3,
+        "weekLabel": "S03",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 4,
+        "weekLabel": "S04",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 5,
+        "weekLabel": "S05",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 6,
+        "weekLabel": "S06",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 7,
+        "weekLabel": "S07",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 8,
+        "weekLabel": "S08",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 9,
+        "weekLabel": "S09",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 10,
+        "weekLabel": "S10",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 11,
+        "weekLabel": "S11",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 12,
+        "weekLabel": "S12",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 13,
+        "weekLabel": "S13",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 14,
+        "weekLabel": "S14",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 15,
+        "weekLabel": "S15",
+        "y_true": 0.5,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 16,
+        "weekLabel": "S16",
+        "y_true": 3.5,
+        "forecast_central": 6.1,
+        "forecast_prudent": 7.1,
+        "forecast_stress": 8.7,
+        "is_pic": false
+      },
+      {
+        "week": 17,
+        "weekLabel": "S17",
+        "y_true": 10.9,
+        "forecast_central": 9.4,
+        "forecast_prudent": 11.2,
+        "forecast_stress": 13.4,
+        "is_pic": false
+      },
+      {
+        "week": 18,
+        "weekLabel": "S18",
+        "y_true": 15.5,
+        "forecast_central": 17.4,
+        "forecast_prudent": 18.6,
+        "forecast_stress": 21.8,
+        "is_pic": false
+      },
+      {
+        "week": 19,
+        "weekLabel": "S19",
+        "y_true": 15.5,
+        "forecast_central": 21.1,
+        "forecast_prudent": 24.0,
+        "forecast_stress": 27.7,
+        "is_pic": false
+      },
+      {
+        "week": 20,
+        "weekLabel": "S20",
+        "y_true": 22.8,
+        "forecast_central": 23.7,
+        "forecast_prudent": 25.7,
+        "forecast_stress": 29.7,
+        "is_pic": false
+      },
+      {
+        "week": 21,
+        "weekLabel": "S21",
+        "y_true": 19.5,
+        "forecast_central": 33.9,
+        "forecast_prudent": 32.8,
+        "forecast_stress": 37.7,
+        "is_pic": false
+      },
+      {
+        "week": 22,
+        "weekLabel": "S22",
+        "y_true": 43.8,
+        "forecast_central": 31.0,
+        "forecast_prudent": 31.8,
+        "forecast_stress": 36.5,
+        "is_pic": false
+      },
+      {
+        "week": 23,
+        "weekLabel": "S23",
+        "y_true": 61.6,
+        "forecast_central": 47.3,
+        "forecast_prudent": 51.2,
+        "forecast_stress": 58.0,
+        "is_pic": true
+      },
+      {
+        "week": 24,
+        "weekLabel": "S24",
+        "y_true": 77.5,
+        "forecast_central": 60.2,
+        "forecast_prudent": 65.3,
+        "forecast_stress": 73.6,
+        "is_pic": true
+      },
+      {
+        "week": 25,
+        "weekLabel": "S25",
+        "y_true": 89.8,
+        "forecast_central": 71.1,
+        "forecast_prudent": 77.8,
+        "forecast_stress": 87.4,
+        "is_pic": true
+      },
+      {
+        "week": 26,
+        "weekLabel": "S26",
+        "y_true": 52.2,
+        "forecast_central": 81.4,
+        "forecast_prudent": 87.1,
+        "forecast_stress": 97.7,
+        "is_pic": true
+      },
+      {
+        "week": 27,
+        "weekLabel": "S27",
+        "y_true": 108.4,
+        "forecast_central": 56.7,
+        "forecast_prudent": 58.5,
+        "forecast_stress": 65.8,
+        "is_pic": true
+      },
+      {
+        "week": 28,
+        "weekLabel": "S28",
+        "y_true": 80.2,
+        "forecast_central": 91.5,
+        "forecast_prudent": 100.1,
+        "forecast_stress": 112.0,
+        "is_pic": true
+      },
+      {
+        "week": 29,
+        "weekLabel": "S29",
+        "y_true": 72.0,
+        "forecast_central": 73.0,
+        "forecast_prudent": 77.9,
+        "forecast_stress": 87.2,
+        "is_pic": true
+      },
+      {
+        "week": 30,
+        "weekLabel": "S30",
+        "y_true": 67.2,
+        "forecast_central": 67.5,
+        "forecast_prudent": 70.4,
+        "forecast_stress": 78.8,
+        "is_pic": true
+      },
+      {
+        "week": 31,
+        "weekLabel": "S31",
+        "y_true": 50.1,
+        "forecast_central": 60.9,
+        "forecast_prudent": 65.2,
+        "forecast_stress": 72.8,
+        "is_pic": true
+      },
+      {
+        "week": 32,
+        "weekLabel": "S32",
+        "y_true": 65.6,
+        "forecast_central": 48.3,
+        "forecast_prudent": 50.5,
+        "forecast_stress": 56.4,
+        "is_pic": true
+      },
+      {
+        "week": 33,
+        "weekLabel": "S33",
+        "y_true": 56.4,
+        "forecast_central": 57.0,
+        "forecast_prudent": 60.4,
+        "forecast_stress": 67.4,
+        "is_pic": true
+      },
+      {
+        "week": 34,
+        "weekLabel": "S34",
+        "y_true": 45.8,
+        "forecast_central": 48.8,
+        "forecast_prudent": 51.6,
+        "forecast_stress": 57.6,
+        "is_pic": false
+      },
+      {
+        "week": 35,
+        "weekLabel": "S35",
+        "y_true": 35.1,
+        "forecast_central": 39.1,
+        "forecast_prudent": 41.8,
+        "forecast_stress": 46.7,
+        "is_pic": false
+      },
+      {
+        "week": 36,
+        "weekLabel": "S36",
+        "y_true": 30.0,
+        "forecast_central": 28.8,
+        "forecast_prudent": 32.0,
+        "forecast_stress": 35.7,
+        "is_pic": false
+      },
+      {
+        "week": 37,
+        "weekLabel": "S37",
+        "y_true": 18.6,
+        "forecast_central": 25.2,
+        "forecast_prudent": 26.5,
+        "forecast_stress": 29.6,
+        "is_pic": false
+      },
+      {
+        "week": 38,
+        "weekLabel": "S38",
+        "y_true": 14.0,
+        "forecast_central": 14.3,
+        "forecast_prudent": 16.5,
+        "forecast_stress": 18.5,
+        "is_pic": false
+      },
+      {
+        "week": 39,
+        "weekLabel": "S39",
+        "y_true": 10.7,
+        "forecast_central": 10.1,
+        "forecast_prudent": 11.9,
+        "forecast_stress": 13.3,
+        "is_pic": false
+      },
+      {
+        "week": 40,
+        "weekLabel": "S40",
+        "y_true": 6.7,
+        "forecast_central": 6.2,
+        "forecast_prudent": 8.6,
+        "forecast_stress": 9.6,
+        "is_pic": false
+      },
+      {
+        "week": 41,
+        "weekLabel": "S41",
+        "y_true": 2.3,
+        "forecast_central": 5.0,
+        "forecast_prudent": 4.9,
+        "forecast_stress": 5.7,
+        "is_pic": false
+      },
+      {
+        "week": 42,
+        "weekLabel": "S42",
+        "y_true": 0.3,
+        "forecast_central": 0.4,
+        "forecast_prudent": 1.3,
+        "forecast_stress": 1.7,
+        "is_pic": false
+      },
+      {
+        "week": 43,
+        "weekLabel": "S43",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 44,
+        "weekLabel": "S44",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 45,
+        "weekLabel": "S45",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 46,
+        "weekLabel": "S46",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 47,
+        "weekLabel": "S47",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 48,
+        "weekLabel": "S48",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 49,
+        "weekLabel": "S49",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 50,
+        "weekLabel": "S50",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 51,
+        "weekLabel": "S51",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      },
+      {
+        "week": 52,
+        "weekLabel": "S52",
+        "y_true": 0.0,
+        "forecast_central": 0.0,
+        "forecast_prudent": 0.0,
+        "forecast_stress": 0.0,
+        "is_pic": false
+      }
+    ]
+  },
+  "benchmarks": {
+    "global": [
+      {
+        "Modèle": "Persistence",
+        "MAE": 3.750505769230769,
+        "RMSE": 7.422454274284629,
+        "Biais": -2.0496425070002888e-17,
+        "MAPE (%)": 65.99319622837344,
+        "PL_0.50": 1.8752528846153849,
+        "PL_0.75": 1.8752528846153849,
+        "PL_0.90": 1.8752528846153849,
+        "Couverture (%)": 73.46153846153847
+      },
+      {
+        "Modèle": "Hurdle-SARIMAX(1,0,0)+Exog",
+        "MAE": 2.768426823121238,
+        "RMSE": 5.553174315053377,
+        "Biais": 0.3917894230771775,
+        "MAPE (%)": 90.84113325956989,
+        "PL_0.50": 1.384213411560619,
+        "PL_0.75": 1.2862660557913244,
+        "PL_0.90": 1.227497642329748,
+        "Couverture (%)": 81.0576923076923
+      },
+      {
+        "Modèle": "Hurdle-Quantile(0.50)",
+        "MAE": 2.925983783880248,
+        "RMSE": 6.407905312711152,
+        "Biais": -0.623902949055334,
+        "MAPE (%)": 50.98396862658632,
+        "PL_0.50": 1.462991891940124,
+        "PL_0.75": 1.6189676292039574,
+        "PL_0.90": 1.7125530715622574,
+        "Couverture (%)": 74.8076923076923
+      },
+      {
+        "Modèle": "Hurdle-Quantile(0.75)",
+        "MAE": 3.328333278514467,
+        "RMSE": 6.46475514993049,
+        "Biais": 1.5748690220487092,
+        "MAPE (%)": 89.70336779745897,
+        "PL_0.50": 1.6641666392572334,
+        "PL_0.75": 1.270449383745056,
+        "PL_0.90": 1.0342190304377497,
+        "Couverture (%)": 87.5
+      },
+      {
+        "Modèle": "Hurdle-Quantile(0.90)",
+        "MAE": 5.690668792811375,
+        "RMSE": 10.04543906239093,
+        "Biais": 5.000122518413879,
+        "MAPE (%)": 201.411943284459,
+        "PL_0.50": 2.845334396405688,
+        "PL_0.75": 1.5953037668022174,
+        "PL_0.90": 0.8452853890401355,
+        "Couverture (%)": 93.07692307692308
+      }
+    ],
+    "peaks": [
+      {
+        "Modèle": "Persistence",
+        "N": 109,
+        "MAE pics": 12.890908256880731,
+        "RMSE pics": 16.28705887952009,
+        "Biais pics": -4.112302752293578,
+        "PL_0.50 pics": 6.445454128440367,
+        "PL_0.75 pics": 7.473529816513761,
+        "PL_0.90 pics": 8.090375229357798,
+        "Couverture pics (%)": 44.03669724770643
+      },
+      {
+        "Modèle": "Hurdle-SARIMAX(1,0,0)+Exog",
+        "N": 109,
+        "MAE pics": 9.431256111015951,
+        "RMSE pics": 12.718978934692602,
+        "Biais pics": -6.4291783733020536,
+        "PL_0.50 pics": 4.715628055507977,
+        "PL_0.75 pics": 6.322922648833491,
+        "PL_0.90 pics": 7.287299404828799,
+        "Couverture pics (%)": 33.94495412844037
+      },
+      {
+        "Modèle": "Hurdle-Quantile(0.50)",
+        "N": 109,
+        "MAE pics": 12.147153677091056,
+        "RMSE pics": 15.766663215231626,
+        "Biais pics": -8.5626669986038,
+        "PL_0.50 pics": 6.073576838545527,
+        "PL_0.75 pics": 8.214243588196478,
+        "PL_0.90 pics": 9.49864363798705,
+        "Couverture pics (%)": 26.605504587155966
+      },
+      {
+        "Modèle": "Hurdle-Quantile(0.75)",
+        "N": 109,
+        "MAE pics": 9.79355048192747,
+        "RMSE pics": 12.925657562981057,
+        "Biais pics": -2.528021768648304,
+        "PL_0.50 pics": 4.896775240963735,
+        "PL_0.75 pics": 5.528780683125812,
+        "PL_0.90 pics": 5.907983948423058,
+        "Couverture pics (%)": 46.78899082568808
+      },
+      {
+        "Modèle": "Hurdle-Quantile(0.90)",
+        "N": 109,
+        "MAE pics": 11.827665392814906,
+        "RMSE pics": 14.886411808105663,
+        "Biais pics": 6.740263329461265,
+        "PL_0.50 pics": 5.913832696407453,
+        "PL_0.75 pics": 4.228766864042138,
+        "PL_0.90 pics": 3.2177273646229483,
+        "Couverture pics (%)": 70.64220183486239
+      }
+    ],
+    "coverage": [
+      {
+        "Modèle": "Hurdle-Quantile(0.50)",
+        "Cible (%)": 50.0,
+        "Couv Globale (%)": 74.8076923076923,
+        "IC95 Globale": "[72.1%, 77.4%]",
+        "Couv Active (%)": 51.57116451016636,
+        "IC95 Active": "[47.4%, 55.8%]",
+        "Couv Pics (%)": 26.605504587155966,
+        "IC95 Pics": "[19.2%, 35.6%]",
+        "Couv D9 (%)": 35.18518518518518,
+        "IC95 D9": "[23.8%, 48.5%]",
+        "Couv D10 (%)": 18.181818181818183,
+        "IC95 D10": "[10.2%, 30.3%]"
+      },
+      {
+        "Modèle": "Hurdle-Quantile(0.75)",
+        "Cible (%)": 75.0,
+        "Couv Globale (%)": 87.5,
+        "IC95 Globale": "[85.4%, 89.4%]",
+        "Couv Active (%)": 75.97042513863215,
+        "IC95 Active": "[72.2%, 79.4%]",
+        "Couv Pics (%)": 46.78899082568808,
+        "IC95 Pics": "[37.7%, 56.1%]",
+        "Couv D9 (%)": 53.70370370370371,
+        "IC95 D9": "[40.6%, 66.3%]",
+        "Couv D10 (%)": 40.0,
+        "IC95 D10": "[28.1%, 53.2%]"
+      },
+      {
+        "Modèle": "Hurdle-Quantile(0.90)",
+        "Cible (%)": 90.0,
+        "Couv Globale (%)": 93.07692307692308,
+        "IC95 Globale": "[91.4%, 94.5%]",
+        "Couv Active (%)": 86.69131238447319,
+        "IC95 Active": "[83.6%, 89.3%]",
+        "Couv Pics (%)": 70.64220183486239,
+        "IC95 Pics": "[61.5%, 78.4%]",
+        "Couv D9 (%)": 75.92592592592592,
+        "IC95 D9": "[63.1%, 85.4%]",
+        "Couv D10 (%)": 65.45454545454545,
+        "IC95 D10": "[52.3%, 76.6%]"
+      }
+    ]
+  },
+  "summary": {
+    "total_peaks_observed": 109,
+    "sarimax_mae": 2.768,
+    "q75_pics_bias": -2.528,
+    "q90_pics_bias": 6.74,
+    "q90_week1_bias": -0.284
+  }
+}
