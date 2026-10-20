@@ -1,0 +1,1061 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SM10 AGRIFLOW API",
+    "description": "Tournées (M1), producteurs (M2), prévisions (M3) et scénarios (M4). Données actuellement simulées.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Plateforme"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/config": {
+      "get": {
+        "tags": [
+          "Plateforme"
+        ],
+        "summary": "Get Config",
+        "operationId": "get_config_v1_config_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlatformConfig"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/producers": {
+      "get": {
+        "tags": [
+          "M2 — Producteurs"
+        ],
+        "summary": "List Producers",
+        "operationId": "list_producers_v1_producers_get",
+        "parameters": [
+          {
+            "name": "tier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "prioritaire",
+                    "standard",
+                    "a_surveiller"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Tier"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Partie de l'identifiant, ex. « 05 »",
+              "title": "Search"
+            },
+            "description": "Partie de l'identifiant, ex. « 05 »"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "score",
+                "deliverable",
+                "distance",
+                "reliability"
+              ],
+              "type": "string",
+              "default": "score",
+              "title": "Sort"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "default": "desc",
+              "title": "Order"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProducerPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/producers/summary": {
+      "get": {
+        "tags": [
+          "M2 — Producteurs"
+        ],
+        "summary": "Producers Summary",
+        "operationId": "producers_summary_v1_producers_summary_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProducerSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/producers/{producer_id}": {
+      "get": {
+        "tags": [
+          "M2 — Producteurs"
+        ],
+        "summary": "Get Producer",
+        "operationId": "get_producer_v1_producers__producer_id__get",
+        "parameters": [
+          {
+            "name": "producer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Producer Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Producer"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/routing/reference": {
+      "get": {
+        "tags": [
+          "M1 — Tournées"
+        ],
+        "summary": "Reference Plan",
+        "description": "Plan optimal (L4 : pertes ≻ temps ≻ distance) de l'instance de référence à 5 producteurs.",
+        "operationId": "reference_plan_v1_routing_reference_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoutingPlan"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/forecast": {
+      "get": {
+        "tags": [
+          "M3 — Prévisions"
+        ],
+        "summary": "Weekly Forecast",
+        "description": "Prévisions hebdomadaires out-of-sample par zone, avec la valeur observée.",
+        "operationId": "weekly_forecast_v1_forecast_get",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Year"
+            }
+          },
+          {
+            "name": "zone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Zone"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ForecastPoint"
+                  },
+                  "title": "Response Weekly Forecast V1 Forecast Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/forecast/benchmark": {
+      "get": {
+        "tags": [
+          "M3 — Prévisions"
+        ],
+        "summary": "Model Benchmark",
+        "description": "Performance de chaque modèle testé (Phase I).",
+        "operationId": "model_benchmark_v1_forecast_benchmark_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ModelBenchmark"
+                  },
+                  "type": "array",
+                  "title": "Response Model Benchmark V1 Forecast Benchmark Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scenarios/capacity": {
+      "get": {
+        "tags": [
+          "M4 — Scénarios"
+        ],
+        "summary": "Capacity Scenario",
+        "description": "Charge hebdomadaire de l'usine : flux prévu par le M3 face à la capacité.",
+        "operationId": "capacity_scenario_v1_scenarios_capacity_get",
+        "parameters": [
+          {
+            "name": "level",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "central",
+                "prudent",
+                "stress"
+              ],
+              "type": "string",
+              "default": "central",
+              "title": "Level"
+            }
+          },
+          {
+            "name": "volume_factor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "maximum": 3,
+              "exclusiveMinimum": 0,
+              "description": "Multiplicateur du volume récolté",
+              "default": 1.0,
+              "title": "Volume Factor"
+            },
+            "description": "Multiplicateur du volume récolté"
+          },
+          {
+            "name": "capacity_factor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "maximum": 3,
+              "exclusiveMinimum": 0,
+              "description": "Multiplicateur de la capacité usine",
+              "default": 1.0,
+              "title": "Capacity Factor"
+            },
+            "description": "Multiplicateur de la capacité usine"
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Restreindre à une saison",
+              "title": "Year"
+            },
+            "description": "Restreindre à une saison"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapacityScenario"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CapacityScenario": {
+        "properties": {
+          "level": {
+            "type": "string",
+            "enum": [
+              "central",
+              "prudent",
+              "stress"
+            ],
+            "title": "Level"
+          },
+          "volume_factor": {
+            "type": "number",
+            "title": "Volume Factor"
+          },
+          "capacity_factor": {
+            "type": "number",
+            "title": "Capacity Factor"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/LoadSummary"
+          },
+          "weeks": {
+            "items": {
+              "$ref": "#/components/schemas/WeeklyLoad"
+            },
+            "type": "array",
+            "title": "Weeks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "level",
+          "volume_factor",
+          "capacity_factor",
+          "summary",
+          "weeks"
+        ],
+        "title": "CapacityScenario"
+      },
+      "ForecastPoint": {
+        "properties": {
+          "year": {
+            "type": "integer",
+            "title": "Year"
+          },
+          "zone": {
+            "type": "string",
+            "title": "Zone"
+          },
+          "week": {
+            "type": "integer",
+            "title": "Week"
+          },
+          "actual_t": {
+            "type": "number",
+            "title": "Actual T"
+          },
+          "central_t": {
+            "type": "number",
+            "title": "Central T"
+          },
+          "prudent_t": {
+            "type": "number",
+            "title": "Prudent T"
+          },
+          "stress_t": {
+            "type": "number",
+            "title": "Stress T"
+          }
+        },
+        "type": "object",
+        "required": [
+          "year",
+          "zone",
+          "week",
+          "actual_t",
+          "central_t",
+          "prudent_t",
+          "stress_t"
+        ],
+        "title": "ForecastPoint"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LoadSummary": {
+        "properties": {
+          "weeks": {
+            "type": "integer",
+            "title": "Weeks"
+          },
+          "active_weeks": {
+            "type": "integer",
+            "title": "Active Weeks"
+          },
+          "weeks_over_capacity": {
+            "type": "integer",
+            "title": "Weeks Over Capacity"
+          },
+          "mean_active_saturation": {
+            "type": "number",
+            "title": "Mean Active Saturation"
+          },
+          "peak_saturation": {
+            "type": "number",
+            "title": "Peak Saturation"
+          },
+          "peak_year": {
+            "type": "integer",
+            "title": "Peak Year"
+          },
+          "peak_week": {
+            "type": "integer",
+            "title": "Peak Week"
+          },
+          "total_excess_t": {
+            "type": "number",
+            "title": "Total Excess T"
+          }
+        },
+        "type": "object",
+        "required": [
+          "weeks",
+          "active_weeks",
+          "weeks_over_capacity",
+          "mean_active_saturation",
+          "peak_saturation",
+          "peak_year",
+          "peak_week",
+          "total_excess_t"
+        ],
+        "title": "LoadSummary"
+      },
+      "ModelBenchmark": {
+        "properties": {
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "mae": {
+            "type": "number",
+            "title": "Mae"
+          },
+          "rmse": {
+            "type": "number",
+            "title": "Rmse"
+          },
+          "bias": {
+            "type": "number",
+            "title": "Bias"
+          },
+          "coverage_pct": {
+            "type": "number",
+            "title": "Coverage Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model",
+          "mae",
+          "rmse",
+          "bias",
+          "coverage_pct"
+        ],
+        "title": "ModelBenchmark"
+      },
+      "PlatformConfig": {
+        "properties": {
+          "data_status": {
+            "type": "string",
+            "const": "simulated",
+            "title": "Data Status",
+            "description": "Toutes les données actuelles sont simulées, en attendant les données réelles SM10."
+          },
+          "zones": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Zones"
+          },
+          "factory_capacity_t_per_day": {
+            "type": "number",
+            "title": "Factory Capacity T Per Day"
+          },
+          "factory_capacity_t_per_week": {
+            "type": "number",
+            "title": "Factory Capacity T Per Week"
+          },
+          "factory_capacity_t_per_year": {
+            "type": "number",
+            "title": "Factory Capacity T Per Year"
+          },
+          "score_weights": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Score Weights"
+          },
+          "priority_tiers": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Priority Tiers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data_status",
+          "zones",
+          "factory_capacity_t_per_day",
+          "factory_capacity_t_per_week",
+          "factory_capacity_t_per_year",
+          "score_weights",
+          "priority_tiers"
+        ],
+        "title": "PlatformConfig"
+      },
+      "Producer": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "area_ha": {
+            "type": "number",
+            "title": "Area Ha",
+            "description": "A_i — surface du verger"
+          },
+          "yield_t_per_ha": {
+            "type": "number",
+            "title": "Yield T Per Ha",
+            "description": "R_i — rendement"
+          },
+          "reliability": {
+            "type": "number",
+            "title": "Reliability",
+            "description": "TR_i — taux de réalisation des engagements (0-1)"
+          },
+          "rejection_rate": {
+            "type": "number",
+            "title": "Rejection Rate",
+            "description": "Rej_i — part de la livraison rejetée (0-1)"
+          },
+          "production_t": {
+            "type": "number",
+            "title": "Production T",
+            "description": "P_i — production potentielle"
+          },
+          "deliverable_t": {
+            "type": "number",
+            "title": "Deliverable T",
+            "description": "V_i — volume livrable = TR_i × P_i"
+          },
+          "distance_km": {
+            "type": "number",
+            "title": "Distance Km",
+            "description": "d_i0 — distance à l'usine"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score",
+            "description": "Score logistique (0-1)"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "prioritaire",
+              "standard",
+              "a_surveiller"
+            ],
+            "title": "Tier"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "area_ha",
+          "yield_t_per_ha",
+          "reliability",
+          "rejection_rate",
+          "production_t",
+          "deliverable_t",
+          "distance_km",
+          "score",
+          "tier"
+        ],
+        "title": "Producer"
+      },
+      "ProducerPage": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Producer"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "items"
+        ],
+        "title": "ProducerPage"
+      },
+      "ProducerSummary": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "deliverable_t": {
+            "type": "number",
+            "title": "Deliverable T"
+          },
+          "tiers": {
+            "items": {
+              "$ref": "#/components/schemas/TierSummary"
+            },
+            "type": "array",
+            "title": "Tiers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "deliverable_t",
+          "tiers"
+        ],
+        "title": "ProducerSummary"
+      },
+      "RouteStop": {
+        "properties": {
+          "producer": {
+            "type": "integer",
+            "title": "Producer"
+          },
+          "quantity_t": {
+            "type": "number",
+            "title": "Quantity T"
+          },
+          "arrival_h": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arrival H"
+          },
+          "loss_t": {
+            "type": "number",
+            "title": "Loss T"
+          }
+        },
+        "type": "object",
+        "required": [
+          "producer",
+          "quantity_t",
+          "arrival_h",
+          "loss_t"
+        ],
+        "title": "RouteStop"
+      },
+      "RoutingPlan": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "distance_l3_km": {
+            "type": "number",
+            "title": "Distance L3 Km",
+            "description": "Distance minimale pure (niveau L3)"
+          },
+          "distance_km": {
+            "type": "number",
+            "title": "Distance Km",
+            "description": "Distance du plan retenu (niveau L4)"
+          },
+          "collected_t": {
+            "type": "number",
+            "title": "Collected T"
+          },
+          "loss_t": {
+            "type": "number",
+            "title": "Loss T",
+            "description": "Pertes post-récolte du plan L4"
+          },
+          "solve_time_s": {
+            "type": "number",
+            "title": "Solve Time S"
+          },
+          "tours": {
+            "items": {
+              "$ref": "#/components/schemas/Tour"
+            },
+            "type": "array",
+            "title": "Tours"
+          },
+          "assumptions": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Assumptions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "distance_l3_km",
+          "distance_km",
+          "collected_t",
+          "loss_t",
+          "solve_time_s",
+          "tours",
+          "assumptions"
+        ],
+        "title": "RoutingPlan"
+      },
+      "TierSummary": {
+        "properties": {
+          "tier": {
+            "type": "string",
+            "enum": [
+              "prioritaire",
+              "standard",
+              "a_surveiller"
+            ],
+            "title": "Tier"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "mean_score": {
+            "type": "number",
+            "title": "Mean Score"
+          },
+          "deliverable_t": {
+            "type": "number",
+            "title": "Deliverable T"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tier",
+          "count",
+          "mean_score",
+          "deliverable_t"
+        ],
+        "title": "TierSummary"
+      },
+      "Tour": {
+        "properties": {
+          "vehicle": {
+            "type": "integer",
+            "title": "Vehicle"
+          },
+          "capacity_t": {
+            "type": "number",
+            "title": "Capacity T"
+          },
+          "load_t": {
+            "type": "number",
+            "title": "Load T"
+          },
+          "distance_km": {
+            "type": "number",
+            "title": "Distance Km"
+          },
+          "return_h": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return H"
+          },
+          "stops": {
+            "items": {
+              "$ref": "#/components/schemas/RouteStop"
+            },
+            "type": "array",
+            "title": "Stops"
+          }
+        },
+        "type": "object",
+        "required": [
+          "vehicle",
+          "capacity_t",
+          "load_t",
+          "distance_km",
+          "return_h",
+          "stops"
+        ],
+        "title": "Tour"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WeeklyLoad": {
+        "properties": {
+          "year": {
+            "type": "integer",
+            "title": "Year"
+          },
+          "week": {
+            "type": "integer",
+            "title": "Week"
+          },
+          "inflow_t": {
+            "type": "number",
+            "title": "Inflow T"
+          },
+          "actual_t": {
+            "type": "number",
+            "title": "Actual T"
+          },
+          "capacity_t": {
+            "type": "number",
+            "title": "Capacity T"
+          },
+          "saturation": {
+            "type": "number",
+            "title": "Saturation"
+          },
+          "excess_t": {
+            "type": "number",
+            "title": "Excess T"
+          }
+        },
+        "type": "object",
+        "required": [
+          "year",
+          "week",
+          "inflow_t",
+          "actual_t",
+          "capacity_t",
+          "saturation",
+          "excess_t"
+        ],
+        "title": "WeeklyLoad"
+      }
+    }
+  }
+}

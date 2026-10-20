@@ -1,0 +1,21 @@
+{
+  "name": "agriflow-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @agriflow/platform dev",
+    "dev:m2": "pnpm --filter @agriflow/m2-producers dev",
+    "build": "pnpm --filter @agriflow/platform build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "gen:api": "pnpm --filter @agriflow/api-client gen"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "typescript": "~5.9.3",
+    "vite": "^8.3.4"
+  },
+  "packageManager": "pnpm@10.6.5"
+}

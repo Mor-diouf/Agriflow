@@ -1,0 +1,728 @@
+/* =============================================================================
+   AGRIFLOW — Design system « Forêt & Mangue »
+   Jetons (couleurs, typo, espacements) puis composants, préfixe af-.
+   ============================================================================= */
+
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+
+:root {
+  /* Forêt — structure et actions */
+  --af-forest-900: #0f2a1f;
+  --af-forest-700: #1f5136;
+  --af-forest-600: #2e6b47;
+  --af-forest-100: #e3efe7;
+  /* Mangue — attention, jamais décoratif */
+  --af-mango-500: #e8a317;
+  --af-mango-700: #7a4f00;
+  --af-mango-900: #4a3200;
+  --af-mango-100: #fcf1d9;
+  /* Ardoise — information, niveau standard */
+  --af-slate-500: #5b7fa6;
+  --af-slate-700: #2f4a68;
+  --af-slate-100: #e6ecf3;
+  /* Danger */
+  --af-danger-600: #b42318;
+  --af-danger-700: #9a1c12;
+  --af-danger-100: #fdecea;
+  /* Neutres */
+  --af-ink: #17201b;
+  --af-muted: #5b665f;
+  --af-border: #e2e5e1;
+  --af-border-strong: #c9cfc9;
+  --af-row-border: #eef0ed;
+  --af-ground: #f6f7f5;
+  --af-surface: #ffffff;
+  --af-nav-text: #c8d6cd;
+  --af-nav-muted: #8fa89a;
+
+  --af-font: "Inter", system-ui, sans-serif;
+  --af-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --af-radius-sm: 6px;
+  --af-radius: 8px;
+  --af-radius-lg: 12px;
+  --af-focus: 0 0 0 3px rgba(46, 107, 71, 0.35);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--af-ground);
+  color: var(--af-ink);
+  font-family: var(--af-font);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--af-focus);
+}
+
+.af-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.af-num {
+  font-family: var(--af-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.af-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--af-muted);
+}
+
+/* ─── Coque applicative ───────────────────────────────────────────────────── */
+
+.af-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.af-nav {
+  flex: 1 1 240px;
+  max-width: 100%;
+  background: var(--af-forest-900);
+  color: #fff;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+@media (min-width: 900px) {
+  .af-nav {
+    max-width: 260px;
+  }
+}
+
+.af-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.af-nav__logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--af-forest-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.af-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.af-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: var(--af-radius);
+  color: var(--af-nav-text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.af-nav__link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.af-nav__link[aria-current="page"] {
+  background: var(--af-forest-700);
+  color: #fff;
+  font-weight: 600;
+}
+
+.af-nav__link[aria-disabled="true"] {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.af-nav__code {
+  width: 22px;
+  font-family: var(--af-font-mono);
+  font-size: 12px;
+  color: var(--af-nav-muted);
+}
+
+.af-nav__link[aria-current="page"] .af-nav__code {
+  color: var(--af-mango-500);
+}
+
+.af-nav__soon {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--af-nav-muted);
+}
+
+.af-main {
+  flex: 999 1 560px;
+  min-width: 0;
+  padding: 32px 40px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (max-width: 640px) {
+  .af-main {
+    padding: 24px 16px 40px;
+  }
+}
+
+.af-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.af-page-header h1 {
+  margin: 6px 0 0;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* ─── Boutons ─────────────────────────────────────────────────────────────── */
+
+.af-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: var(--af-radius);
+  border: 1px solid transparent;
+  font-family: var(--af-font);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.af-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.af-btn--primary {
+  background: var(--af-forest-600);
+  color: #fff;
+}
+
+.af-btn--primary:hover:not(:disabled) {
+  background: var(--af-forest-700);
+}
+
+.af-btn--secondary {
+  background: var(--af-surface);
+  border-color: var(--af-border-strong);
+  color: var(--af-ink);
+}
+
+.af-btn--secondary:hover:not(:disabled) {
+  background: var(--af-ground);
+}
+
+.af-btn--ghost {
+  background: transparent;
+  color: var(--af-forest-700);
+}
+
+.af-btn--ghost:hover:not(:disabled) {
+  background: var(--af-forest-100);
+}
+
+.af-btn--attention {
+  background: var(--af-mango-500);
+  color: var(--af-ink);
+}
+
+/* ─── Badges ──────────────────────────────────────────────────────────────── */
+
+.af-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.af-badge__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.af-badge--forest { background: var(--af-forest-100); color: var(--af-forest-700); }
+.af-badge--forest .af-badge__dot { background: var(--af-forest-600); }
+.af-badge--slate { background: var(--af-slate-100); color: var(--af-slate-700); }
+.af-badge--slate .af-badge__dot { background: var(--af-slate-500); }
+.af-badge--mango { background: var(--af-mango-100); color: var(--af-mango-700); }
+.af-badge--mango .af-badge__dot { background: var(--af-mango-500); }
+.af-badge--danger { background: var(--af-danger-100); color: var(--af-danger-700); border-radius: var(--af-radius-sm); }
+.af-badge--danger .af-badge__dot { background: var(--af-danger-600); }
+
+/* ─── Cartes et indicateurs ──────────────────────────────────────────────── */
+
+.af-card {
+  background: var(--af-surface);
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-lg);
+}
+
+.af-card--padded {
+  padding: 24px;
+}
+
+.af-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.af-card__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.af-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 16px;
+}
+
+.af-kpi {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.af-kpi__value {
+  font-family: var(--af-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.af-kpi__unit {
+  font-size: 16px;
+  color: var(--af-muted);
+}
+
+.af-kpi__detail {
+  font-size: 13px;
+  color: var(--af-muted);
+}
+
+.af-kpi__detail--positive { color: var(--af-forest-700); font-weight: 500; }
+.af-kpi__detail--danger { color: var(--af-danger-700); font-weight: 500; }
+
+/* ─── Bandeau d'information ──────────────────────────────────────────────── */
+
+.af-notice {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 14px;
+  border-radius: var(--af-radius);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.af-notice svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.af-notice--attention { background: var(--af-mango-100); color: var(--af-mango-900); }
+.af-notice--danger { background: var(--af-danger-100); color: var(--af-danger-700); }
+
+/* ─── Onglets segmentés ──────────────────────────────────────────────────── */
+
+.af-segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.af-segmented__item {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: var(--af-radius);
+  border: none;
+  background: transparent;
+  color: var(--af-muted);
+  font-family: var(--af-font);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.af-segmented__item:hover {
+  background: var(--af-ground);
+}
+
+.af-segmented__item[aria-pressed="true"] {
+  background: var(--af-forest-100);
+  color: var(--af-forest-700);
+  font-weight: 600;
+}
+
+/* ─── Champ de recherche ─────────────────────────────────────────────────── */
+
+.af-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: var(--af-radius);
+  border: 1px solid var(--af-border-strong);
+  background: var(--af-surface);
+  min-width: min(220px, 100%);
+}
+
+.af-search:focus-within {
+  border-color: var(--af-forest-600);
+  box-shadow: var(--af-focus);
+}
+
+.af-search input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  width: 100%;
+  font-family: var(--af-font);
+  font-size: 14px;
+  color: var(--af-ink);
+  background: transparent;
+}
+
+/* ─── Tableau ────────────────────────────────────────────────────────────── */
+
+.af-table-scroll {
+  overflow-x: auto;
+}
+
+.af-table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.af-table th {
+  padding: 12px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--af-muted);
+  white-space: nowrap;
+}
+
+.af-table td {
+  padding: 12px;
+  border-top: 1px solid var(--af-row-border);
+}
+
+.af-table th:first-child,
+.af-table td:first-child {
+  padding-left: 24px;
+}
+
+.af-table th:last-child,
+.af-table td:last-child {
+  padding-right: 24px;
+}
+
+.af-table .af-align-end {
+  text-align: right;
+}
+
+.af-table tbody tr:hover {
+  background: #fafbfa;
+}
+
+.af-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 0 6px;
+  margin: 0 -6px;
+  border: none;
+  border-radius: var(--af-radius-sm);
+  background: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.af-sort:hover {
+  background: var(--af-ground);
+  color: var(--af-ink);
+}
+
+.af-row-button {
+  border: none;
+  background: transparent;
+  padding: 4px 6px;
+  margin: -4px -6px;
+  border-radius: var(--af-radius-sm);
+  font-family: var(--af-font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--af-forest-700);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+}
+
+.af-row-button:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ─── Jauge ──────────────────────────────────────────────────────────────── */
+
+.af-meter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.af-meter__track {
+  width: 80px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--af-row-border);
+  overflow: hidden;
+}
+
+.af-meter__fill {
+  height: 100%;
+  background: var(--af-forest-600);
+}
+
+/* ─── Barre empilée ──────────────────────────────────────────────────────── */
+
+.af-stack-bar {
+  display: flex;
+  height: 16px;
+  gap: 3px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.af-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: 16px;
+}
+
+.af-legend__item {
+  display: flex;
+  gap: 10px;
+}
+
+.af-legend__swatch {
+  width: 10px;
+  height: 10px;
+  margin-top: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── Pagination ─────────────────────────────────────────────────────────── */
+
+.af-pager {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 24px;
+  border-top: 1px solid var(--af-border);
+  font-size: 13px;
+  color: var(--af-muted);
+}
+
+.af-pager__actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ─── Squelettes de chargement ───────────────────────────────────────────── */
+
+.af-skeleton {
+  display: block;
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #eef0ed 0%, #f6f7f5 50%, #eef0ed 100%);
+  background-size: 200% 100%;
+  animation: af-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes af-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .af-skeleton { animation: none; }
+}
+
+/* ─── Panneau latéral ────────────────────────────────────────────────────── */
+
+.af-drawer {
+  margin: 0 0 0 auto;
+  height: 100vh;
+  max-height: 100vh;
+  width: min(440px, 100vw);
+  max-width: 100vw;
+  padding: 0;
+  border: none;
+  background: var(--af-surface);
+  color: var(--af-ink);
+  box-shadow: -12px 0 40px rgba(15, 42, 31, 0.15);
+}
+
+.af-drawer::backdrop {
+  background: rgba(15, 42, 31, 0.35);
+}
+
+.af-drawer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.af-drawer__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.af-drawer__title {
+  margin: 4px 0 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.af-icon-btn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--af-radius);
+  background: transparent;
+  color: var(--af-muted);
+  cursor: pointer;
+}
+
+.af-icon-btn:hover {
+  background: var(--af-ground);
+  color: var(--af-ink);
+}
+
+.af-facts {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 0;
+}
+
+.af-facts dt,
+.af-facts dd {
+  margin: 0;
+  padding: 12px 0;
+  border-top: 1px solid var(--af-row-border);
+}
+
+.af-facts dt {
+  font-size: 14px;
+}
+
+.af-facts dt small {
+  display: block;
+  font-size: 12px;
+  color: var(--af-muted);
+}
+
+.af-facts dd {
+  text-align: right;
+  font-family: var(--af-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── États vides et erreurs ─────────────────────────────────────────────── */
+
+.af-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--af-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}

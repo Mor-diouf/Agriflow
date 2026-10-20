@@ -17,7 +17,12 @@ core/                     Modèles Python (M1 à M4)
 services/
   api/                    API FastAPI : expose les résultats de core/ aux interfaces
   hawa-tts/               M5 — Serveur de synthèse vocale Wolof « Hawa » (FastAPI)
-sm10-connect/             Interface web actuelle (générée avec Lovable, à remplacer)
+web/                      Nouvelles interfaces (pnpm workspace)
+  packages/ui/            Design system « Forêt & Mangue » : jetons, composants, coque
+  packages/api-client/    Client typé, types générés depuis le contrat OpenAPI de l'API
+  modules/m2-producers/   Interface M2, utilisable seule (bac à sable) ou dans la plateforme
+  platform/               Assemblage : navigation commune et routes de tous les modules
+sm10-connect/             Ancienne interface Lovable (à supprimer)
 _archive/                 Ancienne copie du front à la racine — à supprimer après validation
 ```
 
@@ -49,6 +54,32 @@ python -m tests.test_api            # tests
 | `GET /v1/scenarios/capacity` | M4 | Charge usine : `level` (central/prudent/stress), `volume_factor`, `capacity_factor`, `year` |
 
 Origines autorisées (CORS) : variable `SM10_CORS_ORIGINS`, par défaut `http://localhost:5173,http://localhost:3000`.
+
+## Interfaces web
+
+Prérequis : Node 22 et pnpm. L'API doit tourner sur le port 8000 (section précédente) ;
+en développement, Vite lui transmet les appels `/api/...`.
+
+```sh
+cd web
+pnpm install
+pnpm dev          # plateforme complète : http://localhost:5173
+pnpm dev:m2       # module M2 seul (bac à sable) : http://localhost:5174
+pnpm typecheck    # vérification TypeScript de tous les packages
+pnpm test         # tests des modules
+pnpm build        # version de production (web/platform/dist)
+```
+
+Après tout changement de l'API, régénérer le contrat et les types :
+
+```sh
+cd services/api && python -m scripts.export_openapi
+cd ../../web && pnpm gen:api
+```
+
+Ajouter un module : créer `web/modules/<module>/` sur le modèle de `m2-producers`
+(composants de `@agriflow/ui`, données via `@agriflow/api-client`), puis le brancher
+dans `web/platform/src/App.tsx` (entrée `MODULES` + route).
 
 Les décisions de modélisation (capacité usine, niveaux de priorité…) sont
 expliquées dans [docs/DECISIONS.md](docs/DECISIONS.md).

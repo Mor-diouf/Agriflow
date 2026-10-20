@@ -115,6 +115,28 @@ métier n° 1 à valider.
 
 ---
 
+## D7 — Interfaces : un module par package, une plateforme qui assemble
+
+**Date :** 2026-10-20
+
+**Décision :** monorepo pnpm `web/`, avec :
+- `packages/ui` : le design system « Forêt & Mangue » (validé sur maquette),
+  indépendant du routeur, polices auto-hébergées (aucun appel à Google Fonts) ;
+- `packages/api-client` : client `openapi-fetch` typé par `openapi-typescript`
+  à partir du contrat de l'API, donc aucun type écrit à la main ;
+- `modules/<module>` : chaque module exporte ses écrans et dispose d'un bac à
+  sable pour être développé et montré seul ;
+- `platform` : la coque, la navigation et les routes.
+
+Technologies : React 19, TypeScript, Vite, TanStack Query, React Router, Vitest.
+
+**Pourquoi :** chaque module peut avancer indépendamment, comme vous le
+souhaitiez. Comme ils partagent dès le départ le même design system et le même
+client API, l'assemblage n'est pas une étape finale risquée : un module
+s'ajoute à la plateforme en deux lignes.
+
+---
+
 ## Points ouverts
 
 - **Tournées M1+M2 non résolues :** dans `rapport_robuste.md`, la passe 2 du
@@ -127,5 +149,6 @@ métier n° 1 à valider.
   perte de référence du plan L4 (valeur recalculée : 2,31 t), pas une perte
   évitée. Pour parler de pertes évitées, il faut comparer à un plan de base,
   ce qui n'est pas encore calculé.
+- **Score sans critère de qualité :** le producteur le mieux noté (P053) rejette 30 % de sa livraison. Le score (fiabilité, proximité, production) ignore le taux de rejet. L'interface le signale (seuil 15 %) ; décision métier à prendre : intégrer `Rej_i` au score ?
 - **Doublon dans `services/hawa-tts/generate_hawa_voice.py` :** deux phrases
   portent le nom `hawa_kolda`, si bien que la seconde écrase la première.

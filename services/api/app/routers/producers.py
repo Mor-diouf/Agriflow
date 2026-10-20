@@ -35,6 +35,7 @@ def _to_producer(row) -> Producer:
 @router.get("", response_model=ProducerPage)
 def list_producers(
     tier: PriorityTier | None = None,
+    search: str | None = Query(None, max_length=20, description="Partie de l'identifiant, ex. « 05 »"),
     sort: Literal["score", "deliverable", "distance", "reliability"] = "score",
     order: Literal["asc", "desc"] = "desc",
     limit: int = Query(50, ge=1, le=500),
@@ -43,6 +44,8 @@ def list_producers(
     df = data.producers()
     if tier:
         df = df[df["Niveau"] == tier]
+    if search:
+        df = df[df["ID"].str.contains(search.strip(), case=False, regex=False)]
     df = df.sort_values(SORT_COLUMNS[sort], ascending=(order == "asc"))
     page = df.iloc[offset: offset + limit]
     return ProducerPage(total=len(df), items=[_to_producer(r) for _, r in page.iterrows()])

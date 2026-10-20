@@ -34,6 +34,9 @@ def test_producers_list_and_filters():
     dists = [p["distance_km"] for p in near["items"]]
     assert dists == sorted(dists)
 
+    found = client.get("/v1/producers", params={"search": "p05"}).json()
+    assert found["total"] == 10 and all("P05" in p["id"] for p in found["items"])
+
 
 def test_producers_summary_is_consistent():
     s = client.get("/v1/producers/summary").json()
