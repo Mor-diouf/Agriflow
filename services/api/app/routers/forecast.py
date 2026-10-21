@@ -1,7 +1,9 @@
 from fastapi import APIRouter
 
+from m3_forecast.outputs import LEVEL_MODELS
+
 from app import data
-from app.schemas import ForecastPoint, ModelBenchmark
+from app.schemas import ForecastMetrics, ForecastPoint, ModelBenchmark
 
 router = APIRouter(prefix="/forecast", tags=["M3 — Prévisions"])
 
@@ -25,11 +27,24 @@ def weekly_forecast(year: int | None = None, zone: str | None = None):
 
 @router.get("/benchmark", response_model=list[ModelBenchmark])
 def model_benchmark():
-    """Performance de chaque modèle testé (Phase I)."""
+    """Performance de chaque modèle testé (Phase I), sur toutes les semaines et sur les semaines de récolte."""
+    preds = data.predictions()
+    harvest = data.harvest_benchmark().set_index("Modèle")
+    n_all, n_harvest = len(preds), int((preds["y_true"] > 0).sum())
     return [
         ModelBenchmark(
-            model=r["Modèle"], mae=r["MAE"], rmse=r["RMSE"], bias=r["Biais"],
-            coverage_pct=r["Couverture (%)"],
+            model=r["Modèle"],
+            level=LEVEL_MODELS.get(r["Modèle"]),
+            all_weeks=ForecastMetrics(
+                weeks=n_all, mae=r["MAE"], rmse=r["RMSE"], bias=r["Biais"], coverage_pct=r["Couverture (%)"],
+            ),
+            harvest_weeks=ForecastMetrics(
+                weeks=n_harvest,
+                mae=harvest.at[r["Modèle"], "MAE cond"],
+                rmse=harvest.at[r["Modèle"], "RMSE cond"],
+                bias=harvest.at[r["Modèle"], "Biais cond"],
+                coverage_pct=harvest.at[r["Modèle"], "Couverture cond (%)"],
+            ),
         )
         for _, r in data.benchmark().iterrows()
     ]

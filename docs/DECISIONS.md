@@ -139,6 +139,56 @@ s'ajoute à la plateforme en deux lignes.
 
 ---
 
+## D8 — Prévisions : la fiabilité se juge sur les semaines de récolte
+
+**Date :** 2026-10-21
+
+**Constat :** le benchmark M3 (`benchmark_global_phase_i.csv`) porte sur
+1 040 semaines × zones, dont 499 hors saison : 0 t récoltée et, dans 491 cas,
+0 t prévue grâce à l'étage hurdle. Ces semaines comptent comme des prévisions
+presque parfaites. Elles
+divisent l'erreur moyenne par près de deux et gonflent la couverture : le
+quantile 90 % couvre 93,1 % des semaines au global, mais 86,7 % des semaines de
+récolte.
+
+**Décision :** `/v1/forecast/benchmark` expose les deux jeux de métriques
+(`all_weeks` et `harvest_weeks`). L'interface M3 juge les modèles sur les
+541 semaines de récolte et n'affiche les métriques globales qu'avec un
+avertissement.
+
+**Pourquoi :** c'est pendant la récolte que la prévision sert (usine,
+tournées). Sur ces semaines, la prévision centrale se trompe de 5,3 t par zone
+et par semaine, soit 26 % de moins que la persistance. Le niveau prudent est
+bien calibré (76,0 % pour 75 % visés), le niveau stress un peu juste (86,7 %
+pour 90 %).
+
+**Vue « toutes zones » :** les zones sont additionnées, comme dans le M4.
+Additionner des quantiles revient à supposer les zones parfaitement corrélées :
+les niveaux prudent et stress du total sont donc un peu larges. L'interface le
+signale.
+
+---
+
+## D9 — Couleurs des graphiques : des jetons dédiés et vérifiés
+
+**Date :** 2026-10-21
+
+**Décision :** deux jetons de série dans le design system,
+`--af-chart-forecast` (#226e44, teinte forêt) pour les prévisions et
+`--af-chart-observed` (#4b7eb4, teinte ardoise) pour les valeurs observées,
+utilisés par le M3 et le M4.
+
+**Pourquoi :** la paire utilisée jusque-là (forêt 600 / ardoise 700) échouait
+au contrôle des palettes : trop sombre, trop peu saturée, et trop proche même
+en vision normale (écart 13,5 pour un minimum de 15). La nouvelle paire passe
+tous les contrôles (écart 18 en vision normale, 16 sous daltonisme, contraste
+supérieur à 3:1). Le rouge « excédent » du M4 reste proche du vert pour un
+daltonien (écart 7,5). C'est admis parce que l'excédent se lit aussi par sa
+position : au-dessus de la ligne de capacité, séparé par un espace et nommé
+dans la légende.
+
+---
+
 ## Points ouverts
 
 - **Tournées M1+M2 non résolues :** dans `rapport_robuste.md`, la passe 2 du
@@ -154,3 +204,19 @@ s'ajoute à la plateforme en deux lignes.
 - **Score sans critère de qualité :** le producteur le mieux noté (P053) rejette 30 % de sa livraison. Le score (fiabilité, proximité, production) ignore le taux de rejet. L'interface le signale (seuil 15 %) ; décision métier à prendre : intégrer `Rej_i` au score ?
 - **Doublon dans `services/hawa-tts/generate_hawa_voice.py` :** deux phrases
   portent le nom `hawa_kolda`, si bien que la seconde écrase la première.
+- **Le M3 prévoit à une semaine seulement.** Chaque prévision utilise la récolte
+  observée la semaine précédente (`y_lag1` dans `quantile_eval.py`,
+  `append(y_test)` dans `sarimax_h2_eval.py`). Conséquences :
+  1. Le pic prévu arrive une semaine après le pic observé dans 14 cas sur 20
+     (saison × zone). En 2025, dans 4 zones sur 5, la prévision ressemble plus
+     à la récolte de la semaine précédente qu'à celle de la semaine prévue.
+  2. La Charge usine (M4) juge la saison avec cette visibilité d'une semaine.
+
+  Pour planifier l'usine ou les tournées plusieurs semaines à l'avance, il faut
+  des prévisions à 2 à 8 semaines, récursives ou directes, évaluées horizon par
+  horizon.
+- **Niveau stress un peu juste :** sur les semaines de récolte, la récolte le
+  dépasse 13 % du temps au lieu de 10 % (86,7 % de couverture pour 90 % visés).
+  Piste : un recalibrage conforme, qui décale le quantile 90 % du quantile
+  empirique des résidus de validation, avant de s'en servir pour dimensionner
+  l'usine.

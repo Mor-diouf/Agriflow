@@ -138,7 +138,7 @@ export interface paths {
         };
         /**
          * Model Benchmark
-         * @description Performance de chaque modèle testé (Phase I).
+         * @description Performance de chaque modèle testé (Phase I), sur toutes les semaines et sur les semaines de récolte.
          */
         get: operations["model_benchmark_v1_forecast_benchmark_get"];
         put?: never;
@@ -188,6 +188,28 @@ export interface components {
             /** Weeks */
             weeks: components["schemas"]["WeeklyLoad"][];
         };
+        /** ForecastMetrics */
+        ForecastMetrics: {
+            /**
+             * Weeks
+             * @description Nombre de semaines × zones évaluées
+             */
+            weeks: number;
+            /** Mae */
+            mae: number;
+            /** Rmse */
+            rmse: number;
+            /**
+             * Bias
+             * @description Prévu − observé, en t : positif = surestimation
+             */
+            bias: number;
+            /**
+             * Coverage Pct
+             * @description Part des semaines où l'observé n'a pas dépassé la prévision
+             */
+            coverage_pct: number;
+        };
         /** ForecastPoint */
         ForecastPoint: {
             /** Year */
@@ -233,14 +255,14 @@ export interface components {
         ModelBenchmark: {
             /** Model */
             model: string;
-            /** Mae */
-            mae: number;
-            /** Rmse */
-            rmse: number;
-            /** Bias */
-            bias: number;
-            /** Coverage Pct */
-            coverage_pct: number;
+            /**
+             * Level
+             * @description Niveau de prévision servi par ce modèle, s'il est retenu
+             */
+            level: ("central" | "prudent" | "stress") | null;
+            all_weeks: components["schemas"]["ForecastMetrics"];
+            /** @description Semaines de récolte seulement (observé > 0) */
+            harvest_weeks: components["schemas"]["ForecastMetrics"];
         };
         /** PlatformConfig */
         PlatformConfig: {
@@ -252,6 +274,11 @@ export interface components {
             data_status: "simulated";
             /** Zones */
             zones: string[];
+            /**
+             * Forecast Seasons
+             * @description Saisons prévues hors échantillon par le M3 (plis walk-forward)
+             */
+            forecast_seasons: number[];
             /** Factory Capacity T Per Day */
             factory_capacity_t_per_day: number;
             /** Factory Capacity T Per Week */

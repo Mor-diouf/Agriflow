@@ -16,6 +16,13 @@ FORECAST_LEVELS = {
     "stress": "pred_q90",        # Hurdle-Quantile(0.90)
 }
 
+# Modèle du benchmark -> niveau de prévision qu'il sert
+LEVEL_MODELS = {
+    "Hurdle-SARIMAX(1,0,0)+Exog": "central",
+    "Hurdle-Quantile(0.75)": "prudent",
+    "Hurdle-Quantile(0.90)": "stress",
+}
+
 
 def load_oos_predictions() -> pd.DataFrame:
     """Prédictions out-of-sample hebdomadaires par zone (colonnes fold, zone, semaine, y_true, pred_*)."""
@@ -25,3 +32,12 @@ def load_oos_predictions() -> pd.DataFrame:
 def load_global_benchmark() -> pd.DataFrame:
     """Métriques globales (MAE, RMSE, biais, couverture…) de chaque modèle."""
     return pd.read_csv(os.path.join(RESULTS_DIR, "benchmark_global_phase_i.csv"), encoding="utf-8")
+
+
+def load_harvest_benchmark() -> pd.DataFrame:
+    """
+    Mêmes métriques sur les seules semaines de récolte (observé > 0).
+    Les semaines hors saison (0 t, prévues ~0 t) flattent toutes les métriques
+    globales, en particulier la couverture : c'est ce tableau qui juge les modèles.
+    """
+    return pd.read_csv(os.path.join(RESULTS_DIR, "benchmark_conditional_phase_i.csv"), encoding="utf-8")

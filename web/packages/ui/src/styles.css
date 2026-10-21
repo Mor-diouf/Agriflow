@@ -30,6 +30,10 @@
   --af-danger-600: #b42318;
   --af-danger-700: #9a1c12;
   --af-danger-100: #fdecea;
+  /* Séries de graphique, dérivées des teintes forêt et ardoise et validées (validate_palette.js :
+     luminosité, saturation, écart en vision normale 18 et sous daltonisme 16, contraste ≥ 3:1) */
+  --af-chart-forecast: #226e44;
+  --af-chart-observed: #4b7eb4;
   /* Neutres */
   --af-ink: #17201b;
   --af-muted: #5b665f;
@@ -335,6 +339,18 @@ body {
   font-weight: 600;
 }
 
+.af-card__subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--af-muted);
+}
+
+/* Titre et sous-titre d'une barre d'outils : ils cèdent la place aux commandes plutôt que de les repousser */
+.af-card__heading {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
 .af-kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
@@ -537,6 +553,20 @@ body {
 
 .af-row-button:hover {
   text-decoration-color: currentColor;
+}
+
+.af-row-button--text {
+  font-family: var(--af-font);
+}
+
+.af-table tr[aria-current="true"],
+.af-table tbody tr[aria-current="true"]:hover {
+  background: var(--af-forest-100);
+}
+
+.af-table tfoot td {
+  border-top: 1px solid var(--af-border-strong);
+  font-weight: 600;
 }
 
 /* ─── Jauge ──────────────────────────────────────────────────────────────── */
@@ -803,6 +833,13 @@ body {
   gap: 24px 32px;
 }
 
+.af-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 20px 40px;
+}
+
 .af-field {
   display: flex;
   flex-direction: column;
@@ -846,6 +883,54 @@ body {
   line-height: 1.5;
 }
 
+.af-verdict-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Un constat par ligne : le statut dans une colonne fixe, le texte aligné à côté */
+.af-verdict-list > li {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 6px 12px;
+  align-items: start;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.af-verdict-list > li > .af-badge {
+  justify-self: start;
+  margin-top: -2px;
+}
+
+@media (max-width: 640px) {
+  .af-verdict-list > li {
+    grid-template-columns: 1fr;
+  }
+}
+
+.af-note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--af-muted);
+}
+
+/* Rechargement : l'affichage précédent reste en place, estompé seulement si l'attente se prolonge */
+.af-card__body,
+.af-table {
+  transition: opacity 120ms ease;
+}
+
+.af-card__body[aria-busy="true"],
+.af-table[aria-busy="true"] {
+  opacity: 0.6;
+  transition-delay: 200ms;
+}
+
 /* ─── Graphiques ─────────────────────────────────────────────────────────── */
 
 .af-chart {
@@ -882,14 +967,43 @@ body {
 }
 
 .af-chart__dot {
-  fill: var(--af-slate-700);
+  fill: var(--af-chart-observed);
   stroke: var(--af-surface);
   stroke-width: 2;
   pointer-events: none;
 }
 
+.af-chart__line {
+  fill: none;
+  stroke: var(--af-chart-forecast);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.af-chart__band {
+  fill: var(--af-chart-forecast);
+  fill-opacity: 0.14;
+}
+
+.af-chart__marker {
+  fill: var(--af-chart-forecast);
+  stroke: var(--af-surface);
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.af-chart__crosshair {
+  stroke: var(--af-border-strong);
+  stroke-width: 1;
+}
+
 .af-chart__hover {
   fill: var(--af-ground);
+}
+
+.af-chart[tabindex] {
+  border-radius: var(--af-radius);
 }
 
 .af-chart__tooltip {
@@ -928,6 +1042,12 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+.af-chart__tooltip-note {
+  margin-top: 8px;
+  font-weight: 600;
+  color: var(--af-mango-500);
+}
+
 .af-chart-legend {
   display: flex;
   flex-wrap: wrap;
@@ -952,7 +1072,21 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--af-slate-700);
+  background: var(--af-chart-observed);
+}
+
+.af-chart-legend__stroke {
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--af-chart-forecast);
+}
+
+.af-chart-legend__area {
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--af-chart-forecast) 14%, transparent);
 }
 
 .af-chart-legend__line {

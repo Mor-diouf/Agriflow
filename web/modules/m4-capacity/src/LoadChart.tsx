@@ -1,5 +1,5 @@
 import type { WeeklyLoad } from "@agriflow/api-client";
-import { formatNumber, formatRatio, useElementWidth } from "@agriflow/ui";
+import { formatNumber, formatRatio, niceTicks, useElementWidth } from "@agriflow/ui";
 import { useState } from "react";
 
 const HEIGHT = 300;
@@ -13,14 +13,6 @@ export function activeWeeks(weeks: WeeklyLoad[]): WeeklyLoad[] {
   const active = weeks.map((w, i) => (w.inflow_t > 0 || w.actual_t > 0 ? i : -1)).filter((i) => i >= 0);
   if (active.length === 0) return [];
   return weeks.slice(Math.max(0, active[0] - 1), active[active.length - 1] + 2);
-}
-
-/** Pas de graduation « rond » donnant au plus 5 intervalles. */
-function niceStep(max: number) {
-  for (const step of [10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000]) {
-    if (max / step <= 5) return step;
-  }
-  return Math.ceil(max / 5000) * 1000;
 }
 
 /** Colonne arrondie côté valeur (haut), carrée côté ligne de base. */
@@ -38,9 +30,8 @@ export function LoadChart({ weeks, year }: { weeks: WeeklyLoad[]; year: number }
 
   const capacity = shown[0].capacity_t;
   const top = Math.max(capacity, ...shown.map((w) => Math.max(w.inflow_t, w.actual_t))) * 1.08;
-  const step = niceStep(top);
-  const yMax = Math.ceil(top / step) * step;
-  const ticks = Array.from({ length: Math.round(yMax / step) + 1 }, (_, i) => i * step);
+  const ticks = niceTicks(top);
+  const yMax = ticks[ticks.length - 1];
 
   const plotW = Math.max(200, width - MARGIN.left - MARGIN.right);
   const plotH = HEIGHT - MARGIN.top - MARGIN.bottom;
@@ -88,7 +79,7 @@ export function LoadChart({ weeks, year }: { weeks: WeeklyLoad[]; year: number }
               {below > 0 && (
                 <path
                   d={columnPath(x, belowTop, barW, y(0) - belowTop, !over)}
-                  fill="var(--af-forest-600)"
+                  fill="var(--af-chart-forecast)"
                 />
               )}
               {over && (
@@ -177,7 +168,7 @@ export function LoadChart({ weeks, year }: { weeks: WeeklyLoad[]; year: number }
 export function LoadChartLegend() {
   return (
     <div className="af-chart-legend">
-      <span><i className="af-chart-legend__bar" style={{ background: "var(--af-forest-600)" }} />Flux prévu absorbé</span>
+      <span><i className="af-chart-legend__bar" style={{ background: "var(--af-chart-forecast)" }} />Flux prévu absorbé</span>
       <span><i className="af-chart-legend__bar" style={{ background: "var(--af-danger-600)" }} />Excédent au-delà de la capacité</span>
       <span><i className="af-chart-legend__dot" />Flux observé</span>
       <span><i className="af-chart-legend__line" />Capacité usine</span>

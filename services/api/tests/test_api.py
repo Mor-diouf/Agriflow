@@ -18,6 +18,7 @@ def test_config_uses_common_capacity():
     assert cfg["data_status"] == "simulated"
     assert cfg["factory_capacity_t_per_day"] == 28.3
     assert len(cfg["zones"]) == 5
+    assert cfg["forecast_seasons"] == [2022, 2023, 2024, 2025]
 
 
 def test_producers_list_and_filters():
@@ -72,8 +73,17 @@ def test_forecast_filters_and_benchmark():
     # Les quantiles sont ordonnés : prudent (Q75) <= stress (Q90)
     assert all(p["prudent_t"] <= p["stress_t"] + 1e-9 for p in pts)
 
-    models = {m["model"] for m in client.get("/v1/forecast/benchmark").json()}
-    assert "Hurdle-SARIMAX(1,0,0)+Exog" in models
+    models = {m["model"]: m for m in client.get("/v1/forecast/benchmark").json()}
+    assert models["Hurdle-SARIMAX(1,0,0)+Exog"]["level"] == "central"
+    assert models["Persistence"]["level"] is None
+    assert {m["level"] for m in models.values()} == {"central", "prudent", "stress", None}
+
+    # Les semaines hors saison (0 t) flattent la couverture : elle baisse sur les seules semaines de récolte
+    stress = models["Hurdle-Quantile(0.90)"]
+    assert stress["harvest_weeks"]["weeks"] < stress["all_weeks"]["weeks"] == 1040
+    assert stress["harvest_weeks"]["coverage_pct"] < stress["all_weeks"]["coverage_pct"]
+    # Le central (SARIMAX) bat la persistance sur les semaines de récolte
+    assert models["Hurdle-SARIMAX(1,0,0)+Exog"]["harvest_weeks"]["mae"] < models["Persistence"]["harvest_weeks"]["mae"]
 
 
 def test_capacity_scenario_levers():

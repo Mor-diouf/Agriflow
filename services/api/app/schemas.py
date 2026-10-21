@@ -16,6 +16,7 @@ class PlatformConfig(BaseModel):
         description="Toutes les données actuelles sont simulées, en attendant les données réelles SM10."
     )
     zones: list[str]
+    forecast_seasons: list[int] = Field(description="Saisons prévues hors échantillon par le M3 (plis walk-forward)")
     factory_capacity_t_per_day: float
     factory_capacity_t_per_week: float
     factory_capacity_t_per_year: float
@@ -97,12 +98,19 @@ class ForecastPoint(BaseModel):
     stress_t: float
 
 
-class ModelBenchmark(BaseModel):
-    model: str
+class ForecastMetrics(BaseModel):
+    weeks: int = Field(description="Nombre de semaines × zones évaluées")
     mae: float
     rmse: float
-    bias: float
-    coverage_pct: float
+    bias: float = Field(description="Prévu − observé, en t : positif = surestimation")
+    coverage_pct: float = Field(description="Part des semaines où l'observé n'a pas dépassé la prévision")
+
+
+class ModelBenchmark(BaseModel):
+    model: str
+    level: ForecastLevel | None = Field(description="Niveau de prévision servi par ce modèle, s'il est retenu")
+    all_weeks: ForecastMetrics
+    harvest_weeks: ForecastMetrics = Field(description="Semaines de récolte seulement (observé > 0)")
 
 
 # ─── M4 : Scénarios ──────────────────────────────────────────────────────────

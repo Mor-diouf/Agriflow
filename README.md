@@ -21,6 +21,7 @@ web/                      Nouvelles interfaces (pnpm workspace)
   packages/ui/            Design system « Forêt & Mangue » : jetons, composants, coque
   packages/api-client/    Client typé, types générés depuis le contrat OpenAPI de l'API
   modules/m2-producers/   Interface M2, utilisable seule (bac à sable) ou dans la plateforme
+  modules/m3-forecast/    Interface M3 : prévisions de récolte et fiabilité des modèles
   modules/m4-capacity/    Interface M4 : charge usine et leviers de scénario
   platform/               Assemblage : navigation commune et routes de tous les modules
 sm10-connect/             Ancienne interface Lovable (à supprimer)
@@ -43,15 +44,18 @@ uvicorn app.main:app --reload       # http://localhost:8000/docs
 python -m tests.test_api            # tests
 ```
 
+Sous Windows, le rechargement automatique (`--reload`) reste parfois bloqué après une
+modification : l'API continue de servir l'ancienne version. L'arrêter (Ctrl+C) et la relancer.
+
 | Endpoint | Module | Contenu |
 |---|---|---|
-| `GET /v1/config` | — | Capacité usine, zones, poids, niveaux de priorité |
+| `GET /v1/config` | — | Capacité usine, zones, saisons prévues, poids, niveaux de priorité |
 | `GET /v1/producers` | M2 | Liste filtrable (`tier`) et triable (`sort`, `order`, `limit`, `offset`) |
 | `GET /v1/producers/summary` | M2 | Effectifs, score moyen et volume par niveau |
 | `GET /v1/producers/{id}` | M2 | Fiche d'un producteur |
 | `GET /v1/routing/reference` | M1 | Plan de tournées optimal (L4) et pertes post-récolte |
 | `GET /v1/forecast` | M3 | Prévisions hebdomadaires par zone (`year`, `zone`) |
-| `GET /v1/forecast/benchmark` | M3 | Performance des modèles |
+| `GET /v1/forecast/benchmark` | M3 | Performance des modèles, sur toutes les semaines et sur les semaines de récolte (D8) |
 | `GET /v1/scenarios/capacity` | M4 | Charge usine : `level` (central/prudent/stress), `volume_factor`, `capacity_factor`, `year` |
 
 Origines autorisées (CORS) : variable `SM10_CORS_ORIGINS`, par défaut `http://localhost:5173,http://localhost:3000`.
@@ -66,6 +70,7 @@ cd web
 pnpm install
 pnpm dev          # plateforme complète : http://localhost:5173
 pnpm dev:m2       # module M2 seul (bac à sable) : http://localhost:5174
+pnpm dev:m3       # module M3 seul (bac à sable) : http://localhost:5176
 pnpm dev:m4       # module M4 seul (bac à sable) : http://localhost:5175
 pnpm typecheck    # vérification TypeScript de tous les packages
 pnpm test         # tests des modules
@@ -81,7 +86,9 @@ cd ../../web && pnpm gen:api
 
 Ajouter un module : créer `web/modules/<module>/` sur le modèle de `m2-producers`
 (composants de `@agriflow/ui`, données via `@agriflow/api-client`), puis le brancher
-dans `web/platform/src/App.tsx` (entrée `MODULES` + route).
+dans `web/platform/src/App.tsx` (entrée `MODULES` + route). Lancer ensuite `pnpm install`
+et **relancer `pnpm dev`** : un serveur Vite déjà démarré ne voit pas un package ajouté
+après coup (erreur « Failed to resolve import »).
 
 Les décisions de modélisation (capacité usine, niveaux de priorité…) sont
 expliquées dans [docs/DECISIONS.md](docs/DECISIONS.md).

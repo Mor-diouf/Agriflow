@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "pnpm --filter @agriflow/platform dev",
     "dev:m2": "pnpm --filter @agriflow/m2-producers dev",
+    "dev:m3": "pnpm --filter @agriflow/m3-forecast dev",
     "dev:m4": "pnpm --filter @agriflow/m4-capacity dev",
     "build": "pnpm --filter @agriflow/platform build",
     "typecheck": "pnpm -r typecheck",

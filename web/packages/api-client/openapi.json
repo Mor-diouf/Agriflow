@@ -333,7 +333,7 @@
           "M3 — Prévisions"
         ],
         "summary": "Model Benchmark",
-        "description": "Performance de chaque modèle testé (Phase I).",
+        "description": "Performance de chaque modèle testé (Phase I), sur toutes les semaines et sur les semaines de récolte.",
         "operationId": "model_benchmark_v1_forecast_benchmark_get",
         "responses": {
           "200": {
@@ -491,6 +491,42 @@
         ],
         "title": "CapacityScenario"
       },
+      "ForecastMetrics": {
+        "properties": {
+          "weeks": {
+            "type": "integer",
+            "title": "Weeks",
+            "description": "Nombre de semaines × zones évaluées"
+          },
+          "mae": {
+            "type": "number",
+            "title": "Mae"
+          },
+          "rmse": {
+            "type": "number",
+            "title": "Rmse"
+          },
+          "bias": {
+            "type": "number",
+            "title": "Bias",
+            "description": "Prévu − observé, en t : positif = surestimation"
+          },
+          "coverage_pct": {
+            "type": "number",
+            "title": "Coverage Pct",
+            "description": "Part des semaines où l'observé n'a pas dépassé la prévision"
+          }
+        },
+        "type": "object",
+        "required": [
+          "weeks",
+          "mae",
+          "rmse",
+          "bias",
+          "coverage_pct"
+        ],
+        "title": "ForecastMetrics"
+      },
       "ForecastPoint": {
         "properties": {
           "year": {
@@ -601,30 +637,37 @@
             "type": "string",
             "title": "Model"
           },
-          "mae": {
-            "type": "number",
-            "title": "Mae"
+          "level": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "central",
+                  "prudent",
+                  "stress"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level",
+            "description": "Niveau de prévision servi par ce modèle, s'il est retenu"
           },
-          "rmse": {
-            "type": "number",
-            "title": "Rmse"
+          "all_weeks": {
+            "$ref": "#/components/schemas/ForecastMetrics"
           },
-          "bias": {
-            "type": "number",
-            "title": "Bias"
-          },
-          "coverage_pct": {
-            "type": "number",
-            "title": "Coverage Pct"
+          "harvest_weeks": {
+            "$ref": "#/components/schemas/ForecastMetrics",
+            "description": "Semaines de récolte seulement (observé > 0)"
           }
         },
         "type": "object",
         "required": [
           "model",
-          "mae",
-          "rmse",
-          "bias",
-          "coverage_pct"
+          "level",
+          "all_weeks",
+          "harvest_weeks"
         ],
         "title": "ModelBenchmark"
       },
@@ -642,6 +685,14 @@
             },
             "type": "array",
             "title": "Zones"
+          },
+          "forecast_seasons": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Forecast Seasons",
+            "description": "Saisons prévues hors échantillon par le M3 (plis walk-forward)"
           },
           "factory_capacity_t_per_day": {
             "type": "number",
@@ -674,6 +725,7 @@
         "required": [
           "data_status",
           "zones",
+          "forecast_seasons",
           "factory_capacity_t_per_day",
           "factory_capacity_t_per_week",
           "factory_capacity_t_per_year",
