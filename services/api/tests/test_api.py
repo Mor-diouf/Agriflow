@@ -92,7 +92,12 @@ def test_capacity_scenario_levers():
     one_year = client.get("/v1/scenarios/capacity", params={"year": 2025}).json()
     assert one_year["summary"]["weeks"] == 52
 
+    # Hypothèse d'usine saisonnière (D1) : ~90 jours ouvrés au lieu de 300, soit ×3,33
+    seasonal = client.get("/v1/scenarios/capacity", params={"capacity_factor": 300 / 90}).json()
+    assert seasonal["summary"]["weeks_over_capacity"] < base["summary"]["weeks_over_capacity"]
+
     assert client.get("/v1/scenarios/capacity", params={"capacity_factor": 0}).status_code == 422
+    assert client.get("/v1/scenarios/capacity", params={"capacity_factor": 6}).status_code == 422
     assert client.get("/v1/scenarios/capacity", params={"level": "inconnu"}).status_code == 422
 
 

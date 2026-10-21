@@ -22,8 +22,11 @@ export type PriorityTier = Producer["tier"];
 export type RoutingPlan = Schemas["RoutingPlan"];
 export type ForecastPoint = Schemas["ForecastPoint"];
 export type CapacityScenario = Schemas["CapacityScenario"];
+export type WeeklyLoad = Schemas["WeeklyLoad"];
+export type ForecastLevel = CapacityScenario["level"];
 
 export type ProducerQuery = NonNullable<paths["/v1/producers"]["get"]["parameters"]["query"]>;
+export type CapacityQuery = NonNullable<paths["/v1/scenarios/capacity"]["get"]["parameters"]["query"]>;
 
 /** Lève une erreur lisible si l'API répond en erreur, pour que les écrans affichent un état d'échec. */
 export function unwrap<T>(result: { data?: T; error?: unknown; response: Response }): T {

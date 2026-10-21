@@ -21,6 +21,7 @@ web/                      Nouvelles interfaces (pnpm workspace)
   packages/ui/            Design system « Forêt & Mangue » : jetons, composants, coque
   packages/api-client/    Client typé, types générés depuis le contrat OpenAPI de l'API
   modules/m2-producers/   Interface M2, utilisable seule (bac à sable) ou dans la plateforme
+  modules/m4-capacity/    Interface M4 : charge usine et leviers de scénario
   platform/               Assemblage : navigation commune et routes de tous les modules
 sm10-connect/             Ancienne interface Lovable (à supprimer)
 _archive/                 Ancienne copie du front à la racine — à supprimer après validation
@@ -65,6 +66,7 @@ cd web
 pnpm install
 pnpm dev          # plateforme complète : http://localhost:5173
 pnpm dev:m2       # module M2 seul (bac à sable) : http://localhost:5174
+pnpm dev:m4       # module M4 seul (bac à sable) : http://localhost:5175
 pnpm typecheck    # vérification TypeScript de tous les packages
 pnpm test         # tests des modules
 pnpm build        # version de production (web/platform/dist)

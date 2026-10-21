@@ -21,7 +21,9 @@ dans le code.
 **À confirmer avec l'usine :** si elle ne tourne que pendant la saison de la
 mangue (~90 jours), la capacité réelle serait d'environ 94 t/j. Cela changerait
 toutes les conclusions de saturation. Il suffira alors de modifier
-`FACTORY_WORKING_DAYS_PER_YEAR`.
+`FACTORY_WORKING_DAYS_PER_YEAR`. En attendant, l'interface M4 (Charge usine)
+permet de comparer les deux hypothèses d'un clic (« 300 j/an » ou
+« Saisonnière · 90 j/an »).
 
 ---
 

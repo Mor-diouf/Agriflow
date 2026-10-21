@@ -1,4 +1,5 @@
 import { ProducersPage } from "@agriflow/m2-producers";
+import { CapacityPage } from "@agriflow/m4-capacity";
 import { AppShell, Card, PageHeader, type LinkComponent, type NavItem } from "@agriflow/ui";
 import { Link as RouterLink, Navigate, Route, Routes, useLocation } from "react-router";
 
@@ -7,7 +8,7 @@ const MODULES: NavItem[] = [
   { code: "M1", label: "Tournées", href: "/tournees", soon: true },
   { code: "M2", label: "Producteurs", href: "/producteurs" },
   { code: "M3", label: "Prévisions", href: "/previsions", soon: true },
-  { code: "M4", label: "Charge usine", href: "/charge-usine", soon: true },
+  { code: "M4", label: "Charge usine", href: "/charge-usine" },
   { code: "M5", label: "Copilote", href: "/copilote", soon: true },
 ];
 
@@ -30,6 +31,7 @@ export function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/producteurs" replace />} />
         <Route path="/producteurs" element={<ProducersPage />} />
+        <Route path="/charge-usine" element={<CapacityPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AppShell>

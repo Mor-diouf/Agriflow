@@ -726,3 +726,237 @@ body {
   align-items: center;
   gap: 12px;
 }
+
+/* ─── Curseur ────────────────────────────────────────────────────────────── */
+
+.af-range {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.af-range input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.af-range input::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--af-forest-600) var(--af-range-pct), var(--af-forest-100) var(--af-range-pct));
+}
+
+.af-range input::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--af-forest-600) var(--af-range-pct), var(--af-forest-100) var(--af-range-pct));
+}
+
+.af-range input::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -7px;
+  border-radius: 50%;
+  border: 2px solid var(--af-surface);
+  background: var(--af-forest-700);
+  box-shadow: 0 1px 3px rgba(15, 42, 31, 0.3);
+}
+
+.af-range input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--af-surface);
+  background: var(--af-forest-700);
+}
+
+.af-range input:focus-visible {
+  outline: none;
+}
+
+.af-range input:focus-visible::-webkit-slider-thumb {
+  box-shadow: var(--af-focus);
+}
+
+.af-range input:focus-visible::-moz-range-thumb {
+  box-shadow: var(--af-focus);
+}
+
+.af-range__value {
+  min-width: 72px;
+  text-align: right;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ─── Panneau d'hypothèses ───────────────────────────────────────────────── */
+
+.af-levers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 24px 32px;
+}
+
+.af-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.af-field__label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.af-field__hint {
+  font-size: 13px;
+  color: var(--af-muted);
+}
+
+.af-card__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--af-border);
+}
+
+.af-card__body {
+  padding: 20px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.af-verdict {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ─── Graphiques ─────────────────────────────────────────────────────────── */
+
+.af-chart {
+  position: relative;
+  min-width: 0;
+}
+
+.af-chart svg {
+  display: block;
+  overflow: visible;
+}
+
+.af-chart__grid {
+  stroke: var(--af-row-border);
+  stroke-width: 1;
+}
+
+.af-chart__tick {
+  font-family: var(--af-font-mono);
+  font-size: 11px;
+  fill: var(--af-muted);
+}
+
+.af-chart__label {
+  font-family: var(--af-font);
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--af-ink);
+}
+
+.af-chart__threshold {
+  stroke: var(--af-ink);
+  stroke-width: 1.5;
+}
+
+.af-chart__dot {
+  fill: var(--af-slate-700);
+  stroke: var(--af-surface);
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.af-chart__hover {
+  fill: var(--af-ground);
+}
+
+.af-chart__tooltip {
+  position: absolute;
+  transform: translateX(-50%);
+  min-width: 200px;
+  padding: 10px 12px;
+  border-radius: var(--af-radius);
+  background: var(--af-forest-900);
+  color: #fff;
+  font-size: 13px;
+  pointer-events: none;
+  box-shadow: 0 6px 20px rgba(15, 42, 31, 0.25);
+}
+
+.af-chart__tooltip-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.af-chart__tooltip dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 16px;
+}
+
+.af-chart__tooltip dt {
+  color: var(--af-nav-text);
+}
+
+.af-chart__tooltip dd {
+  margin: 0;
+  text-align: right;
+  font-family: var(--af-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.af-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font-size: 13px;
+  color: var(--af-muted);
+}
+
+.af-chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.af-chart-legend__bar {
+  width: 10px;
+  height: 14px;
+  border-radius: 3px 3px 0 0;
+}
+
+.af-chart-legend__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--af-slate-700);
+}
+
+.af-chart-legend__line {
+  width: 16px;
+  height: 0;
+  border-top: 1.5px solid var(--af-ink);
+}

@@ -397,7 +397,7 @@
             "required": false,
             "schema": {
               "type": "number",
-              "maximum": 3,
+              "maximum": 5,
               "exclusiveMinimum": 0,
               "description": "Multiplicateur de la capacité usine",
               "default": 1.0,

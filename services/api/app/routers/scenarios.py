@@ -11,7 +11,7 @@ router = APIRouter(prefix="/scenarios", tags=["M4 — Scénarios"])
 def capacity_scenario(
     level: ForecastLevel = "central",
     volume_factor: float = Query(1.0, gt=0, le=3, description="Multiplicateur du volume récolté"),
-    capacity_factor: float = Query(1.0, gt=0, le=3, description="Multiplicateur de la capacité usine"),
+    capacity_factor: float = Query(1.0, gt=0, le=5, description="Multiplicateur de la capacité usine"),
     year: int | None = Query(None, description="Restreindre à une saison"),
 ):
     """Charge hebdomadaire de l'usine : flux prévu par le M3 face à la capacité."""

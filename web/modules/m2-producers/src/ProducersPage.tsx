@@ -12,11 +12,12 @@ import {
   Skeleton,
   formatNumber,
   formatRatio,
+  useDebouncedValue,
 } from "@agriflow/ui";
 import { useState } from "react";
 
 import { ProducerDrawer } from "./ProducerDrawer";
-import { useDebouncedValue, usePlatformConfig, useProducerSummary, useProducers } from "./queries";
+import { usePlatformConfig, useProducerSummary, useProducers } from "./queries";
 import { HIGH_REJECTION_RATE, TIERS, tierMeta } from "./tiers";
 
 const PAGE_SIZE = 20;

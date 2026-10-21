@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ButtonHTMLAttributes, type HTMLAttributes, type ReactNode } from "react";
+import { useEffect, useRef, type ButtonHTMLAttributes, type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
 
 export type Tone = "forest" | "slate" | "mango" | "danger";
 
@@ -132,6 +132,43 @@ export function SearchInput({ label, value, onChange, placeholder }: { label: st
       </svg>
       <span className="af-sr-only">{label}</span>
       <input type="search" value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)} />
+    </label>
+  );
+}
+
+// ─── Curseur ────────────────────────────────────────────────────────────────
+
+export function RangeField({
+  label,
+  value,
+  min,
+  max,
+  step = 1,
+  onChange,
+  valueText,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step?: number;
+  onChange: (value: number) => void;
+  valueText: string;
+}) {
+  return (
+    <label className="af-range">
+      <span className="af-sr-only">{label}</span>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        aria-valuetext={valueText}
+        onChange={(e) => onChange(Number(e.target.value))}
+        style={{ "--af-range-pct": `${((value - min) / (max - min)) * 100}%` } as CSSProperties}
+      />
+      <output className="af-range__value af-num">{valueText}</output>
     </label>
   );
 }
