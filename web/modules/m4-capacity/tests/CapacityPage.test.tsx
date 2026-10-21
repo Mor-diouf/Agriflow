@@ -143,6 +143,13 @@ describe("CapacityPage", () => {
     expect(within(rows[4]).getByText("166 %")).toHaveClass("af-badge--danger");
   });
 
+  it("ne dessine que la saison choisie, y compris au premier chargement", async () => {
+    renderPage();
+    await screen.findByText(/l'usine dépasse sa capacité/);
+    // Semaines 19 à 25 affichées, flux observé sur les semaines 20 à 24 : 5 points, pas un de plus
+    expect(document.querySelectorAll(".af-chart__dot")).toHaveLength(5);
+  });
+
   it("affiche un état d'erreur si l'API est injoignable", async () => {
     failApi = true;
     renderPage();

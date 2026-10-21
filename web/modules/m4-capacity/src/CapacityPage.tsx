@@ -16,7 +16,7 @@ import { useState } from "react";
 
 import { LoadChart, LoadChartLegend, activeWeeks } from "./LoadChart";
 import { LEVELS, SEASONAL_CAPACITY_FACTOR, SEASONAL_WORKING_DAYS, REFERENCE_WORKING_DAYS, levelMeta } from "./levels";
-import { useCapacityScenario, usePlatformConfig } from "./queries";
+import { useCapacityScenario, usePlatformConfig, useSeasonCapacityScenario } from "./queries";
 
 type View = "chart" | "table";
 type CapacityPreset = "reference" | "seasonal" | "custom";
@@ -36,7 +36,7 @@ export function CapacityPage() {
   const years = [...new Set(allSeasons.data?.weeks.map((w) => w.year))].sort();
   // Par défaut, la saison la plus récente
   const season = year ?? years[years.length - 1];
-  const seasonScenario = useCapacityScenario({ level, ...levers, year: season }, season !== undefined);
+  const seasonScenario = useSeasonCapacityScenario({ level, ...levers }, season);
 
   const failed = allSeasons.isError || seasonScenario.isError;
   const isDefault = level === "central" && volumeFactor === 1 && capacityFactor === 1;
@@ -235,14 +235,19 @@ function Verdict({ scenario, year }: { scenario: CapacityScenario; year: number 
   return s.weeks_over_capacity > 0 ? (
     <p className="af-verdict af-verdict--danger">
       <Badge tone="danger">Saturée</Badge>
-      En {year}, l'usine dépasse sa capacité <strong>{s.weeks_over_capacity} semaines sur {s.active_weeks}</strong>
-      {" "}: {formatNumber(s.total_excess_t)} t de mangues ne peuvent pas être traitées à temps.
+      {/* Une seule phrase dans le conteneur flex, sinon chaque morceau de texte reçoit l'écart des éléments */}
+      <span>
+        En {year}, l'usine dépasse sa capacité <strong>{s.weeks_over_capacity} semaines sur {s.active_weeks}</strong>
+        {" "}: {formatNumber(s.total_excess_t)} t de mangues ne peuvent pas être traitées à temps.
+      </span>
     </p>
   ) : (
     <p className="af-verdict">
       <Badge tone="forest">Absorbée</Badge>
-      En {year}, l'usine absorbe tout le flux prévu. Charge maximale :{" "}
-      <strong>{formatRatio(s.peak_saturation)} %</strong> en semaine {s.peak_week}.
+      <span>
+        En {year}, l'usine absorbe tout le flux prévu. Charge maximale :{" "}
+        <strong>{formatRatio(s.peak_saturation)} %</strong> en semaine {s.peak_week}.
+      </span>
     </p>
   );
 }
