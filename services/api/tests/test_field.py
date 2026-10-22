@@ -12,9 +12,17 @@ from uuid import uuid4  # noqa: E402
 
 from fastapi.testclient import TestClient  # noqa: E402
 
+from app.auth import create_agent  # noqa: E402
+from app.db import SessionLocal, ensure_tables  # noqa: E402
 from app.main import app  # noqa: E402
 
 client = TestClient(app)
+
+ensure_tables()
+with SessionLocal() as _s:
+    create_agent(_s, "terrain", "Ousmane Sagna", "482915")
+_login = client.post("/v1/auth/login", json={"login": "terrain", "pin": "482915"})
+client.headers["Authorization"] = f"Bearer {_login.json()['token']}"
 
 
 def producer(**overrides):
@@ -101,6 +109,21 @@ def test_summary_by_zone_and_week():
     assert summary["producers"] == len(client.get("/v1/field/producers").json())
     assert any(w["zone"] == "Oussouye" and w["harvested_t"] == 2.0 for w in summary["weeks"])
     assert client.get("/v1/field/summary", params={"season": 1999}).json()["records"] == 0
+
+
+def test_field_requires_an_agent():
+    anonymous = TestClient(app)
+    assert anonymous.get("/v1/field/producers").status_code == 401
+    assert anonymous.put(f"/v1/field/producers/{uuid4()}", json=producer()).status_code == 401
+    forged = anonymous.get("/v1/field/summary", headers={"Authorization": "Bearer faux-jeton"})
+    assert forged.status_code == 401 and forged.headers["WWW-Authenticate"] == "Bearer"
+
+
+def test_entries_are_attributed_to_the_agent():
+    pid = str(uuid4())
+    assert client.put(f"/v1/field/producers/{pid}", json=producer()).json()["registered_by"] == "Ousmane Sagna"
+    record = client.put(f"/v1/field/harvests/{uuid4()}", json=harvest(pid)).json()
+    assert record["recorded_by"] == "Ousmane Sagna"
 
 
 def run_tests():

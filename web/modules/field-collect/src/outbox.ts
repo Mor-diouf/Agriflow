@@ -10,10 +10,14 @@ export type OutboxItem =
 /**
  * Résultat d'un envoi :
  * - offline : pas de réseau, on arrête et on réessaiera plus tard ;
+ * - unauthorized : session expirée, on arrête jusqu'à la reconnexion de l'agent ;
  * - retry : refus passager (serveur indisponible, producteur pas encore reçu), on réessaiera ;
  * - invalid : saisie refusée, l'agent doit la corriger.
  */
-export type SendResult = { status: "sent" } | { status: "offline" } | { status: "retry" | "invalid"; message: string };
+export type SendResult =
+  | { status: "sent" }
+  | { status: "offline" | "unauthorized" }
+  | { status: "retry" | "invalid"; message: string };
 
 const STORAGE_KEY = "agriflow.collecte.envois.v1";
 
@@ -34,7 +38,7 @@ export function enqueue(items: OutboxItem[], item: OutboxItem): OutboxItem[] {
 export async function flushOutbox(
   items: OutboxItem[],
   send: (item: OutboxItem) => Promise<SendResult>,
-): Promise<{ remaining: OutboxItem[]; sent: number; offline: boolean }> {
+): Promise<{ remaining: OutboxItem[]; sent: number; offline: boolean; unauthorized: boolean }> {
   const ordered = [...items].sort(
     (a, b) => Number(a.kind === "harvest") - Number(b.kind === "harvest") || a.queuedAt.localeCompare(b.queuedAt),
   );
@@ -45,14 +49,15 @@ export async function flushOutbox(
     const result = await send(item);
     if (result.status === "sent") {
       sent++;
-    } else if (result.status === "offline") {
-      // Sans réseau, inutile d'essayer les suivantes
-      return { remaining: [...remaining, ...ordered.slice(i)], sent, offline: true };
+    } else if (result.status === "offline" || result.status === "unauthorized") {
+      // Sans réseau ou sans session valide, inutile d'essayer les suivantes
+      const stopped = [...remaining, ...ordered.slice(i)];
+      return { remaining: stopped, sent, offline: result.status === "offline", unauthorized: result.status === "unauthorized" };
     } else {
       remaining.push({ ...item, error: result.status === "invalid" ? result.message : undefined });
     }
   }
-  return { remaining, sent, offline: false };
+  return { remaining, sent, offline: false, unauthorized: false };
 }
 
 /**

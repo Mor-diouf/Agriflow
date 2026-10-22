@@ -20,6 +20,14 @@ export function writeJson(key: string, value: unknown): boolean {
   }
 }
 
+export function removeKey(key: string): void {
+  try {
+    window.localStorage.removeItem(key);
+  } catch {
+    // Stockage indisponible : rien n'y était gardé
+  }
+}
+
 /**
  * Identifiant UUID v4 créé sur le téléphone. crypto.randomUUID n'existe que sur une page
  * sécurisée (https, localhost) : en http sur le réseau local, on le construit à la main.

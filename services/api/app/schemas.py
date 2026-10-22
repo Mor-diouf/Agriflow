@@ -155,6 +155,23 @@ class CapacityScenario(BaseModel):
 ZoneName = Literal[tuple(ZONES)]
 
 
+class LoginIn(BaseModel):
+    login: str = Field(min_length=2, max_length=40, description="Identifiant donné par le superviseur")
+    pin: str = Field(pattern=r"^[0-9]{6}$", description="Code personnel à 6 chiffres")
+
+
+class AgentOut(BaseModel):
+    id: str
+    login: str
+    full_name: str
+
+
+class LoginResponse(BaseModel):
+    token: str = Field(description="Jeton à envoyer dans l'en-tête Authorization: Bearer <jeton>")
+    expires_at: datetime
+    agent: AgentOut
+
+
 class FieldProducerIn(BaseModel):
     """Fiche d'un producteur recensé par un agent de terrain."""
     full_name: str = Field(min_length=2, max_length=120)
@@ -175,6 +192,7 @@ class FieldProducerIn(BaseModel):
 class FieldProducerOut(FieldProducerIn):
     id: str
     code: str = Field(description="Code lisible attribué par le serveur (AGR-0001)")
+    registered_by: str = Field(description="Nom de l'agent qui a recensé le producteur")
     created_at: datetime
     updated_at: datetime
     harvest_count: int
@@ -210,6 +228,7 @@ class HarvestRecordIn(BaseModel):
 class HarvestRecordOut(HarvestRecordIn):
     id: str
     producer_code: str
+    recorded_by: str = Field(description="Nom de l'agent qui a saisi le relevé")
     season: int
     week: int = Field(description="Semaine ISO de la collecte")
     recorded_at: datetime

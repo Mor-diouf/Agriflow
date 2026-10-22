@@ -37,13 +37,18 @@ SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
 _tables_ready = False
 
 
-def get_session() -> Iterator[Session]:
-    """Dépendance FastAPI : une session par requête ; les tables sont créées au premier usage."""
+def ensure_tables() -> None:
+    """Crée les tables manquantes (sans modifier les tables existantes)."""
     global _tables_ready
     if not _tables_ready:
         from app import field_models  # noqa: F401  (enregistre les tables auprès de Base)
 
         Base.metadata.create_all(engine)
         _tables_ready = True
+
+
+def get_session() -> Iterator[Session]:
+    """Dépendance FastAPI : une session par requête ; les tables sont créées au premier usage."""
+    ensure_tables()
     with SessionLocal() as session:
         yield session

@@ -272,12 +272,48 @@ créer de doublon.
   hors réseau.
 
 **Reste à faire avant un déploiement :**
-- l'authentification des agents (les écritures sont aujourd'hui ouvertes) ;
+- ~~l'authentification des agents~~ : fait, voir D12 ;
 - une déclaration auprès de la CDP ;
 - l'installation de l'application sur l'écran d'accueil, utilisable sans
   aucun réseau dès l'ouverture (application web installable) ;
 - un menu repliable sur téléphone : aujourd'hui, la navigation occupe le haut
   de l'écran.
+
+---
+
+## D12 — Comptes des agents : identifiant, code à 6 chiffres, session de 30 jours
+
+**Décision :** toutes les routes `/v1/field` demandent un agent connecté. Chaque fiche
+et chaque relevé gardent l'agent qui l'a saisi (`created_by`) et celui qui l'a modifié
+en dernier (`updated_by`). L'API expose le nom du premier (`registered_by`, `recorded_by`).
+
+- **Connexion :** un identifiant et un **code à 6 chiffres** tiré au hasard par le
+  superviseur (`python -m scripts.agents add …`). Un code chiffré se tape sans difficulté
+  sur n'importe quel téléphone, ce qui n'est pas le cas d'un mot de passe. Le serveur ne garde que son empreinte
+  (scrypt). Après **5 essais faux, le compte est bloqué 15 minutes**, ce qui rend l'essai de
+  tous les codes impossible en pratique. Un identifiant inconnu reçoit exactement la même
+  réponse qu'un code faux.
+- **Session de 30 jours**, par un jeton opaque dont le serveur ne garde que l'empreinte
+  SHA-256. Un jeton plutôt qu'un JWT, pour pouvoir **couper à distance** : désactiver un agent
+  (téléphone perdu, départ) ferme aussitôt toutes ses sessions.
+- **Hors réseau d'abord :** une session expirée n'empêche pas de saisir. Les saisies restent
+  sur le téléphone, l'envoi se met en pause, et l'agent se reconnecte quand il retrouve du
+  réseau. La reconnexion se fait **avec le même identifiant** : une saisie reste ainsi attribuée à l'agent qui l'a faite.
+- **Déconnexion refusée tant que des saisies attendent** (elles partiraient au nom du
+  prochain agent connecté). À la déconnexion, les producteurs et collectes gardés sur le
+  téléphone sont effacés : ce sont des données personnelles.
+- Le jeton est gardé dans le stockage du navigateur (pas dans un cookie) : l'application doit
+  fonctionner hors réseau et l'API peut être sur un autre domaine. Le risque (lecture par un
+  script injecté dans la page) reste faible : la page ne charge aucun script tiers.
+
+**Pas encore :** un rôle superviseur dans l'application (les comptes se gèrent en ligne de
+commande), et la restriction d'un agent à sa zone. Tout agent connecté voit tous les
+producteurs.
+
+**Base de données :** les tables changent (colonnes `created_by`, `updated_by`) et
+`create_all` ne modifie pas une table existante. La base de développement, vide, est à
+recréer. Avant le premier déploiement réel, il faudra un outil de migration (Alembic) :
+après cela, une base ne doit plus jamais être recréée.
 
 ---
 

@@ -170,6 +170,63 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Login
+         * @description Ouvre une session de 30 jours. 401 si le code est faux, 429 après 5 essais faux (15 min).
+         */
+        post: operations["login_v1_auth_login_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Me */
+        get: operations["me_v1_auth_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Logout
+         * @description Ferme la session de ce téléphone. Sans effet si elle est déjà fermée ou expirée.
+         */
+        post: operations["logout_v1_auth_logout_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/field/producers/{producer_id}": {
         parameters: {
             query?: never;
@@ -275,6 +332,15 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AgentOut */
+        AgentOut: {
+            /** Id */
+            id: string;
+            /** Login */
+            login: string;
+            /** Full Name */
+            full_name: string;
+        };
         /** CapacityScenario */
         CapacityScenario: {
             /**
@@ -382,6 +448,11 @@ export interface components {
              * @description Code lisible attribué par le serveur (AGR-0001)
              */
             code: string;
+            /**
+             * Registered By
+             * @description Nom de l'agent qui a recensé le producteur
+             */
+            registered_by: string;
             /**
              * Created At
              * Format: date-time
@@ -522,6 +593,11 @@ export interface components {
             id: string;
             /** Producer Code */
             producer_code: string;
+            /**
+             * Recorded By
+             * @description Nom de l'agent qui a saisi le relevé
+             */
+            recorded_by: string;
             /** Season */
             season: number;
             /**
@@ -558,6 +634,33 @@ export interface components {
             peak_week: number;
             /** Total Excess T */
             total_excess_t: number;
+        };
+        /** LoginIn */
+        LoginIn: {
+            /**
+             * Login
+             * @description Identifiant donné par le superviseur
+             */
+            login: string;
+            /**
+             * Pin
+             * @description Code personnel à 6 chiffres
+             */
+            pin: string;
+        };
+        /** LoginResponse */
+        LoginResponse: {
+            /**
+             * Token
+             * @description Jeton à envoyer dans l'en-tête Authorization: Bearer <jeton>
+             */
+            token: string;
+            /**
+             * Expires At
+             * Format: date-time
+             */
+            expires_at: string;
+            agent: components["schemas"]["AgentOut"];
         };
         /** ModelBenchmark */
         ModelBenchmark: {
@@ -1052,6 +1155,77 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
                 };
+            };
+        };
+    };
+    login_v1_auth_login_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LoginResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    me_v1_auth_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentOut"];
+                };
+            };
+        };
+    };
+    logout_v1_auth_logout_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

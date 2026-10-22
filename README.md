@@ -58,15 +58,26 @@ modification : l'API continue de servir l'ancienne version. L'arrêter (Ctrl+C) 
 | `GET /v1/forecast` | M3 | Prévisions hebdomadaires par zone (`year`, `zone`), faites `horizon` semaines à l'avance (1 à 8, D10) |
 | `GET /v1/forecast/benchmark` | M3 | Performance des modèles par horizon, sur toutes les semaines et sur les semaines de récolte (D8) |
 | `GET /v1/scenarios/capacity` | M4 | Charge usine : `level` (central/prudent/stress), `volume_factor`, `capacity_factor`, `year`, `horizon` |
-
+| `POST /v1/auth/login` | Agents | Connexion : identifiant et code à 6 chiffres, renvoie un jeton valable 30 jours (D12) |
+| `GET /v1/auth/me`, `POST /v1/auth/logout` | Agents | Agent connecté ; fermeture de la session du téléphone |
 | `PUT /v1/field/producers/{id}` | Terrain | Recense ou met à jour un producteur (identifiant UUID créé par l'application, consentement obligatoire) |
 | `GET /v1/field/producers` | Terrain | Producteurs recensés (`zone`, `search`), avec volumes collectés et taux de rejet |
 | `PUT /v1/field/harvests/{id}` | Terrain | Enregistre ou corrige un relevé de collecte |
 | `GET /v1/field/harvests` | Terrain | Relevés (`producer_id`, `season`) |
 | `GET /v1/field/summary` | Terrain | Bilan par zone et par semaine |
 
+Les routes `/v1/field` demandent un agent connecté (en-tête `Authorization: Bearer <jeton>`).
+Les comptes se gèrent par le superviseur, depuis `services/api` :
+
+```sh
+python -m scripts.agents add fbadji "Fatou Badji"   # crée le compte et affiche son code, une seule fois
+python -m scripts.agents list
+python -m scripts.agents reset-pin fbadji           # code oublié ou compte bloqué
+python -m scripts.agents disable fbadji             # téléphone perdu : ferme ses sessions
+```
+
 Données terrain : SQLite dans `services/api/var/agriflow.db` (hors git), ou la base indiquée par
-`SM10_DB_URL` (PostgreSQL en production). Tests : `python -m tests.test_field`.
+`SM10_DB_URL` (PostgreSQL en production). Tests : `python -m tests.test_field` et `python -m tests.test_auth`.
 
 Origines autorisées (CORS) : variable `SM10_CORS_ORIGINS`, par défaut `http://localhost:5173,http://localhost:3000`.
 

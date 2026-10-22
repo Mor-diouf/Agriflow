@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "SM10 AGRIFLOW API",
-    "description": "Tournées (M1), producteurs (M2), prévisions (M3), scénarios (M4) et collecte terrain. Résultats des modèles sur données simulées ; la collecte terrain enregistre des données réelles.",
+    "description": "Tournées (M1), producteurs (M2), prévisions (M3), scénarios (M4) et collecte terrain (réservée aux agents connectés). Résultats des modèles sur données simulées ; la collecte terrain enregistre des données réelles.",
     "version": "0.1.0"
   },
   "paths": {
@@ -508,6 +508,94 @@
         }
       }
     },
+    "/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "Login",
+        "description": "Ouvre une session de 30 jours. 401 si le code est faux, 429 après 5 essais faux (15 min).",
+        "operationId": "login_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/me": {
+      "get": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "Me",
+        "operationId": "me_v1_auth_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentOut"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "Logout",
+        "description": "Ferme la session de ce téléphone. Sans effet si elle est déjà fermée ou expirée.",
+        "operationId": "logout_v1_auth_logout_post",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
     "/v1/field/producers/{producer_id}": {
       "put": {
         "tags": [
@@ -516,6 +604,11 @@
         "summary": "Upsert Producer",
         "description": "Crée ou met à jour la fiche d'un producteur (identifiant créé par l'application de terrain).",
         "operationId": "upsert_producer_v1_field_producers__producer_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "producer_id",
@@ -567,6 +660,11 @@
         ],
         "summary": "Get Producer",
         "operationId": "get_producer_v1_field_producers__producer_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "producer_id",
@@ -611,6 +709,11 @@
         "summary": "List Producers",
         "description": "Producteurs recensés, du plus récent au plus ancien.",
         "operationId": "list_producers_v1_field_producers_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "zone",
@@ -683,6 +786,11 @@
         "summary": "Upsert Harvest",
         "description": "Crée ou corrige un relevé de collecte. Le producteur doit avoir été synchronisé avant.",
         "operationId": "upsert_harvest_v1_field_harvests__harvest_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "harvest_id",
@@ -737,6 +845,11 @@
         "summary": "List Harvests",
         "description": "Relevés de collecte, du plus récent au plus ancien.",
         "operationId": "list_harvests_v1_field_harvests_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "producer_id",
@@ -819,6 +932,11 @@
         "summary": "Field Summary",
         "description": "Bilan de la collecte : producteurs, volumes et rejets par zone, volumes par semaine.",
         "operationId": "field_summary_v1_field_summary_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "season",
@@ -864,6 +982,29 @@
   },
   "components": {
     "schemas": {
+      "AgentOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "login": {
+            "type": "string",
+            "title": "Login"
+          },
+          "full_name": {
+            "type": "string",
+            "title": "Full Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "login",
+          "full_name"
+        ],
+        "title": "AgentOut"
+      },
       "CapacityScenario": {
         "properties": {
           "level": {
@@ -1150,6 +1291,11 @@
             "title": "Code",
             "description": "Code lisible attribué par le serveur (AGR-0001)"
           },
+          "registered_by": {
+            "type": "string",
+            "title": "Registered By",
+            "description": "Nom de l'agent qui a recensé le producteur"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -1189,6 +1335,7 @@
           "consent_given",
           "id",
           "code",
+          "registered_by",
           "created_at",
           "updated_at",
           "harvest_count",
@@ -1467,6 +1614,11 @@
             "type": "string",
             "title": "Producer Code"
           },
+          "recorded_by": {
+            "type": "string",
+            "title": "Recorded By",
+            "description": "Nom de l'agent qui a saisi le relevé"
+          },
           "season": {
             "type": "integer",
             "title": "Season"
@@ -1494,6 +1646,7 @@
           "quantity_kg",
           "id",
           "producer_code",
+          "recorded_by",
           "season",
           "week",
           "recorded_at",
@@ -1548,6 +1701,53 @@
           "total_excess_t"
         ],
         "title": "LoadSummary"
+      },
+      "LoginIn": {
+        "properties": {
+          "login": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 2,
+            "title": "Login",
+            "description": "Identifiant donné par le superviseur"
+          },
+          "pin": {
+            "type": "string",
+            "pattern": "^[0-9]{6}$",
+            "title": "Pin",
+            "description": "Code personnel à 6 chiffres"
+          }
+        },
+        "type": "object",
+        "required": [
+          "login",
+          "pin"
+        ],
+        "title": "LoginIn"
+      },
+      "LoginResponse": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token",
+            "description": "Jeton à envoyer dans l'en-tête Authorization: Bearer <jeton>"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "agent": {
+            "$ref": "#/components/schemas/AgentOut"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token",
+          "expires_at",
+          "agent"
+        ],
+        "title": "LoginResponse"
       },
       "ModelBenchmark": {
         "properties": {
@@ -2085,6 +2285,13 @@
           "rejection_rate"
         ],
         "title": "ZoneFieldSummary"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "description": "Jeton obtenu par POST /v1/auth/login",
+        "scheme": "bearer"
       }
     }
   }

@@ -4,6 +4,9 @@ Collecte terrain : recensement des producteurs et relevés de récolte.
 Les écritures se font en PUT sur un identifiant créé par le téléphone de l'agent : une saisie
 faite hors réseau est renvoyée telle quelle à la reconnexion, sans risque de doublon
 (201 à la création, 200 si elle existait déjà et a été mise à jour).
+
+Toutes les routes demandent un agent connecté (app/auth.py) : elles portent des données
+personnelles, et chaque saisie est attribuée à l'agent qui l'a faite.
 """
 
 from datetime import date
@@ -14,8 +17,9 @@ from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session, joinedload
 
+from app.auth import current_agent
 from app.db import get_session
-from app.field_models import FieldProducer, HarvestRecord
+from app.field_models import Agent, FieldProducer, HarvestRecord
 from app.schemas import (
     FieldProducerIn,
     FieldProducerOut,
@@ -26,7 +30,7 @@ from app.schemas import (
     ZoneFieldSummary,
 )
 
-router = APIRouter(prefix="/field", tags=["Collecte terrain"])
+router = APIRouter(prefix="/field", tags=["Collecte terrain"], dependencies=[Depends(current_agent)])
 
 CODE_PREFIX = "AGR-"
 
@@ -62,14 +66,16 @@ def _producer_out(p: FieldProducer, totals: tuple[int, float, float] | None) -> 
     return FieldProducerOut(
         id=p.id, code=p.code, full_name=p.full_name, phone=p.phone, village=p.village, zone=p.zone,
         area_ha=p.area_ha, trees=p.trees, main_variety=p.main_variety, latitude=p.latitude,
-        longitude=p.longitude, consent_given=p.consent_given, created_at=p.created_at, updated_at=p.updated_at,
+        longitude=p.longitude, consent_given=p.consent_given, registered_by=p.creator.full_name,
+        created_at=p.created_at, updated_at=p.updated_at,
         harvest_count=count, harvested_kg=kg, rejection_rate=rejected / kg if kg > 0 else None,
     )
 
 
 def _harvest_out(h: HarvestRecord) -> HarvestRecordOut:
     return HarvestRecordOut(
-        id=h.id, producer_id=h.producer_id, producer_code=h.producer.code, harvest_date=h.harvest_date,
+        id=h.id, producer_id=h.producer_id, producer_code=h.producer.code, recorded_by=h.creator.full_name,
+        harvest_date=h.harvest_date,
         quantity_kg=h.quantity_kg, rejected_kg=h.rejected_kg, expected_next_week_kg=h.expected_next_week_kg,
         notes=h.notes, season=h.harvest_date.year, week=h.harvest_date.isocalendar().week,
         recorded_at=h.recorded_at, updated_at=h.updated_at,
@@ -77,22 +83,34 @@ def _harvest_out(h: HarvestRecord) -> HarvestRecordOut:
 
 
 @router.put("/producers/{producer_id}", response_model=FieldProducerOut, status_code=200)
-def upsert_producer(producer_id: UUID, body: FieldProducerIn, response: Response, session: Session = Depends(get_session)):
+def upsert_producer(
+    producer_id: UUID,
+    body: FieldProducerIn,
+    response: Response,
+    agent: Agent = Depends(current_agent),
+    session: Session = Depends(get_session),
+):
     """Crée ou met à jour la fiche d'un producteur (identifiant créé par l'application de terrain)."""
+    def new_producer() -> FieldProducer:
+        return FieldProducer(
+            id=str(producer_id), code=_next_code(session), created_by=agent.id, updated_by=agent.id, **body.model_dump()
+        )
+
     p = session.get(FieldProducer, str(producer_id))
     if p is None:
-        p = FieldProducer(id=str(producer_id), code=_next_code(session), **body.model_dump())
+        p = new_producer()
         session.add(p)
         response.status_code = 201
     else:
         for key, value in body.model_dump().items():
             setattr(p, key, value)
+        p.updated_by = agent.id
     try:
         session.commit()
     except IntegrityError:
         # Deux créations simultanées ont reçu le même code : on recommence avec le suivant
         session.rollback()
-        p = FieldProducer(id=str(producer_id), code=_next_code(session), **body.model_dump())
+        p = new_producer()
         session.add(p)
         session.commit()
     return _producer_out(p, _producer_totals(session, [p.id]).get(p.id))
@@ -127,18 +145,25 @@ def get_producer(producer_id: UUID, session: Session = Depends(get_session)):
 
 
 @router.put("/harvests/{harvest_id}", response_model=HarvestRecordOut, status_code=200)
-def upsert_harvest(harvest_id: UUID, body: HarvestRecordIn, response: Response, session: Session = Depends(get_session)):
+def upsert_harvest(
+    harvest_id: UUID,
+    body: HarvestRecordIn,
+    response: Response,
+    agent: Agent = Depends(current_agent),
+    session: Session = Depends(get_session),
+):
     """Crée ou corrige un relevé de collecte. Le producteur doit avoir été synchronisé avant."""
     if session.get(FieldProducer, body.producer_id) is None:
         raise HTTPException(409, "Producteur inconnu : synchroniser d'abord sa fiche")
     h = session.get(HarvestRecord, str(harvest_id))
     if h is None:
-        h = HarvestRecord(id=str(harvest_id), **body.model_dump())
+        h = HarvestRecord(id=str(harvest_id), created_by=agent.id, updated_by=agent.id, **body.model_dump())
         session.add(h)
         response.status_code = 201
     else:
         for key, value in body.model_dump().items():
             setattr(h, key, value)
+        h.updated_by = agent.id
     session.commit()
     session.refresh(h)
     return _harvest_out(h)

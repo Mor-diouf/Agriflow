@@ -18,6 +18,7 @@ async function send(item: OutboxItem): Promise<SendResult> {
         ? await api.PUT("/v1/field/producers/{producer_id}", { params: { path: { producer_id: item.id } }, body: item.body })
         : await api.PUT("/v1/field/harvests/{harvest_id}", { params: { path: { harvest_id: item.id } }, body: item.body });
     if (response.ok) return { status: "sent" };
+    if (response.status === 401) return { status: "unauthorized" };
     if (response.status === 422) return { status: "invalid", message: describeRejection(error) };
     return { status: "retry", message: `Erreur ${response.status}` };
   } catch {
@@ -28,8 +29,9 @@ async function send(item: OutboxItem): Promise<SendResult> {
 /**
  * File des saisies en attente, gardée sur le téléphone. Envoi automatique à l'ouverture,
  * après chaque saisie et au retour du réseau ; « Envoyer maintenant » le relance à la main.
+ * En pause (session expirée), les saisies s'accumulent et partent à la reconnexion.
  */
-export function useOutbox() {
+export function useOutbox({ paused = false }: { paused?: boolean } = {}) {
   const queryClient = useQueryClient();
   const [items, setItems] = useState<OutboxItem[]>(loadOutbox);
   const [syncing, setSyncing] = useState(false);
@@ -39,6 +41,8 @@ export function useOutbox() {
   const busy = useRef(false);
   // Une saisie arrivée pendant un envoi en relance un autre juste après
   const rerun = useRef(false);
+  const pausedRef = useRef(paused);
+  pausedRef.current = paused;
 
   const persist = useCallback((next: OutboxItem[]) => {
     current.current = next;
@@ -51,21 +55,23 @@ export function useOutbox() {
       rerun.current = true;
       return;
     }
-    if (current.current.length === 0) return;
+    if (current.current.length === 0 || pausedRef.current) return;
     busy.current = true;
     setSyncing(true);
     let offline = false;
+    let unauthorized = false;
     do {
       rerun.current = false;
       const snapshot = current.current;
       const result = await flushOutbox(snapshot, send);
       offline = result.offline;
+      unauthorized = result.unauthorized;
       persist(mergeAfterFlush(snapshot, result.remaining, current.current));
       if (result.sent > 0) {
         setLastSentAt(new Date());
         await queryClient.invalidateQueries({ queryKey: ["field"] });
       }
-    } while (rerun.current && !offline);
+    } while (rerun.current && !offline && !unauthorized);
     setOnline(!offline);
     busy.current = false;
     setSyncing(false);
@@ -80,7 +86,8 @@ export function useOutbox() {
   );
 
   useEffect(() => {
-    void sync();
+    // Aussi au retour d'une session valide : les saisies gardées pendant la pause partent
+    if (!paused) void sync();
     const goOnline = () => {
       setOnline(true);
       void sync();
@@ -92,7 +99,7 @@ export function useOutbox() {
       window.removeEventListener("online", goOnline);
       window.removeEventListener("offline", goOffline);
     };
-  }, [sync]);
+  }, [sync, paused]);
 
   return { items, add, sync, syncing, online, lastSentAt };
 }
