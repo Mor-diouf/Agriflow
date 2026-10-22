@@ -237,6 +237,37 @@ lisse les extrêmes. Avec une usine saisonnière (90 jours), aucune surcharge.
 
 ---
 
+## D11 — Collecte terrain : une base de données, pensée pour le hors-réseau
+
+**Date :** 2026-10-22
+
+**Décision :** l'API enregistre les données de terrain (`/v1/field/…`) dans une
+base SQL : un fichier SQLite par défaut, sans installation ; PostgreSQL en
+production via `SM10_DB_URL`. Deux tables :
+- **producteurs recensés** : village, zone, surface, arbres, variété,
+  position GPS, et **consentement obligatoire** du producteur (loi n° 2008-12
+  sur les données personnelles) ;
+- **relevés de collecte** : quantité collectée, quantité rejetée, et récolte
+  que le producteur attend la semaine suivante.
+
+Chaque saisie porte un identifiant créé sur le téléphone, et elle s'écrit en
+`PUT`. Une saisie faite hors réseau peut donc être renvoyée plusieurs fois sans
+créer de doublon.
+
+**Pourquoi :**
+- La couverture réseau en Casamance rurale est intermittente : l'application
+  doit fonctionner hors ligne et synchroniser ensuite.
+- Le **taux de rejet réel** alimentera le score M2 (cf. point ouvert sur la
+  qualité).
+- La **récolte annoncée par le producteur** est un signal précoce que le M3
+  pourra tester pour dépasser l'horizon de 2 semaines (D10).
+
+**Reste à faire avant un déploiement :** l'authentification des agents (les
+écritures sont aujourd'hui ouvertes), une déclaration auprès de la CDP, et
+l'application mobile de saisie.
+
+---
+
 ## Points ouverts
 
 - **Tournées M1+M2 non résolues :** dans `rapport_robuste.md`, la passe 2 du

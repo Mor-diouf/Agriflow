@@ -170,6 +170,107 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/field/producers/{producer_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Producer */
+        get: operations["get_producer_v1_field_producers__producer_id__get"];
+        /**
+         * Upsert Producer
+         * @description Crée ou met à jour la fiche d'un producteur (identifiant créé par l'application de terrain).
+         */
+        put: operations["upsert_producer_v1_field_producers__producer_id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/field/producers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Producers
+         * @description Producteurs recensés, du plus récent au plus ancien.
+         */
+        get: operations["list_producers_v1_field_producers_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/field/harvests/{harvest_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Upsert Harvest
+         * @description Crée ou corrige un relevé de collecte. Le producteur doit avoir été synchronisé avant.
+         */
+        put: operations["upsert_harvest_v1_field_harvests__harvest_id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/field/harvests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Harvests
+         * @description Relevés de collecte, du plus récent au plus ancien.
+         */
+        get: operations["list_harvests_v1_field_harvests_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/field/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Field Summary
+         * @description Bilan de la collecte : producteurs, volumes et rejets par zone, volumes par semaine.
+         */
+        get: operations["field_summary_v1_field_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -193,6 +294,135 @@ export interface components {
             summary: components["schemas"]["LoadSummary"];
             /** Weeks */
             weeks: components["schemas"]["WeeklyLoad"][];
+        };
+        /**
+         * FieldProducerIn
+         * @description Fiche d'un producteur recensé par un agent de terrain.
+         */
+        FieldProducerIn: {
+            /** Full Name */
+            full_name: string;
+            /** Phone */
+            phone?: string | null;
+            /** Village */
+            village: string;
+            /**
+             * Zone
+             * @enum {string}
+             */
+            zone: "Bignona" | "Oussouye" | "Ziguinchor" | "Sédhiou" | "Kolda";
+            /**
+             * Area Ha
+             * @description Surface du verger
+             */
+            area_ha?: number | null;
+            /**
+             * Trees
+             * @description Nombre de manguiers
+             */
+            trees?: number | null;
+            /**
+             * Main Variety
+             * @description Variété principale (Kent, Keitt…)
+             */
+            main_variety?: string | null;
+            /** Latitude */
+            latitude?: number | null;
+            /** Longitude */
+            longitude?: number | null;
+            /**
+             * Consent Given
+             * @description Le producteur accepte que ses données soient enregistrées (loi n° 2008-12) : obligatoire
+             * @constant
+             */
+            consent_given: true;
+        };
+        /** FieldProducerOut */
+        FieldProducerOut: {
+            /** Full Name */
+            full_name: string;
+            /** Phone */
+            phone?: string | null;
+            /** Village */
+            village: string;
+            /**
+             * Zone
+             * @enum {string}
+             */
+            zone: "Bignona" | "Oussouye" | "Ziguinchor" | "Sédhiou" | "Kolda";
+            /**
+             * Area Ha
+             * @description Surface du verger
+             */
+            area_ha?: number | null;
+            /**
+             * Trees
+             * @description Nombre de manguiers
+             */
+            trees?: number | null;
+            /**
+             * Main Variety
+             * @description Variété principale (Kent, Keitt…)
+             */
+            main_variety?: string | null;
+            /** Latitude */
+            latitude?: number | null;
+            /** Longitude */
+            longitude?: number | null;
+            /**
+             * Consent Given
+             * @description Le producteur accepte que ses données soient enregistrées (loi n° 2008-12) : obligatoire
+             * @constant
+             */
+            consent_given: true;
+            /** Id */
+            id: string;
+            /**
+             * Code
+             * @description Code lisible attribué par le serveur (AGR-0001)
+             */
+            code: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            /** Harvest Count */
+            harvest_count: number;
+            /** Harvested Kg */
+            harvested_kg: number;
+            /**
+             * Rejection Rate
+             * @description Part rejetée sur l'ensemble des relevés (0-1)
+             */
+            rejection_rate: number | null;
+        };
+        /** FieldSummary */
+        FieldSummary: {
+            /** Producers */
+            producers: number;
+            /** Records */
+            records: number;
+            /** Zones */
+            zones: components["schemas"]["ZoneFieldSummary"][];
+            /** Weeks */
+            weeks: components["schemas"]["FieldWeek"][];
+        };
+        /** FieldWeek */
+        FieldWeek: {
+            /** Season */
+            season: number;
+            /** Week */
+            week: number;
+            /** Zone */
+            zone: string;
+            /** Harvested T */
+            harvested_t: number;
         };
         /** ForecastMetrics */
         ForecastMetrics: {
@@ -237,6 +467,78 @@ export interface components {
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /**
+         * HarvestRecordIn
+         * @description Relevé d'une collecte chez un producteur.
+         */
+        HarvestRecordIn: {
+            /** Producer Id */
+            producer_id: string;
+            /**
+             * Harvest Date
+             * Format: date
+             */
+            harvest_date: string;
+            /** Quantity Kg */
+            quantity_kg: number;
+            /**
+             * Rejected Kg
+             * @default 0
+             */
+            rejected_kg: number;
+            /**
+             * Expected Next Week Kg
+             * @description Récolte attendue par le producteur la semaine suivante
+             */
+            expected_next_week_kg?: number | null;
+            /** Notes */
+            notes?: string | null;
+        };
+        /** HarvestRecordOut */
+        HarvestRecordOut: {
+            /** Producer Id */
+            producer_id: string;
+            /**
+             * Harvest Date
+             * Format: date
+             */
+            harvest_date: string;
+            /** Quantity Kg */
+            quantity_kg: number;
+            /**
+             * Rejected Kg
+             * @default 0
+             */
+            rejected_kg: number;
+            /**
+             * Expected Next Week Kg
+             * @description Récolte attendue par le producteur la semaine suivante
+             */
+            expected_next_week_kg?: number | null;
+            /** Notes */
+            notes?: string | null;
+            /** Id */
+            id: string;
+            /** Producer Code */
+            producer_code: string;
+            /** Season */
+            season: number;
+            /**
+             * Week
+             * @description Semaine ISO de la collecte
+             */
+            week: number;
+            /**
+             * Recorded At
+             * Format: date-time
+             */
+            recorded_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
         };
         /** LoadSummary */
         LoadSummary: {
@@ -475,6 +777,21 @@ export interface components {
             saturation: number;
             /** Excess T */
             excess_t: number;
+        };
+        /** ZoneFieldSummary */
+        ZoneFieldSummary: {
+            /** Zone */
+            zone: string;
+            /** Producers */
+            producers: number;
+            /** Records */
+            records: number;
+            /** Harvested T */
+            harvested_t: number;
+            /** Rejected T */
+            rejected_t: number;
+            /** Rejection Rate */
+            rejection_rate: number | null;
         };
     };
     responses: never;
@@ -725,6 +1042,204 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CapacityScenario"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_producer_v1_field_producers__producer_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                producer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FieldProducerOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upsert_producer_v1_field_producers__producer_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                producer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FieldProducerIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FieldProducerOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_producers_v1_field_producers_get: {
+        parameters: {
+            query?: {
+                zone?: string | null;
+                /** @description Nom, village ou code */
+                search?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FieldProducerOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upsert_harvest_v1_field_harvests__harvest_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                harvest_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HarvestRecordIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HarvestRecordOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_harvests_v1_field_harvests_get: {
+        parameters: {
+            query?: {
+                producer_id?: string | null;
+                season?: number | null;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HarvestRecordOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    field_summary_v1_field_summary_get: {
+        parameters: {
+            query?: {
+                season?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FieldSummary"];
                 };
             };
             /** @description Validation Error */

@@ -58,6 +58,15 @@ modification : l'API continue de servir l'ancienne version. L'arrêter (Ctrl+C) 
 | `GET /v1/forecast/benchmark` | M3 | Performance des modèles par horizon, sur toutes les semaines et sur les semaines de récolte (D8) |
 | `GET /v1/scenarios/capacity` | M4 | Charge usine : `level` (central/prudent/stress), `volume_factor`, `capacity_factor`, `year`, `horizon` |
 
+| `PUT /v1/field/producers/{id}` | Terrain | Recense ou met à jour un producteur (identifiant UUID créé par l'application, consentement obligatoire) |
+| `GET /v1/field/producers` | Terrain | Producteurs recensés (`zone`, `search`), avec volumes collectés et taux de rejet |
+| `PUT /v1/field/harvests/{id}` | Terrain | Enregistre ou corrige un relevé de collecte |
+| `GET /v1/field/harvests` | Terrain | Relevés (`producer_id`, `season`) |
+| `GET /v1/field/summary` | Terrain | Bilan par zone et par semaine |
+
+Données terrain : SQLite dans `services/api/var/agriflow.db` (hors git), ou la base indiquée par
+`SM10_DB_URL` (PostgreSQL en production). Tests : `python -m tests.test_field`.
+
 Origines autorisées (CORS) : variable `SM10_CORS_ORIGINS`, par défaut `http://localhost:5173,http://localhost:3000`.
 
 ## Interfaces web

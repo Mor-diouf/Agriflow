@@ -3,9 +3,12 @@ Contrat de l'API SM10 : formes exactes des réponses.
 Les interfaces web génèrent leurs types TypeScript à partir de ce contrat (OpenAPI).
 """
 
+from datetime import date, datetime
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, model_validator
+
+from common.config import ZONES
 
 PriorityTier = Literal["prioritaire", "standard", "a_surveiller"]
 ForecastLevel = Literal["central", "prudent", "stress"]
@@ -145,3 +148,92 @@ class CapacityScenario(BaseModel):
     capacity_factor: float
     summary: LoadSummary
     weeks: list[WeeklyLoad]
+
+
+# ─── Collecte terrain ────────────────────────────────────────────────────────
+
+ZoneName = Literal[tuple(ZONES)]
+
+
+class FieldProducerIn(BaseModel):
+    """Fiche d'un producteur recensé par un agent de terrain."""
+    full_name: str = Field(min_length=2, max_length=120)
+    phone: str | None = Field(None, pattern=r"^\+?[0-9 ]{7,20}$")
+    village: str = Field(min_length=2, max_length=80)
+    zone: ZoneName
+    area_ha: float | None = Field(None, ge=0, le=1000, description="Surface du verger")
+    trees: int | None = Field(None, ge=0, le=100_000, description="Nombre de manguiers")
+    main_variety: str | None = Field(None, max_length=40, description="Variété principale (Kent, Keitt…)")
+    # Bornes de la Casamance : une latitude et une longitude inversées sont refusées
+    latitude: float | None = Field(None, ge=12.0, le=13.5)
+    longitude: float | None = Field(None, ge=-17.0, le=-13.5)
+    consent_given: Literal[True] = Field(
+        description="Le producteur accepte que ses données soient enregistrées (loi n° 2008-12) : obligatoire",
+    )
+
+
+class FieldProducerOut(FieldProducerIn):
+    id: str
+    code: str = Field(description="Code lisible attribué par le serveur (AGR-0001)")
+    created_at: datetime
+    updated_at: datetime
+    harvest_count: int
+    harvested_kg: float
+    rejection_rate: float | None = Field(description="Part rejetée sur l'ensemble des relevés (0-1)")
+
+
+class HarvestRecordIn(BaseModel):
+    """Relevé d'une collecte chez un producteur."""
+    producer_id: str
+    harvest_date: date
+    quantity_kg: float = Field(gt=0, le=50_000)
+    rejected_kg: float = Field(0.0, ge=0)
+    expected_next_week_kg: float | None = Field(
+        None, ge=0, le=50_000, description="Récolte attendue par le producteur la semaine suivante",
+    )
+    notes: str | None = Field(None, max_length=500)
+
+    @field_validator("harvest_date")
+    @classmethod
+    def not_in_future(cls, value: date) -> date:
+        if value > date.today():
+            raise ValueError("la date de collecte ne peut pas être dans le futur")
+        return value
+
+    @model_validator(mode="after")
+    def rejected_within_quantity(self):
+        if self.rejected_kg > self.quantity_kg:
+            raise ValueError("la quantité rejetée dépasse la quantité collectée")
+        return self
+
+
+class HarvestRecordOut(HarvestRecordIn):
+    id: str
+    producer_code: str
+    season: int
+    week: int = Field(description="Semaine ISO de la collecte")
+    recorded_at: datetime
+    updated_at: datetime
+
+
+class ZoneFieldSummary(BaseModel):
+    zone: str
+    producers: int
+    records: int
+    harvested_t: float
+    rejected_t: float
+    rejection_rate: float | None
+
+
+class FieldWeek(BaseModel):
+    season: int
+    week: int
+    zone: str
+    harvested_t: float
+
+
+class FieldSummary(BaseModel):
+    producers: int
+    records: int
+    zones: list[ZoneFieldSummary]
+    weeks: list[FieldWeek]

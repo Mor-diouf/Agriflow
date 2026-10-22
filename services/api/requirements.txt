@@ -2,4 +2,5 @@
 fastapi>=0.135
 uvicorn>=0.41
 pydantic>=2.12
+sqlalchemy>=2.0   # collecte terrain (SQLite par défaut, PostgreSQL en production)
 httpx>=0.28   # tests (TestClient)

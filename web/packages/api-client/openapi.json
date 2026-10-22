@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "SM10 AGRIFLOW API",
-    "description": "Tournées (M1), producteurs (M2), prévisions (M3) et scénarios (M4). Données actuellement simulées.",
+    "description": "Tournées (M1), producteurs (M2), prévisions (M3), scénarios (M4) et collecte terrain. Résultats des modèles sur données simulées ; la collecte terrain enregistre des données réelles.",
     "version": "0.1.0"
   },
   "paths": {
@@ -507,6 +507,359 @@
           }
         }
       }
+    },
+    "/v1/field/producers/{producer_id}": {
+      "put": {
+        "tags": [
+          "Collecte terrain"
+        ],
+        "summary": "Upsert Producer",
+        "description": "Crée ou met à jour la fiche d'un producteur (identifiant créé par l'application de terrain).",
+        "operationId": "upsert_producer_v1_field_producers__producer_id__put",
+        "parameters": [
+          {
+            "name": "producer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Producer Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FieldProducerIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldProducerOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Collecte terrain"
+        ],
+        "summary": "Get Producer",
+        "operationId": "get_producer_v1_field_producers__producer_id__get",
+        "parameters": [
+          {
+            "name": "producer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Producer Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldProducerOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/field/producers": {
+      "get": {
+        "tags": [
+          "Collecte terrain"
+        ],
+        "summary": "List Producers",
+        "description": "Producteurs recensés, du plus récent au plus ancien.",
+        "operationId": "list_producers_v1_field_producers_get",
+        "parameters": [
+          {
+            "name": "zone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Zone"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nom, village ou code",
+              "title": "Search"
+            },
+            "description": "Nom, village ou code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FieldProducerOut"
+                  },
+                  "title": "Response List Producers V1 Field Producers Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/field/harvests/{harvest_id}": {
+      "put": {
+        "tags": [
+          "Collecte terrain"
+        ],
+        "summary": "Upsert Harvest",
+        "description": "Crée ou corrige un relevé de collecte. Le producteur doit avoir été synchronisé avant.",
+        "operationId": "upsert_harvest_v1_field_harvests__harvest_id__put",
+        "parameters": [
+          {
+            "name": "harvest_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Harvest Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HarvestRecordIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HarvestRecordOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/field/harvests": {
+      "get": {
+        "tags": [
+          "Collecte terrain"
+        ],
+        "summary": "List Harvests",
+        "description": "Relevés de collecte, du plus récent au plus ancien.",
+        "operationId": "list_harvests_v1_field_harvests_get",
+        "parameters": [
+          {
+            "name": "producer_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Producer Id"
+            }
+          },
+          {
+            "name": "season",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Season"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 200,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HarvestRecordOut"
+                  },
+                  "title": "Response List Harvests V1 Field Harvests Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/field/summary": {
+      "get": {
+        "tags": [
+          "Collecte terrain"
+        ],
+        "summary": "Field Summary",
+        "description": "Bilan de la collecte : producteurs, volumes et rejets par zone, volumes par semaine.",
+        "operationId": "field_summary_v1_field_summary_get",
+        "parameters": [
+          {
+            "name": "season",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Season"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldSummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -556,6 +909,355 @@
           "weeks"
         ],
         "title": "CapacityScenario"
+      },
+      "FieldProducerIn": {
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Full Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\+?[0-9 ]{7,20}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "village": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 2,
+            "title": "Village"
+          },
+          "zone": {
+            "type": "string",
+            "enum": [
+              "Bignona",
+              "Oussouye",
+              "Ziguinchor",
+              "Sédhiou",
+              "Kolda"
+            ],
+            "title": "Zone"
+          },
+          "area_ha": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Area Ha",
+            "description": "Surface du verger"
+          },
+          "trees": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 100000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trees",
+            "description": "Nombre de manguiers"
+          },
+          "main_variety": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Main Variety",
+            "description": "Variété principale (Kent, Keitt…)"
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 13.5,
+                "minimum": 12.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitude"
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": -13.5,
+                "minimum": -17.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitude"
+          },
+          "consent_given": {
+            "type": "boolean",
+            "const": true,
+            "title": "Consent Given",
+            "description": "Le producteur accepte que ses données soient enregistrées (loi n° 2008-12) : obligatoire"
+          }
+        },
+        "type": "object",
+        "required": [
+          "full_name",
+          "village",
+          "zone",
+          "consent_given"
+        ],
+        "title": "FieldProducerIn",
+        "description": "Fiche d'un producteur recensé par un agent de terrain."
+      },
+      "FieldProducerOut": {
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Full Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\+?[0-9 ]{7,20}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "village": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 2,
+            "title": "Village"
+          },
+          "zone": {
+            "type": "string",
+            "enum": [
+              "Bignona",
+              "Oussouye",
+              "Ziguinchor",
+              "Sédhiou",
+              "Kolda"
+            ],
+            "title": "Zone"
+          },
+          "area_ha": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Area Ha",
+            "description": "Surface du verger"
+          },
+          "trees": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 100000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trees",
+            "description": "Nombre de manguiers"
+          },
+          "main_variety": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Main Variety",
+            "description": "Variété principale (Kent, Keitt…)"
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 13.5,
+                "minimum": 12.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitude"
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": -13.5,
+                "minimum": -17.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitude"
+          },
+          "consent_given": {
+            "type": "boolean",
+            "const": true,
+            "title": "Consent Given",
+            "description": "Le producteur accepte que ses données soient enregistrées (loi n° 2008-12) : obligatoire"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "Code lisible attribué par le serveur (AGR-0001)"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "harvest_count": {
+            "type": "integer",
+            "title": "Harvest Count"
+          },
+          "harvested_kg": {
+            "type": "number",
+            "title": "Harvested Kg"
+          },
+          "rejection_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rejection Rate",
+            "description": "Part rejetée sur l'ensemble des relevés (0-1)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "full_name",
+          "village",
+          "zone",
+          "consent_given",
+          "id",
+          "code",
+          "created_at",
+          "updated_at",
+          "harvest_count",
+          "harvested_kg",
+          "rejection_rate"
+        ],
+        "title": "FieldProducerOut"
+      },
+      "FieldSummary": {
+        "properties": {
+          "producers": {
+            "type": "integer",
+            "title": "Producers"
+          },
+          "records": {
+            "type": "integer",
+            "title": "Records"
+          },
+          "zones": {
+            "items": {
+              "$ref": "#/components/schemas/ZoneFieldSummary"
+            },
+            "type": "array",
+            "title": "Zones"
+          },
+          "weeks": {
+            "items": {
+              "$ref": "#/components/schemas/FieldWeek"
+            },
+            "type": "array",
+            "title": "Weeks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "producers",
+          "records",
+          "zones",
+          "weeks"
+        ],
+        "title": "FieldSummary"
+      },
+      "FieldWeek": {
+        "properties": {
+          "season": {
+            "type": "integer",
+            "title": "Season"
+          },
+          "week": {
+            "type": "integer",
+            "title": "Week"
+          },
+          "zone": {
+            "type": "string",
+            "title": "Zone"
+          },
+          "harvested_t": {
+            "type": "number",
+            "title": "Harvested T"
+          }
+        },
+        "type": "object",
+        "required": [
+          "season",
+          "week",
+          "zone",
+          "harvested_t"
+        ],
+        "title": "FieldWeek"
       },
       "ForecastMetrics": {
         "properties": {
@@ -648,6 +1350,156 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "HarvestRecordIn": {
+        "properties": {
+          "producer_id": {
+            "type": "string",
+            "title": "Producer Id"
+          },
+          "harvest_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Harvest Date"
+          },
+          "quantity_kg": {
+            "type": "number",
+            "maximum": 50000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Quantity Kg"
+          },
+          "rejected_kg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Rejected Kg",
+            "default": 0.0
+          },
+          "expected_next_week_kg": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 50000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Next Week Kg",
+            "description": "Récolte attendue par le producteur la semaine suivante"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "producer_id",
+          "harvest_date",
+          "quantity_kg"
+        ],
+        "title": "HarvestRecordIn",
+        "description": "Relevé d'une collecte chez un producteur."
+      },
+      "HarvestRecordOut": {
+        "properties": {
+          "producer_id": {
+            "type": "string",
+            "title": "Producer Id"
+          },
+          "harvest_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Harvest Date"
+          },
+          "quantity_kg": {
+            "type": "number",
+            "maximum": 50000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Quantity Kg"
+          },
+          "rejected_kg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Rejected Kg",
+            "default": 0.0
+          },
+          "expected_next_week_kg": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 50000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Next Week Kg",
+            "description": "Récolte attendue par le producteur la semaine suivante"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "producer_code": {
+            "type": "string",
+            "title": "Producer Code"
+          },
+          "season": {
+            "type": "integer",
+            "title": "Season"
+          },
+          "week": {
+            "type": "integer",
+            "title": "Week",
+            "description": "Semaine ISO de la collecte"
+          },
+          "recorded_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Recorded At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "producer_id",
+          "harvest_date",
+          "quantity_kg",
+          "id",
+          "producer_code",
+          "season",
+          "week",
+          "recorded_at",
+          "updated_at"
+        ],
+        "title": "HarvestRecordOut"
       },
       "LoadSummary": {
         "properties": {
@@ -1188,6 +2040,51 @@
           "excess_t"
         ],
         "title": "WeeklyLoad"
+      },
+      "ZoneFieldSummary": {
+        "properties": {
+          "zone": {
+            "type": "string",
+            "title": "Zone"
+          },
+          "producers": {
+            "type": "integer",
+            "title": "Producers"
+          },
+          "records": {
+            "type": "integer",
+            "title": "Records"
+          },
+          "harvested_t": {
+            "type": "number",
+            "title": "Harvested T"
+          },
+          "rejected_t": {
+            "type": "number",
+            "title": "Rejected T"
+          },
+          "rejection_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rejection Rate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "zone",
+          "producers",
+          "records",
+          "harvested_t",
+          "rejected_t",
+          "rejection_rate"
+        ],
+        "title": "ZoneFieldSummary"
       }
     }
   }
