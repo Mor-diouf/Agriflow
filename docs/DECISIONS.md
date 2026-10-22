@@ -262,9 +262,22 @@ créer de doublon.
 - La **récolte annoncée par le producteur** est un signal précoce que le M3
   pourra tester pour dépasser l'horizon de 2 semaines (D10).
 
-**Reste à faire avant un déploiement :** l'authentification des agents (les
-écritures sont aujourd'hui ouvertes), une déclaration auprès de la CDP, et
-l'application mobile de saisie.
+**Application de saisie** (`web/modules/field-collect`, route `/terrain`) :
+- chaque saisie est d'abord gardée sur le téléphone, puis envoyée à
+  l'ouverture, après chaque saisie, au retour du réseau, ou par « Envoyer
+  maintenant » ;
+- les fiches producteurs partent avant les collectes ;
+- une saisie refusée reste sur le téléphone avec son motif, pour correction ;
+- les producteurs et les zones de la dernière connexion restent disponibles
+  hors réseau.
+
+**Reste à faire avant un déploiement :**
+- l'authentification des agents (les écritures sont aujourd'hui ouvertes) ;
+- une déclaration auprès de la CDP ;
+- l'installation de l'application sur l'écran d'accueil, utilisable sans
+  aucun réseau dès l'ouverture (application web installable) ;
+- un menu repliable sur téléphone : aujourd'hui, la navigation occupe le haut
+  de l'écran.
 
 ---
 

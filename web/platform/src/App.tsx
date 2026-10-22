@@ -1,3 +1,4 @@
+import { FieldCollectPage } from "@agriflow/field-collect";
 import { ProducersPage } from "@agriflow/m2-producers";
 import { ForecastPage } from "@agriflow/m3-forecast";
 import { CapacityPage } from "@agriflow/m4-capacity";
@@ -11,6 +12,7 @@ const MODULES: NavItem[] = [
   { code: "M3", label: "Prévisions", href: "/previsions" },
   { code: "M4", label: "Charge usine", href: "/charge-usine" },
   { code: "M5", label: "Copilote", href: "/copilote", soon: true },
+  { code: "CT", label: "Collecte terrain", href: "/terrain" },
 ];
 
 const NavLink: LinkComponent = ({ href, className, active, disabled, children }) =>
@@ -34,6 +36,7 @@ export function App() {
         <Route path="/producteurs" element={<ProducersPage />} />
         <Route path="/previsions" element={<ForecastPage />} />
         <Route path="/charge-usine" element={<CapacityPage />} />
+        <Route path="/terrain" element={<FieldCollectPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AppShell>

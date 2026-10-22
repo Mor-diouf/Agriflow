@@ -10,6 +10,7 @@
     "typecheck": "tsc -p ."
   },
   "dependencies": {
+    "@agriflow/field-collect": "workspace:*",
     "@agriflow/m2-producers": "workspace:*",
     "@agriflow/m3-forecast": "workspace:*",
     "@agriflow/m4-capacity": "workspace:*",

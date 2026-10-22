@@ -1,4 +1,14 @@
-import { useEffect, useRef, type ButtonHTMLAttributes, type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  type ButtonHTMLAttributes,
+  type CSSProperties,
+  type HTMLAttributes,
+  type InputHTMLAttributes,
+  type ReactNode,
+  type SelectHTMLAttributes,
+} from "react";
 
 export type Tone = "forest" | "slate" | "mango" | "danger";
 
@@ -133,6 +143,106 @@ export function SearchInput({ label, value, onChange, placeholder }: { label: st
       <span className="af-sr-only">{label}</span>
       <input type="search" value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)} />
     </label>
+  );
+}
+
+// ─── Champs de formulaire ───────────────────────────────────────────────────
+
+type FieldChrome = { label: string; hint?: ReactNode; error?: string; optional?: boolean };
+
+/** Libellé, aide et erreur reliés au champ (aria-describedby), pour les lecteurs d'écran. */
+function FormField({
+  id,
+  label,
+  hint,
+  error,
+  optional,
+  children,
+}: FieldChrome & { id: string; children: (describedBy: string | undefined) => ReactNode }) {
+  const describedBy = [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean).join(" ") || undefined;
+  return (
+    <div className="af-form-field">
+      <label htmlFor={id} className="af-form-field__label">
+        {label}
+        {optional && <span className="af-form-field__optional"> · facultatif</span>}
+      </label>
+      {children(describedBy)}
+      {hint && (
+        <span id={`${id}-hint`} className="af-field__hint">
+          {hint}
+        </span>
+      )}
+      {error && (
+        <span id={`${id}-error`} className="af-form-field__error">
+          {error}
+        </span>
+      )}
+    </div>
+  );
+}
+
+export function TextField({ label, hint, error, optional, ...input }: FieldChrome & InputHTMLAttributes<HTMLInputElement>) {
+  const id = useId();
+  return (
+    <FormField id={id} label={label} hint={hint} error={error} optional={optional}>
+      {(describedBy) => (
+        <input id={id} className="af-input" aria-invalid={error ? true : undefined} aria-describedby={describedBy} {...input} />
+      )}
+    </FormField>
+  );
+}
+
+export function SelectField({
+  label,
+  hint,
+  error,
+  optional,
+  options,
+  placeholder,
+  ...select
+}: FieldChrome &
+  SelectHTMLAttributes<HTMLSelectElement> & { options: { value: string; label: string }[]; placeholder?: string }) {
+  const id = useId();
+  return (
+    <FormField id={id} label={label} hint={hint} error={error} optional={optional}>
+      {(describedBy) => (
+        <select id={id} className="af-input" aria-invalid={error ? true : undefined} aria-describedby={describedBy} {...select}>
+          {placeholder !== undefined && <option value="">{placeholder}</option>}
+          {options.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      )}
+    </FormField>
+  );
+}
+
+export function CheckboxField({
+  label,
+  error,
+  ...input
+}: { label: ReactNode; error?: string } & Omit<InputHTMLAttributes<HTMLInputElement>, "type">) {
+  const id = useId();
+  return (
+    <div className="af-form-field">
+      <label htmlFor={id} className="af-checkbox">
+        <input
+          id={id}
+          type="checkbox"
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
+          {...input}
+        />
+        <span>{label}</span>
+      </label>
+      {error && (
+        <span id={`${id}-error`} className="af-form-field__error">
+          {error}
+        </span>
+      )}
+    </div>
   );
 }
 

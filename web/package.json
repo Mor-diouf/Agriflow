@@ -10,7 +10,8 @@
     "build": "pnpm --filter @agriflow/platform build",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r --workspace-concurrency=1 test",
-    "gen:api": "pnpm --filter @agriflow/api-client gen"
+    "gen:api": "pnpm --filter @agriflow/api-client gen",
+    "dev:terrain": "pnpm --filter @agriflow/field-collect dev"
   },
   "devDependencies": {
     "@types/react": "^19.2.0",

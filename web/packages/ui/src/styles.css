@@ -757,6 +757,107 @@ body {
   gap: 12px;
 }
 
+/* ─── Champs de formulaire (pensés pour le doigt : 44 px, texte 16 px sans zoom sur téléphone) ── */
+
+.af-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 16px 20px;
+}
+
+.af-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.af-form-field__label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.af-form-field__optional {
+  font-weight: 400;
+  color: var(--af-muted);
+}
+
+.af-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--af-border-strong);
+  border-radius: var(--af-radius);
+  background: var(--af-surface);
+  color: var(--af-ink);
+  font-family: var(--af-font);
+  font-size: 16px;
+}
+
+.af-input:focus-visible {
+  border-color: var(--af-forest-600);
+}
+
+.af-input[aria-invalid="true"] {
+  border-color: var(--af-danger-600);
+}
+
+.af-form-field__error {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--af-danger-700);
+}
+
+.af-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.af-checkbox input {
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  flex-shrink: 0;
+  accent-color: var(--af-forest-600);
+}
+
+.af-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Liste de fiches compacte (téléphone) */
+.af-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.af-list__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--af-row-border);
+}
+
+.af-list__title {
+  font-weight: 600;
+}
+
+.af-list__meta {
+  font-size: 13px;
+  color: var(--af-muted);
+}
+
 /* ─── Curseur ────────────────────────────────────────────────────────────── */
 
 .af-range {

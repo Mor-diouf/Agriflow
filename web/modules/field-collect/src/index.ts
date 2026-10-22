@@ -1,0 +1,1 @@
+export { FieldCollectPage } from "./FieldCollectPage";
