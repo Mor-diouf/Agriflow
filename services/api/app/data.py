@@ -9,7 +9,7 @@ import pandas as pd
 
 from m1_routing.reference import solve_reference_instance
 from m2_producers.catalog import build_producer_table
-from m3_forecast.outputs import load_global_benchmark, load_harvest_benchmark, load_oos_predictions
+from m3_forecast.outputs import load_benchmark, load_oos_predictions
 
 
 @lru_cache(maxsize=1)
@@ -23,15 +23,16 @@ def routing_plan() -> dict:
 
 
 @lru_cache(maxsize=1)
-def predictions() -> pd.DataFrame:
+def all_predictions() -> pd.DataFrame:
     return load_oos_predictions()
+
+
+def predictions(horizon: int = 1) -> pd.DataFrame:
+    """Prévisions faites `horizon` semaines à l'avance ; les colonnes pred_* suivent FORECAST_LEVELS."""
+    df = all_predictions()
+    return df[df["horizon"] == horizon]
 
 
 @lru_cache(maxsize=1)
 def benchmark() -> pd.DataFrame:
-    return load_global_benchmark()
-
-
-@lru_cache(maxsize=1)
-def harvest_benchmark() -> pd.DataFrame:
-    return load_harvest_benchmark()
+    return load_benchmark()

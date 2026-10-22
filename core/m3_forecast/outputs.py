@@ -1,6 +1,7 @@
 """
-SM10 Module 3 -- Lecture des résultats produits par les évaluations (Phase I) :
-prévisions out-of-sample par zone et benchmark global des modèles.
+SM10 Module 3 -- Lecture des résultats produits par l'évaluation à plusieurs semaines
+(Phase J, src/horizon_eval.py) : prévisions out-of-sample par zone et par horizon, et
+benchmark des modèles par horizon.
 """
 
 import os
@@ -9,35 +10,25 @@ import pandas as pd
 
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
 
+# Semaines d'anticipation évaluées : la semaine t est prévue avec l'information connue en t − h
+FORECAST_HORIZONS = list(range(1, 9))
+
 # Niveau de prévision -> colonne du fichier de prédictions
 FORECAST_LEVELS = {
-    "central": "pred_sarimax",   # Hurdle-SARIMAX(1,0,0)+Exog
-    "prudent": "pred_q75",       # Hurdle-Quantile(0.75)
-    "stress": "pred_q90",        # Hurdle-Quantile(0.90)
-}
-
-# Modèle du benchmark -> niveau de prévision qu'il sert
-LEVEL_MODELS = {
-    "Hurdle-SARIMAX(1,0,0)+Exog": "central",
-    "Hurdle-Quantile(0.75)": "prudent",
-    "Hurdle-Quantile(0.90)": "stress",
+    "central": "pred_central",   # Combinaison SARIMAX (dynamique à h pas) + climatologie
+    "prudent": "pred_q75",       # Hurdle-Quantile(0.75) direct, recalibré
+    "stress": "pred_q90",        # Hurdle-Quantile(0.90) direct, recalibré
 }
 
 
 def load_oos_predictions() -> pd.DataFrame:
-    """Prédictions out-of-sample hebdomadaires par zone (colonnes fold, zone, semaine, y_true, pred_*)."""
-    return pd.read_csv(os.path.join(RESULTS_DIR, "quantile_oos_predictions.csv"), encoding="utf-8")
+    """Prédictions hebdomadaires par zone et horizon (colonnes fold, zone, semaine, horizon, y_true, pred_*)."""
+    return pd.read_csv(os.path.join(RESULTS_DIR, "horizon_oos_predictions.csv"), encoding="utf-8")
 
 
-def load_global_benchmark() -> pd.DataFrame:
-    """Métriques globales (MAE, RMSE, biais, couverture…) de chaque modèle."""
-    return pd.read_csv(os.path.join(RESULTS_DIR, "benchmark_global_phase_i.csv"), encoding="utf-8")
-
-
-def load_harvest_benchmark() -> pd.DataFrame:
+def load_benchmark() -> pd.DataFrame:
     """
-    Mêmes métriques sur les seules semaines de récolte (observé > 0).
-    Les semaines hors saison (0 t, prévues ~0 t) flattent toutes les métriques
-    globales, en particulier la couverture : c'est ce tableau qui juge les modèles.
+    Métriques (MAE, RMSE, biais, couverture) par horizon, modèle et périmètre : toutes les
+    semaines, ou les seules semaines de récolte (observé > 0), qui servent à juger les modèles (D8).
     """
-    return pd.read_csv(os.path.join(RESULTS_DIR, "benchmark_conditional_phase_i.csv"), encoding="utf-8")
+    return pd.read_csv(os.path.join(RESULTS_DIR, "benchmark_horizons_phase_j.csv"), encoding="utf-8")

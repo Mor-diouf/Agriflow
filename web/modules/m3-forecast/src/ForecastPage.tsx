@@ -6,6 +6,7 @@ import {
   KpiCard,
   Notice,
   PageHeader,
+  RangeField,
   Segmented,
   Skeleton,
   formatNumber,
@@ -17,7 +18,9 @@ import {
 import { useState } from "react";
 
 import { ForecastChart, ForecastChartLegend } from "./ForecastChart";
-import { BASELINE_MODEL, calibration, levelMeta, type Calibration } from "./levels";
+import { HorizonPanel } from "./HorizonPanel";
+import { horizonSummaries, weeksLabel } from "./horizons";
+import { BASELINE_MODEL, CLIMATOLOGY_MODEL, calibration, levelMeta, type Calibration } from "./levels";
 import { useModelBenchmark, usePlatformConfig, useSeasonForecast } from "./queries";
 import { seasonStats, seasonWindow, weeklySeries, type SeasonStats, type WeekForecast } from "./series";
 
@@ -29,14 +32,16 @@ type BenchmarkScope = "harvest_weeks" | "all_weeks";
 export function ForecastPage() {
   const [year, setYear] = useState<number | null>(null);
   const [zone, setZone] = useState(ALL_ZONES);
+  const [horizon, setHorizon] = useState(1);
   const [view, setView] = useState<View>("chart");
 
   const config = usePlatformConfig();
   const seasons = config.data?.forecast_seasons ?? [];
   const zones = config.data?.zones ?? [];
+  const horizons = config.data?.forecast_horizons ?? [];
   // Par défaut, la saison la plus récente
   const season = year ?? seasons[seasons.length - 1];
-  const forecast = useSeasonForecast(season);
+  const forecast = useSeasonForecast(season, horizon);
   const benchmark = useModelBenchmark();
 
   // Pendant le chargement d'une autre saison, la précédente reste affichée : les libellés suivent les données
@@ -103,6 +108,20 @@ export function ForecastPage() {
             config.isPending && <Skeleton width={420} height={40} />
           )}
         </div>
+        {horizons.length > 1 && (
+          <div className="af-field af-field--wide">
+            <span className="af-field__label">Anticipation</span>
+            <RangeField
+              label="Semaines d'anticipation de la prévision"
+              min={horizons[0]}
+              max={horizons[horizons.length - 1]}
+              value={horizon}
+              onChange={setHorizon}
+              valueText={weeksLabel(horizon)}
+            />
+            <span className="af-field__hint">Chaque semaine est prévue avec les données connues {weeksLabel(horizon)} plus tôt.</span>
+          </div>
+        )}
       </Card>
 
       <SeasonKpis stats={stats} loading={!failed && !stats} />
@@ -115,8 +134,8 @@ export function ForecastPage() {
               {shownSeason !== undefined && ` · ${shownSeason}`}
             </h2>
             <p className="af-card__subtitle">
-              Prévision à une semaine, hors échantillon : chaque semaine est prévue avec les récoltes connues jusqu'à
-              la semaine précédente, par un modèle qui n'a pas vu la saison.
+              Prévision à {weeksLabel(horizon)}, hors échantillon : chaque semaine est prévue avec les données connues{" "}
+              {weeksLabel(horizon)} plus tôt, par un modèle qui n'a pas vu la saison.
             </p>
           </div>
           <Segmented<View>
@@ -178,7 +197,14 @@ export function ForecastPage() {
         </Card>
       )}
 
-      <ModelBenchmarkCard models={benchmark.data} seasons={seasons} zoneCount={zones.length} />
+      {benchmark.data && <HorizonPanel rows={horizonSummaries(benchmark.data)} selected={horizon} onSelect={setHorizon} />}
+
+      <ModelBenchmarkCard
+        models={benchmark.data?.filter((m) => m.horizon === horizon)}
+        horizon={horizon}
+        seasons={seasons}
+        zoneCount={zones.length}
+      />
     </>
   );
 }
@@ -346,17 +372,35 @@ const CALIBRATION: Record<Calibration, { tone: Tone; label: string; detail: stri
 
 const modelLabel = (model: string) => (model === BASELINE_MODEL ? "Persistance" : model);
 
-function ModelBenchmarkCard({ models, seasons, zoneCount }: { models?: ModelBenchmark[]; seasons: number[]; zoneCount: number }) {
+/** Rôle d'un modèle sans niveau servi : référence naïve, quantile avant recalibrage, ou modèle écarté. */
+function modelRole(model: string) {
+  if (model === BASELINE_MODEL) return "Dernière récolte connue";
+  if (model === CLIMATOLOGY_MODEL) return "Moyenne des saisons passées";
+  if (model.endsWith(" brut")) return "Avant recalibrage";
+  return "Non retenu";
+}
+
+function ModelBenchmarkCard({
+  models,
+  horizon,
+  seasons,
+  zoneCount,
+}: {
+  models?: ModelBenchmark[];
+  horizon: number;
+  seasons: number[];
+  zoneCount: number;
+}) {
   const [scope, setScope] = useState<BenchmarkScope>("harvest_weeks");
   const central = models?.find((m) => m.level === "central");
-  const baseline = models?.find((m) => m.model === BASELINE_MODEL);
+  const references = models?.filter((m) => m.model === BASELINE_MODEL || m.model === CLIMATOLOGY_MODEL) ?? [];
   const quantileModels = models?.filter((m) => m.level && levelMeta(m.level).quantile) ?? [];
 
   return (
     <Card>
       <div className="af-card__toolbar">
         <div className="af-card__heading">
-          <h2 className="af-card__title">Fiabilité des modèles</h2>
+          <h2 className="af-card__title">Détail des modèles · à {weeksLabel(horizon)}</h2>
           <p className="af-card__subtitle">
             Toutes saisons et zones confondues
             {seasons.length > 0 && ` (${seasons[0]} à ${seasons[seasons.length - 1]}, ${zoneCount} zones)`}
@@ -379,7 +423,7 @@ function ModelBenchmarkCard({ models, seasons, zoneCount }: { models?: ModelBenc
           <div className="af-card__body">
             {scope === "harvest_weeks" ? (
               <ul className="af-verdict-list">
-                {central && baseline && <BaselineLine central={central} baseline={baseline} />}
+                {central && references.length > 0 && <BaselineLine central={central} references={references} />}
                 {quantileModels.map((m) => (
                   <CalibrationLine key={m.model} model={m} />
                 ))}
@@ -401,15 +445,20 @@ function ModelBenchmarkCard({ models, seasons, zoneCount }: { models?: ModelBenc
   );
 }
 
-function BaselineLine({ central, baseline }: { central: ModelBenchmark; baseline: ModelBenchmark }) {
-  const gain = 1 - central.harvest_weeks.mae / baseline.harvest_weeks.mae;
+/** La prévision centrale face aux références naïves : elle doit faire mieux que les deux pour être utile. */
+function BaselineLine({ central, references }: { central: ModelBenchmark; references: ModelBenchmark[] }) {
+  const comparisons = references.map((r) => {
+    const gain = 1 - central.harvest_weeks.mae / r.harvest_weeks.mae;
+    const name = r.model === BASELINE_MODEL ? "la persistance" : "la climatologie";
+    return `${formatPercent(Math.abs(gain))} ${gain > 0 ? "de moins" : "de plus"} que ${name} (${formatTonnes(r.harvest_weeks.mae, 1)})`;
+  });
+  const beatsAll = references.every((r) => central.harvest_weeks.mae < r.harvest_weeks.mae);
   return (
     <li>
-      <Badge tone={gain > 0 ? "forest" : "danger"}>{gain > 0 ? "Plus précis" : "Moins précis"}</Badge>
+      <Badge tone={beatsAll ? "forest" : "mango"}>{beatsAll ? "Plus précis" : "À relativiser"}</Badge>
       <span>
         <strong>Prévision centrale</strong> : erreur moyenne de {formatTonnes(central.harvest_weeks.mae, 1)} par zone
-        et par semaine de récolte, soit {formatPercent(Math.abs(gain))} {gain > 0 ? "de moins" : "de plus"} que la
-        persistance ({formatTonnes(baseline.harvest_weeks.mae, 1)}), qui reprend la récolte de la semaine précédente.
+        et par semaine de récolte, soit {comparisons.join(" et ")}.
       </span>
     </li>
   );
@@ -462,7 +511,7 @@ function BenchmarkTable({ models, scope }: { models: ModelBenchmark[]; scope: Be
                   {meta ? (
                     <Badge tone={meta.value === "central" ? "forest" : "slate"}>{meta.label}</Badge>
                   ) : (
-                    <span className="af-note">{m.model === BASELINE_MODEL ? "Référence naïve" : "Non retenu"}</span>
+                    <span className="af-note">{modelRole(m.model)}</span>
                   )}
                 </td>
                 <td className="af-align-end af-num">{formatTonnes(metrics.mae, 2)}</td>

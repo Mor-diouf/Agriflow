@@ -118,7 +118,7 @@ export interface paths {
         };
         /**
          * Weekly Forecast
-         * @description Prévisions hebdomadaires out-of-sample par zone, avec la valeur observée.
+         * @description Prévisions hebdomadaires out-of-sample par zone, faites `horizon` semaines à l'avance, avec la valeur observée.
          */
         get: operations["weekly_forecast_v1_forecast_get"];
         put?: never;
@@ -138,7 +138,8 @@ export interface paths {
         };
         /**
          * Model Benchmark
-         * @description Performance de chaque modèle testé (Phase I), sur toutes les semaines et sur les semaines de récolte.
+         * @description Performance de chaque modèle à chaque horizon (Phase J), sur toutes les semaines et sur les
+         *     semaines de récolte. Sans `horizon`, tous les horizons.
          */
         get: operations["model_benchmark_v1_forecast_benchmark_get"];
         put?: never;
@@ -158,7 +159,7 @@ export interface paths {
         };
         /**
          * Capacity Scenario
-         * @description Charge hebdomadaire de l'usine : flux prévu par le M3 face à la capacité.
+         * @description Charge hebdomadaire de l'usine : flux prévu par le M3 `horizon` semaines à l'avance, face à la capacité.
          */
         get: operations["capacity_scenario_v1_scenarios_capacity_get"];
         put?: never;
@@ -180,6 +181,11 @@ export interface components {
              * @enum {string}
              */
             level: "central" | "prudent" | "stress";
+            /**
+             * Horizon
+             * @description Semaines d'anticipation des prévisions utilisées
+             */
+            horizon: number;
             /** Volume Factor */
             volume_factor: number;
             /** Capacity Factor */
@@ -253,6 +259,11 @@ export interface components {
         };
         /** ModelBenchmark */
         ModelBenchmark: {
+            /**
+             * Horizon
+             * @description Semaines d'anticipation de la prévision évaluée
+             */
+            horizon: number;
             /** Model */
             model: string;
             /**
@@ -279,6 +290,11 @@ export interface components {
              * @description Saisons prévues hors échantillon par le M3 (plis walk-forward)
              */
             forecast_seasons: number[];
+            /**
+             * Forecast Horizons
+             * @description Semaines d'anticipation disponibles pour les prévisions du M3
+             */
+            forecast_horizons: number[];
             /** Factory Capacity T Per Day */
             factory_capacity_t_per_day: number;
             /** Factory Capacity T Per Week */
@@ -622,6 +638,8 @@ export interface operations {
             query?: {
                 year?: number | null;
                 zone?: string | null;
+                /** @description Semaines d'anticipation : la semaine t est prévue avec l'information connue en t − h */
+                horizon?: number;
             };
             header?: never;
             path?: never;
@@ -651,7 +669,10 @@ export interface operations {
     };
     model_benchmark_v1_forecast_benchmark_get: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Semaines d'anticipation : la semaine t est prévue avec l'information connue en t − h */
+                horizon?: number | null;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -667,6 +688,15 @@ export interface operations {
                     "application/json": components["schemas"]["ModelBenchmark"][];
                 };
             };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
     };
     capacity_scenario_v1_scenarios_capacity_get: {
@@ -679,6 +709,8 @@ export interface operations {
                 capacity_factor?: number;
                 /** @description Restreindre à une saison */
                 year?: number | null;
+                /** @description Semaines d'anticipation : la semaine t est prévue avec l'information connue en t − h */
+                horizon?: number;
             };
             header?: never;
             path?: never;

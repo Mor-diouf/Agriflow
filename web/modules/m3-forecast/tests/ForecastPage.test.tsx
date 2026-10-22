@@ -8,7 +8,7 @@ import { ForecastPage } from "../src";
 const MINUS = "−";
 
 const CONFIG = {
-  data_status: "simulated", zones: ["Bignona", "Kolda"], forecast_seasons: [2024, 2025],
+  data_status: "simulated", zones: ["Bignona", "Kolda"], forecast_seasons: [2024, 2025], forecast_horizons: [1, 2, 3],
   factory_capacity_t_per_day: 28.3, factory_capacity_t_per_week: 198.1, factory_capacity_t_per_year: 8500,
   score_weights: {}, priority_tiers: {},
 };
@@ -51,14 +51,24 @@ const metrics = (weeks: number, mae: number, rmse: number, bias: number, coverag
   weeks, mae, rmse, bias, coverage_pct,
 });
 
-// Valeurs réelles du benchmark Phase I (arrondies)
-const BENCHMARK = [
-  { model: "Persistence", level: null, all_weeks: metrics(1040, 3.75, 7.42, 0, 73.5), harvest_weeks: metrics(541, 7.19, 10.29, -0.02, 49.0) },
-  { model: "Hurdle-SARIMAX(1,0,0)+Exog", level: "central", all_weeks: metrics(1040, 2.77, 5.55, 0.39, 81.1), harvest_weeks: metrics(541, 5.31, 7.7, 0.74, 63.6) },
-  { model: "Hurdle-Quantile(0.50)", level: null, all_weeks: metrics(1040, 2.93, 6.41, -0.62, 74.8), harvest_weeks: metrics(541, 5.62, 8.88, -1.2, 51.6) },
-  { model: "Hurdle-Quantile(0.75)", level: "prudent", all_weeks: metrics(1040, 3.33, 6.46, 1.57, 87.5), harvest_weeks: metrics(541, 6.39, 8.96, 3.02, 76.0) },
-  { model: "Hurdle-Quantile(0.90)", level: "stress", all_weeks: metrics(1040, 5.69, 10.05, 5.0, 93.1), harvest_weeks: metrics(541, 10.89, 13.91, 9.56, 86.7) },
-];
+const model = (horizon: number, name: string, level: string | null, all: ReturnType<typeof metrics>, harvest: ReturnType<typeof metrics>) => ({
+  horizon, model: name, level, all_weeks: all, harvest_weeks: harvest,
+});
+
+// Erreur de la prévision centrale sur les semaines de récolte : sous la climatologie (7,42 t) à 1 et 2 semaines seulement
+const CENTRAL_MAE: Record<number, number> = { 1: 5.31, 2: 6.12, 3: 7.6 };
+
+// Ordres de grandeur du benchmark Phase J (arrondis)
+const BENCHMARK = [1, 2, 3].flatMap((h) => [
+  model(h, "Persistence", null, metrics(1040, 3.75, 7.42, 0, 73.5), metrics(541, 7.19 + 4 * (h - 1), 10.29, -0.02, 49.0)),
+  model(h, "Climatologie", null, metrics(1040, 3.9, 6.1, 0.1, 70.0), metrics(541, 7.42, 9.8, 0.2, 52.0)),
+  model(h, "Hurdle-SARIMAX(1,0,0)+Exog", null, metrics(1040, 2.77, 5.55, 0.39, 81.1), metrics(541, 5.44, 7.7, 0.74, 63.6)),
+  model(h, "Combinaison SARIMAX + climatologie", "central", metrics(1040, 2.7, 5.4, 0.3, 80.0), metrics(541, CENTRAL_MAE[h], 7.5, 0.5, 60.0)),
+  model(h, "Hurdle-Quantile(0.75) brut", null, metrics(1040, 3.3, 6.4, 1.5, 87.0), metrics(541, 6.62, 9.0, 3.0, 75.8)),
+  model(h, "Hurdle-Quantile(0.90) brut", null, metrics(1040, 5.7, 10.1, 5.0, 93.0), metrics(541, 10.95, 13.9, 9.5, 87.6)),
+  model(h, "Hurdle-Quantile(0.75) recalibré", "prudent", metrics(1040, 3.33, 6.46, 1.57, 87.5), metrics(541, 6.39, 8.96, 3.02, 76.0)),
+  model(h, "Hurdle-Quantile(0.90) recalibré", "stress", metrics(1040, 5.69, 10.05, 5.0, 93.1), metrics(541, 10.89, 13.91, 9.56, 86.7)),
+]);
 
 let requests: URL[] = [];
 let failApi = false;
@@ -104,6 +114,7 @@ describe("ForecastPage", () => {
       `En 2025, sur l'ensemble des zones, la prévision centrale annonçait 197 t ; 210 t ont été récoltées (écart ${MINUS}6,2 %).`,
     );
     expect(forecastRequests().at(-1)!.searchParams.get("year")).toBe("2025");
+    expect(forecastRequests().at(-1)!.searchParams.get("horizon")).toBe("1");
 
     const kpis = screen.getByRole("group", { name: "Indicateurs de la saison" });
     expect(within(kpis).getByText(`Observée : 210 t · écart ${MINUS}6,2 %`)).toBeInTheDocument();
@@ -170,15 +181,15 @@ describe("ForecastPage", () => {
 
     // Au focus : la semaine du pic prévu
     fireEvent.focus(chart);
-    expect(screen.getByRole("status")).toHaveTextContent(
+    expect(within(chart).getByRole("status")).toHaveTextContent(
       "Semaine 22 : récolte observée 90,0 t, prévision centrale 65,0 t, prudent 73,0 t, stress 81,0 t.",
     );
     fireEvent.keyDown(chart, { key: "ArrowRight" });
-    expect(screen.getByRole("status")).toHaveTextContent(/^Semaine 23 :/);
+    expect(within(chart).getByRole("status")).toHaveTextContent(/^Semaine 23 :/);
     fireEvent.keyDown(chart, { key: "Home" });
-    expect(screen.getByRole("status")).toHaveTextContent(/^Semaine 19 :/);
+    expect(within(chart).getByRole("status")).toHaveTextContent(/^Semaine 19 :/);
     fireEvent.keyDown(chart, { key: "Escape" });
-    expect(screen.getByRole("status")).toHaveTextContent("");
+    expect(within(chart).getByRole("status")).toHaveTextContent("");
   });
 
   it("juge les modèles sur les semaines de récolte : gain sur la persistance et calibration", async () => {
@@ -186,7 +197,8 @@ describe("ForecastPage", () => {
     renderPage();
 
     expect(await screen.findByText(/de moins que la persistance/)).toHaveTextContent(
-      "erreur moyenne de 5,3 t par zone et par semaine de récolte, soit 26 % de moins que la persistance (7,2 t)",
+      "erreur moyenne de 5,3 t par zone et par semaine de récolte, soit 26 % de moins que la persistance (7,2 t) " +
+        "et 28 % de moins que la climatologie (7,4 t)",
     );
 
     const stress = screen.getByText(/pour 10 % attendus/);
@@ -204,7 +216,35 @@ describe("ForecastPage", () => {
     const table = screen.getByRole("table", { name: /sur toutes les semaines/ });
     const central = within(table).getByText("Hurdle-SARIMAX(1,0,0)+Exog").closest("tr")!;
     expect(within(central).getByText("2,77 t")).toBeInTheDocument();
-    expect(within(table).getByText("Persistance").closest("tr")).toHaveTextContent("Référence naïve");
+    expect(within(table).getByText("Persistance").closest("tr")).toHaveTextContent("Dernière récolte connue");
+    expect(within(table).getByText("Hurdle-Quantile(0.90) brut").closest("tr")).toHaveTextContent("Avant recalibrage");
+  });
+
+  it("montre jusqu'où l'anticipation reste utile et change d'horizon partout", async () => {
+    const user = userEvent.setup();
+    renderPage();
+
+    expect(await screen.findByText(/fait mieux que la climatologie/)).toHaveTextContent(
+      "Jusqu'à 2 semaines d'anticipation, la prévision centrale fait mieux que la climatologie, " +
+        "la moyenne des saisons passées (7,4 t) : 28 % d'erreur en moins à 1 semaine, 18 % à 2 semaines. " +
+        "Au-delà, autant se fier à la saison moyenne.",
+    );
+    expect(screen.getByText("Utile jusqu'à 2 semaines")).toBeInTheDocument();
+
+    // Depuis le tableau des horizons : prévisions, sous-titre et détail suivent
+    await user.click(screen.getByRole("button", { name: "Afficher les prévisions à 3 semaines" }));
+    await waitFor(() => expect(forecastRequests().at(-1)!.searchParams.get("horizon")).toBe("3"));
+    expect(screen.getByText(/Prévision à 3 semaines, hors échantillon/)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Détail des modèles · à 3 semaines" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Afficher les prévisions à 3 semaines" }).closest("tr")).toHaveAttribute(
+      "aria-current",
+      "true",
+    );
+
+    // Depuis le curseur des filtres
+    fireEvent.change(screen.getByLabelText("Semaines d'anticipation de la prévision"), { target: { value: "2" } });
+    await waitFor(() => expect(forecastRequests().at(-1)!.searchParams.get("horizon")).toBe("2"));
+    expect(screen.getByRole("heading", { name: "Détail des modèles · à 2 semaines" })).toBeInTheDocument();
   });
 
   it("affiche un état d'erreur si l'API est injoignable", async () => {

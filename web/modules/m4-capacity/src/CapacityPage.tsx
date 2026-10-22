@@ -26,12 +26,14 @@ export function CapacityPage() {
   const [year, setYear] = useState<number | null>(null);
   const [volumeFactor, setVolumeFactor] = useState(1);
   const [capacityFactor, setCapacityFactor] = useState(1);
+  const [horizon, setHorizon] = useState(1);
   const [view, setView] = useState<View>("chart");
 
   // Les curseurs n'interrogent l'API qu'une fois immobiles
-  const levers = useDebouncedValue({ volume_factor: volumeFactor, capacity_factor: capacityFactor }, 250);
+  const levers = useDebouncedValue({ volume_factor: volumeFactor, capacity_factor: capacityFactor, horizon }, 250);
 
   const config = usePlatformConfig();
+  const horizons = config.data?.forecast_horizons ?? [];
   const allSeasons = useCapacityScenario({ level, ...levers });
   const years = [...new Set(allSeasons.data?.weeks.map((w) => w.year))].sort();
   // Par défaut, la saison la plus récente
@@ -39,7 +41,7 @@ export function CapacityPage() {
   const seasonScenario = useSeasonCapacityScenario({ level, ...levers }, season);
 
   const failed = allSeasons.isError || seasonScenario.isError;
-  const isDefault = level === "central" && volumeFactor === 1 && capacityFactor === 1;
+  const isDefault = level === "central" && volumeFactor === 1 && capacityFactor === 1 && horizon === 1;
   const baseCapacityPerDay = config.data?.factory_capacity_t_per_day;
   const preset: CapacityPreset =
     capacityFactor === 1 ? "reference" : capacityFactor === SEASONAL_CAPACITY_FACTOR ? "seasonal" : "custom";
@@ -48,6 +50,7 @@ export function CapacityPage() {
     setLevel("central");
     setVolumeFactor(1);
     setCapacityFactor(1);
+    setHorizon(1);
   };
 
   return (
@@ -137,6 +140,24 @@ export function CapacityPage() {
           />
           <span className="af-field__hint">Par rapport à la prévision : bonne année, extension des vergers…</span>
         </div>
+
+        {horizons.length > 1 && (
+          <div className="af-field">
+            <span className="af-field__label">Anticipation</span>
+            <RangeField
+              label="Semaines d'anticipation des prévisions"
+              min={horizons[0]}
+              max={horizons[horizons.length - 1]}
+              value={horizon}
+              onChange={setHorizon}
+              valueText={`${horizon} sem.`}
+            />
+            <span className="af-field__hint">
+              Charge telle qu'on la prévoyait {horizon} semaine{horizon > 1 ? "s" : ""} plus tôt : le temps dont
+              l'usine dispose pour s'organiser.
+            </span>
+          </div>
+        )}
       </Card>
 
       <SeasonKpis

@@ -17,6 +17,7 @@ class PlatformConfig(BaseModel):
     )
     zones: list[str]
     forecast_seasons: list[int] = Field(description="Saisons prévues hors échantillon par le M3 (plis walk-forward)")
+    forecast_horizons: list[int] = Field(description="Semaines d'anticipation disponibles pour les prévisions du M3")
     factory_capacity_t_per_day: float
     factory_capacity_t_per_week: float
     factory_capacity_t_per_year: float
@@ -107,6 +108,7 @@ class ForecastMetrics(BaseModel):
 
 
 class ModelBenchmark(BaseModel):
+    horizon: int = Field(description="Semaines d'anticipation de la prévision évaluée")
     model: str
     level: ForecastLevel | None = Field(description="Niveau de prévision servi par ce modèle, s'il est retenu")
     all_weeks: ForecastMetrics
@@ -138,6 +140,7 @@ class LoadSummary(BaseModel):
 
 class CapacityScenario(BaseModel):
     level: ForecastLevel
+    horizon: int = Field(description="Semaines d'anticipation des prévisions utilisées")
     volume_factor: float
     capacity_factor: float
     summary: LoadSummary

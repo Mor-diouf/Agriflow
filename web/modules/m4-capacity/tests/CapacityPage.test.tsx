@@ -7,7 +7,8 @@ import { CapacityPage } from "../src";
 import { activeWeeks } from "../src/LoadChart";
 
 const CONFIG = {
-  data_status: "simulated", zones: ["Bignona"], factory_capacity_t_per_day: 28.3,
+  data_status: "simulated", zones: ["Bignona"], forecast_seasons: [2024, 2025], forecast_horizons: [1, 2, 3, 4, 5, 6, 7, 8],
+  factory_capacity_t_per_day: 28.3,
   factory_capacity_t_per_week: 198.1, factory_capacity_t_per_year: 8500,
   score_weights: {}, priority_tiers: {},
 };
@@ -125,6 +126,13 @@ describe("CapacityPage", () => {
     fireEvent.change(screen.getByLabelText("Variation du volume récolté"), { target: { value: "80" } });
     expect(screen.getByText("−20 %")).toBeInTheDocument();
     await waitFor(() => expect(lastScenarioRequest().searchParams.get("volume_factor")).toBe("0.8"));
+
+    fireEvent.change(await screen.findByLabelText("Semaines d'anticipation des prévisions"), { target: { value: "4" } });
+    expect(screen.getByText(/Charge telle qu'on la prévoyait 4 semaines plus tôt/)).toBeInTheDocument();
+    await waitFor(() => expect(lastScenarioRequest().searchParams.get("horizon")).toBe("4"));
+
+    await userEvent.setup().click(screen.getByRole("button", { name: "Revenir au scénario de référence" }));
+    await waitFor(() => expect(lastScenarioRequest().searchParams.get("horizon")).toBe("1"));
   });
 
   it("change de saison et propose une vue tableau des semaines", async () => {

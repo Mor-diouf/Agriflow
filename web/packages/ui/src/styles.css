@@ -846,6 +846,12 @@ body {
   gap: 8px;
 }
 
+/* Champ qui s'étire dans une rangée de filtres (curseur) */
+.af-field--wide {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
 .af-field__label {
   font-size: 14px;
   font-weight: 600;

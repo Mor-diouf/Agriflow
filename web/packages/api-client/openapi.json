@@ -263,7 +263,7 @@
           "M3 — Prévisions"
         ],
         "summary": "Weekly Forecast",
-        "description": "Prévisions hebdomadaires out-of-sample par zone, avec la valeur observée.",
+        "description": "Prévisions hebdomadaires out-of-sample par zone, faites `horizon` semaines à l'avance, avec la valeur observée.",
         "operationId": "weekly_forecast_v1_forecast_get",
         "parameters": [
           {
@@ -297,6 +297,20 @@
               ],
               "title": "Zone"
             }
+          },
+          {
+            "name": "horizon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 8,
+              "minimum": 1,
+              "description": "Semaines d'anticipation : la semaine t est prévue avec l'information connue en t − h",
+              "default": 1,
+              "title": "Horizon"
+            },
+            "description": "Semaines d'anticipation : la semaine t est prévue avec l'information connue en t − h"
           }
         ],
         "responses": {
@@ -333,19 +347,51 @@
           "M3 — Prévisions"
         ],
         "summary": "Model Benchmark",
-        "description": "Performance de chaque modèle testé (Phase I), sur toutes les semaines et sur les semaines de récolte.",
+        "description": "Performance de chaque modèle à chaque horizon (Phase J), sur toutes les semaines et sur les\nsemaines de récolte. Sans `horizon`, tous les horizons.",
         "operationId": "model_benchmark_v1_forecast_benchmark_get",
+        "parameters": [
+          {
+            "name": "horizon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 8,
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Semaines d'anticipation : la semaine t est prévue avec l'information connue en t − h",
+              "title": "Horizon"
+            },
+            "description": "Semaines d'anticipation : la semaine t est prévue avec l'information connue en t − h"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/ModelBenchmark"
                   },
-                  "type": "array",
                   "title": "Response Model Benchmark V1 Forecast Benchmark Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -359,7 +405,7 @@
           "M4 — Scénarios"
         ],
         "summary": "Capacity Scenario",
-        "description": "Charge hebdomadaire de l'usine : flux prévu par le M3 face à la capacité.",
+        "description": "Charge hebdomadaire de l'usine : flux prévu par le M3 `horizon` semaines à l'avance, face à la capacité.",
         "operationId": "capacity_scenario_v1_scenarios_capacity_get",
         "parameters": [
           {
@@ -422,6 +468,20 @@
               "title": "Year"
             },
             "description": "Restreindre à une saison"
+          },
+          {
+            "name": "horizon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 8,
+              "minimum": 1,
+              "description": "Semaines d'anticipation : la semaine t est prévue avec l'information connue en t − h",
+              "default": 1,
+              "title": "Horizon"
+            },
+            "description": "Semaines d'anticipation : la semaine t est prévue avec l'information connue en t − h"
           }
         ],
         "responses": {
@@ -462,6 +522,11 @@
             ],
             "title": "Level"
           },
+          "horizon": {
+            "type": "integer",
+            "title": "Horizon",
+            "description": "Semaines d'anticipation des prévisions utilisées"
+          },
           "volume_factor": {
             "type": "number",
             "title": "Volume Factor"
@@ -484,6 +549,7 @@
         "type": "object",
         "required": [
           "level",
+          "horizon",
           "volume_factor",
           "capacity_factor",
           "summary",
@@ -633,6 +699,11 @@
       },
       "ModelBenchmark": {
         "properties": {
+          "horizon": {
+            "type": "integer",
+            "title": "Horizon",
+            "description": "Semaines d'anticipation de la prévision évaluée"
+          },
           "model": {
             "type": "string",
             "title": "Model"
@@ -664,6 +735,7 @@
         },
         "type": "object",
         "required": [
+          "horizon",
           "model",
           "level",
           "all_weeks",
@@ -693,6 +765,14 @@
             "type": "array",
             "title": "Forecast Seasons",
             "description": "Saisons prévues hors échantillon par le M3 (plis walk-forward)"
+          },
+          "forecast_horizons": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Forecast Horizons",
+            "description": "Semaines d'anticipation disponibles pour les prévisions du M3"
           },
           "factory_capacity_t_per_day": {
             "type": "number",
@@ -726,6 +806,7 @@
           "data_status",
           "zones",
           "forecast_seasons",
+          "forecast_horizons",
           "factory_capacity_t_per_day",
           "factory_capacity_t_per_week",
           "factory_capacity_t_per_year",

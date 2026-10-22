@@ -9,8 +9,9 @@ export const LEVELS: { value: ForecastLevel; label: string; quantile?: number }[
 
 export const levelMeta = (level: ForecastLevel) => LEVELS.find((l) => l.value === level)!;
 
-/** Modèle de référence naïf du benchmark M3 : il reprend la récolte de la semaine précédente. */
+/** Références naïves du benchmark M3 : la dernière récolte connue, et la moyenne des saisons passées. */
 export const BASELINE_MODEL = "Persistence";
+export const CLIMATOLOGY_MODEL = "Climatologie";
 
 export type Calibration = "calibrated" | "too_low" | "too_wide";
 

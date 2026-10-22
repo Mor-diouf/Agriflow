@@ -54,9 +54,9 @@ modification : l'API continue de servir l'ancienne version. L'arrêter (Ctrl+C) 
 | `GET /v1/producers/summary` | M2 | Effectifs, score moyen et volume par niveau |
 | `GET /v1/producers/{id}` | M2 | Fiche d'un producteur |
 | `GET /v1/routing/reference` | M1 | Plan de tournées optimal (L4) et pertes post-récolte |
-| `GET /v1/forecast` | M3 | Prévisions hebdomadaires par zone (`year`, `zone`) |
-| `GET /v1/forecast/benchmark` | M3 | Performance des modèles, sur toutes les semaines et sur les semaines de récolte (D8) |
-| `GET /v1/scenarios/capacity` | M4 | Charge usine : `level` (central/prudent/stress), `volume_factor`, `capacity_factor`, `year` |
+| `GET /v1/forecast` | M3 | Prévisions hebdomadaires par zone (`year`, `zone`), faites `horizon` semaines à l'avance (1 à 8, D10) |
+| `GET /v1/forecast/benchmark` | M3 | Performance des modèles par horizon, sur toutes les semaines et sur les semaines de récolte (D8) |
+| `GET /v1/scenarios/capacity` | M4 | Charge usine : `level` (central/prudent/stress), `volume_factor`, `capacity_factor`, `year`, `horizon` |
 
 Origines autorisées (CORS) : variable `SM10_CORS_ORIGINS`, par défaut `http://localhost:5173,http://localhost:3000`.
 
@@ -105,5 +105,7 @@ Les autres se lancent depuis `core/`.
 | Tests M2 | `python -m m2_producers.tests.test_data` (idem `test_scoring`, `test_clustering`, `test_tiers`, `test_routing`) |
 | Pipeline M2 v1 (gelé, cf. D3) | `cd m2_producers/v1` puis `m2_data_generation.py` → `m2_kmeans_segmentation.py` → `m2_scoring.py` |
 | M3 (génération des données) | `cd m3_forecast && python sm10_module3.py` |
+| M3 (prévisions 1 à 8 semaines, servies par l'API, ~5 min) | `cd m3_forecast && python src/horizon_eval.py` |
+| Tests M3 (horizons) | `cd m3_forecast && python -m unittest tests.test_horizons` |
 | Export vers le web | `python m4_export/export_to_web.py` |
 | Serveur vocal | `python services/hawa-tts/hawa_inference_server.py` (depuis la racine) |

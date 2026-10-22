@@ -19,6 +19,7 @@ def test_config_uses_common_capacity():
     assert cfg["factory_capacity_t_per_day"] == 28.3
     assert len(cfg["zones"]) == 5
     assert cfg["forecast_seasons"] == [2022, 2023, 2024, 2025]
+    assert cfg["forecast_horizons"] == list(range(1, 9))
 
 
 def test_producers_list_and_filters():
@@ -73,23 +74,42 @@ def test_forecast_filters_and_benchmark():
     # Les quantiles sont ordonnés : prudent (Q75) <= stress (Q90)
     assert all(p["prudent_t"] <= p["stress_t"] + 1e-9 for p in pts)
 
-    models = {m["model"]: m for m in client.get("/v1/forecast/benchmark").json()}
-    assert models["Hurdle-SARIMAX(1,0,0)+Exog"]["level"] == "central"
+    # Un horizon par appel (1 semaine par défaut) ; hors de 1 à 8 semaines : refusé
+    far = client.get("/v1/forecast", params={"year": 2024, "zone": "Kolda", "horizon": 8}).json()
+    assert len(far) == 52 and far != pts
+    assert client.get("/v1/forecast", params={"horizon": 0}).status_code == 422
+    assert client.get("/v1/forecast", params={"horizon": 9}).status_code == 422
+
+    bench = client.get("/v1/forecast/benchmark").json()
+    assert {m["horizon"] for m in bench} == set(range(1, 9))
+    assert client.get("/v1/forecast/benchmark", params={"horizon": 4}).json() == [m for m in bench if m["horizon"] == 4]
+    models = {m["model"]: m for m in bench if m["horizon"] == 1}
+    assert models["Combinaison SARIMAX + climatologie"]["level"] == "central"
     assert models["Persistence"]["level"] is None
     assert {m["level"] for m in models.values()} == {"central", "prudent", "stress", None}
 
     # Les semaines hors saison (0 t) flattent la couverture : elle baisse sur les seules semaines de récolte
-    stress = models["Hurdle-Quantile(0.90)"]
+    stress = models["Hurdle-Quantile(0.90) recalibré"]
     assert stress["harvest_weeks"]["weeks"] < stress["all_weeks"]["weeks"] == 1040
     assert stress["harvest_weeks"]["coverage_pct"] < stress["all_weeks"]["coverage_pct"]
-    # Le central (SARIMAX) bat la persistance sur les semaines de récolte
-    assert models["Hurdle-SARIMAX(1,0,0)+Exog"]["harvest_weeks"]["mae"] < models["Persistence"]["harvest_weeks"]["mae"]
+
+    # À chaque horizon, la prévision centrale fait mieux que les deux références naïves
+    for h in range(1, 9):
+        mae = {m["model"]: m["harvest_weeks"]["mae"] for m in bench if m["horizon"] == h}
+        assert mae["Combinaison SARIMAX + climatologie"] < min(mae["Persistence"], mae["Climatologie"])
 
 
 def test_capacity_scenario_levers():
     base = client.get("/v1/scenarios/capacity").json()
     assert base["summary"]["weeks"] == 208
     assert base["weeks"][0]["capacity_t"] == 28.3 * 7
+    assert base["horizon"] == 1
+
+    # Prévisions faites 4 semaines à l'avance : même calendrier, autres flux prévus
+    ahead = client.get("/v1/scenarios/capacity", params={"horizon": 4}).json()
+    assert ahead["horizon"] == 4 and ahead["summary"]["weeks"] == 208
+    assert ahead["summary"]["total_excess_t"] != base["summary"]["total_excess_t"]
+    assert client.get("/v1/scenarios/capacity", params={"horizon": 9}).status_code == 422
 
     # Plus de capacité => moins de semaines en surcharge
     more_cap = client.get("/v1/scenarios/capacity", params={"capacity_factor": 2}).json()

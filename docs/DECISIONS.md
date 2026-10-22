@@ -189,6 +189,54 @@ dans la légende.
 
 ---
 
+## D10 — Prévision à plusieurs semaines (Phase J)
+
+**Date :** 2026-10-22
+
+**Constat :** la Phase I prévoyait à une semaine seulement, avec la récolte
+observée la semaine précédente et la température de la semaine prévue (inconnue
+au moment de prévoir).
+
+**Décision :** `core/m3_forecast/src/horizon_eval.py` prévoit chaque semaine
+1 à 8 semaines à l'avance, avec la seule information connue à l'origine. Le test
+`tests/test_horizons.py` vérifie qu'aucune donnée postérieure n'est utilisée.
+Les niveaux servis par l'API (`horizon` sur `/v1/forecast` et
+`/v1/scenarios/capacity`) sont :
+- **central** : combinaison SARIMAX + climatologie, la moyenne de la même
+  semaine sur les saisons passées. Le poids de chaque modèle est appris, horizon
+  par horizon, sur les saisons précédentes uniquement : 0,8 pour SARIMAX à
+  1 semaine, puis 0,3 à 0,4 au-delà de 3 semaines ;
+- **prudent / stress** : quantiles 75 % et 90 % directs, recalibrés sur les
+  saisons précédentes, en élargissant seulement.
+
+**Pourquoi** (erreur moyenne par zone et par semaine de récolte) :
+
+| Anticipation | SARIMAX seul | Climatologie | Combinaison |
+|---|---|---|---|
+| 1 semaine | 5,4 t | 7,4 t | **5,3 t** |
+| 2 semaines | 6,5 t | 7,4 t | **6,1 t** |
+| 4 semaines | 7,7 t | 7,4 t | **6,7 t** |
+| 8 semaines | 7,8 t | 7,4 t | **6,9 t** |
+
+SARIMAX seul fait moins bien que la climatologie dès 3 semaines. La combinaison
+fait mieux que les deux à tous les horizons, mais son avance fond avec
+l'anticipation : 28 % d'erreur en moins que la climatologie à 1 semaine, 7 % à
+8 semaines. Au-delà de 2 semaines, la prévision apporte donc surtout la saison
+moyenne, légèrement corrigée.
+
+Recalibrage : resserrer un niveau après une saison bien couverte dégradait à la
+fois la couverture et la perte quantile, parce que les saisons diffèrent trop
+(2022 était très surestimée). Élargir seulement améliore un peu les deux. Le
+niveau prudent couvre 71 à 78 % des semaines (75 % visés), le niveau stress 85 à
+89 % (90 % visés).
+
+**Effet sur le M4** (300 jours ouvrés, prévision centrale à 1 semaine) :
+36 semaines en surcharge sur 112 et un pic à 163 % en semaine 29 de 2025. À
+4 semaines d'anticipation, le pic prévu tombe à 146 %, car une prévision lointaine
+lisse les extrêmes. Avec une usine saisonnière (90 jours), aucune surcharge.
+
+---
+
 ## Points ouverts
 
 - **Tournées M1+M2 non résolues :** dans `rapport_robuste.md`, la passe 2 du
@@ -204,19 +252,15 @@ dans la légende.
 - **Score sans critère de qualité :** le producteur le mieux noté (P053) rejette 30 % de sa livraison. Le score (fiabilité, proximité, production) ignore le taux de rejet. L'interface le signale (seuil 15 %) ; décision métier à prendre : intégrer `Rej_i` au score ?
 - **Doublon dans `services/hawa-tts/generate_hawa_voice.py` :** deux phrases
   portent le nom `hawa_kolda`, si bien que la seconde écrase la première.
-- **Le M3 prévoit à une semaine seulement.** Chaque prévision utilise la récolte
-  observée la semaine précédente (`y_lag1` dans `quantile_eval.py`,
-  `append(y_test)` dans `sarimax_h2_eval.py`). Conséquences :
-  1. Le pic prévu arrive une semaine après le pic observé dans 14 cas sur 20
-     (saison × zone). En 2025, dans 4 zones sur 5, la prévision ressemble plus
-     à la récolte de la semaine précédente qu'à celle de la semaine prévue.
-  2. La Charge usine (M4) juge la saison avec cette visibilité d'une semaine.
-
-  Pour planifier l'usine ou les tournées plusieurs semaines à l'avance, il faut
-  des prévisions à 2 à 8 semaines, récursives ou directes, évaluées horizon par
-  horizon.
-- **Niveau stress un peu juste :** sur les semaines de récolte, la récolte le
-  dépasse 13 % du temps au lieu de 10 % (86,7 % de couverture pour 90 % visés).
-  Piste : un recalibrage conforme, qui décale le quantile 90 % du quantile
-  empirique des résidus de validation, avant de s'en servir pour dimensionner
-  l'usine.
+- **Prévision au-delà de 2 semaines peu informative** (D10). La combinaison bat
+  la saison moyenne, mais de peu. Pistes à tester sur données réelles : des
+  signaux connus plus tôt (floraison, déclarations des producteurs, pluie
+  cumulée de la saison), ou une prévision du volume total de la saison répartie
+  sur un profil hebdomadaire.
+- **Niveau stress toujours un peu juste** (85 à 89 % pour 90 % visés, D10).
+  Avec 4 saisons seulement, le recalibrage n'apprend que sur 1 à 3 saisons
+  passées. À revoir quand il y aura des données réelles, avant de s'en servir pour
+  dimensionner l'usine.
+- **Phase I conservée comme archive :** `quantile_eval.py` et ses résultats
+  (`*_phase_i.csv`) ne servent plus à l'API. Ils restent la trace de l'étude ; la
+  référence est la Phase J.
